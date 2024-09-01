@@ -1,6 +1,6 @@
 "use client";
 
-import { createClient } from "@v1/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { Button } from "@v1/ui/button";
 
 export function GoogleSignin() {

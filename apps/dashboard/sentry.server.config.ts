@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/nextjs";
 import { supabaseIntegration } from "@supabase/sentry-js-integration";
-import { createClient } from "@v1/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 
 const client = createClient();
 
