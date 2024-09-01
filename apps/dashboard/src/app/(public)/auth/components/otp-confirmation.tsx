@@ -1,3 +1,6 @@
+import { sendOtpAction } from "@/actions/auth/send-otp-action";
+import { verifyOtpAction } from "@/actions/auth/verify-otp-action";
+
 import type { ReactSetState } from "@/types";
 import { Button } from "@v1/ui/button";
 import {
@@ -17,11 +20,10 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { Loader } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
 import React, { useEffect } from "react";
 import { toast } from "sonner";
 import { useBoolean, useCountdown } from "usehooks-ts";
-// import { sendOtpEmail } from "../actions/send-otp-email";
-// import { verifyOtp } from "../actions/verify-otp";
 
 interface OtpConfirmationProps {
   userEmail: string | null;
@@ -39,81 +41,35 @@ export function OtpConfirmation({
     countStart: 59,
     intervalMs: 1000,
   });
-  const {
-    value: isVerifying,
-    setFalse: setIsVerifyingFalse,
-    setTrue: setIsVerifyingTrue,
-  } = useBoolean(false);
-  const {
-    value: isResending,
-    setFalse: setIsResendingFalse,
-    setTrue: setIsResendingTrue,
-  } = useBoolean(false);
+
+  const { execute: verifyOtp, isExecuting: isVerifying } = useAction(
+    verifyOtpAction,
+    {
+      onError: ({ error }) => {
+        toast.error(error.serverError);
+      },
+    },
+  );
+  const { executeAsync: sendOtp, isExecuting: isResending } = useAction(
+    sendOtpAction,
+    {
+      onError: ({ error }) => {
+        toast.error(error.serverError);
+      },
+    },
+  );
 
   useEffect(() => {
     startResendTimer();
   }, [startResendTimer]);
 
   async function onComplete(otp: string) {
-    setIsVerifyingTrue();
-    // const result = await verifyOtp({
-    //   email: userEmail ?? "",
-    //   otpCode: otp,
-    // });
-    // setIsVerifyingFalse();
-
-    // if (result?.serverError) {
-    //   toast.error(result.serverError, {
-    //     position: "top-center",
-    //   });
-    //   return;
-    // }
-    // if (result?.validationErrors) {
-    //   toast.error("Error verifying OTP:", {
-    //     description:
-    //       (result?.validationErrors?.email?._errors?.at(0) ||
-    //         result?.validationErrors?.otpCode?._errors?.at(0)) ??
-    //       "",
-    //     position: "top-center",
-    //   });
-    //   return;
-    // }
-    // if (result?.data) {
-    //   toast.success("OTP verified successfully", {
-    //     position: "top-center",
-    //   });
-    // }
-    return;
+    verifyOtp({ otpCode: otp, email: userEmail ?? "" });
   }
 
   async function resendOtp() {
-    setIsResendingTrue();
+    await sendOtp({ email: userEmail ?? "" });
 
-    // const result = await sendOtpEmail({
-    //   email: userEmail ?? "",
-    // });
-
-    // if (result?.serverError) {
-    //   toast.error(result.serverError, {
-    //     description: "Try to resend the pass code ",
-    //     position: "top-center",
-    //   });
-    //   setIsResendingFalse();
-    //   resetResendTimer();
-    //   return;
-    // }
-    // if (result?.validationErrors) {
-    //   toast.error("Invalid email address", {
-    //     position: "top-center",
-    //   });
-    //   setIsResendingFalse();
-    //   resetResendTimer();
-    //   return;
-    // }
-    // if (result?.data) {
-    //   setUserEmail(result.data);
-    // }
-    setIsResendingFalse();
     resetResendTimer();
   }
 

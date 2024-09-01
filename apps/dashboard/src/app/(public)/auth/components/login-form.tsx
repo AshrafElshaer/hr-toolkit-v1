@@ -1,5 +1,5 @@
 "use client";
-
+import { sendOtpAction } from "@/actions/auth/send-otp-action";
 import LogoSVG from "@/components/logo-svg";
 import type { ReactSetState } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,10 +22,10 @@ import {
 import { Input } from "@v1/ui/input";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader, Mail } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-// import { sendOtpEmail } from "../actions/send-otp-email";
 
 interface LoginFormProps {
   setUserEmail: ReactSetState<string | null>;
@@ -40,6 +40,14 @@ const signInSchema = z.object({
 export default function LoginForm({
   setUserEmail,
 }: LoginFormProps): JSX.Element {
+  const { execute, status, isExecuting } = useAction(sendOtpAction, {
+    onError: ({ error }) => {
+      toast.error(error.serverError);
+    },
+    onSuccess: ({ data }) => {
+      setUserEmail(data ?? null);
+    },
+  });
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -47,28 +55,7 @@ export default function LoginForm({
     },
   });
   async function onSubmit(values: z.infer<typeof signInSchema>): Promise<void> {
-    // const result = await sendOtpEmail({
-    //   email: values.email,
-    // });
-
-    // if (result?.serverError) {
-    //   toast.error(result.serverError, {
-    //     position: "top-center",
-    //   });
-
-    //   return;
-    // }
-    // if (result?.validationErrors) {
-    //   toast.error("Invalid email address", {
-    //     position: "top-center",
-    //   });
-
-    //   return;
-    // }
-
-    // if (result?.data) {
-    //   setUserEmail(result.data);
-    // }
+    execute({ email: values.email });
   }
 
   return (
@@ -104,12 +91,12 @@ export default function LoginForm({
             />
             <Button
               className="w-full"
-              disabled={form.formState.isSubmitting}
+              disabled={isExecuting}
               type="submit"
               variant="secondary"
             >
               <AnimatePresence initial={false} mode="wait">
-                {form.formState.isSubmitting ? (
+                {isExecuting ? (
                   <motion.div
                     animate={{ opacity: 1, y: 0 }}
                     className="flex items-center justify-center w-full"
@@ -119,8 +106,18 @@ export default function LoginForm({
                     transition={{ duration: 0.2 }}
                   >
                     <Loader className="mr-2 h-4 w-4 animate-spin" />
-                    Sending OTP Email ...
+                    Emailing one time password ...
                   </motion.div>
+                ) : status === "hasSucceeded" ? (
+                  <motion.span
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    key="text"
+                    transition={{ duration: 0.2 }}
+                  >
+                    Email sent
+                  </motion.span>
                 ) : (
                   <motion.span
                     animate={{ opacity: 1, y: 0 }}

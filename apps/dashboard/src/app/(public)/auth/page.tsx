@@ -45,44 +45,6 @@ export default function LoginPage(): JSX.Element {
           </motion.div>
         )}
       </AnimatePresence>
-      <Button onClick={() => setTheme("dark")}>dark</Button>
-      <Button onClick={() => setTheme("light")}>light</Button>
-      <div className="flex gap-4">
-        <Button onClick={() => toast.error("Hello World", {})}>error</Button>
-        <Button onClick={() => toast.success("Hello World")}>success</Button>
-        <Button onClick={() => toast.warning("Hello World")}>warning</Button>
-        <Button onClick={() => toast.info("Hello World")}>info</Button>
-        <Button
-          onClick={() =>
-            toast("Hello World", {
-              action: {
-                label: "Undo",
-                onClick: () => console.log("Undo"),
-              },
-              cancel: {
-                label: "Cancel",
-                onClick: () => console.log("Cancel"),
-              },
-            })
-          }
-        >
-          default
-        </Button>
-
-        <Button
-          onClick={() =>
-            toast.promise(promise, {
-              loading: "Loading...",
-              success: () => {
-                return "success toast has been added";
-              },
-              error: "Error",
-            })
-          }
-        >
-          promise
-        </Button>
-      </div>
     </main>
   );
 }
