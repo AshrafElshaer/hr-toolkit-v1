@@ -90,8 +90,10 @@ import {
 } from "react-icons/md";
 import { PiDiscordLogo } from "react-icons/pi";
 
+type IconProps = React.ComponentProps<"svg">;
+
 export const Icons = {
-  LogoSmall: (props: any) => (
+  LogoSmall: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={32}
@@ -107,7 +109,7 @@ export const Icons = {
       />
     </svg>
   ),
-  LogoIcon: (props: any) => (
+  LogoIcon: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={16}
@@ -123,7 +125,7 @@ export const Icons = {
       />
     </svg>
   ),
-  Logo: (props: any) => (
+  Logo: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={112}
@@ -151,7 +153,7 @@ export const Icons = {
   X: FaXTwitter,
   Discord: PiDiscordLogo,
   GithubOutline: FiGithub,
-  Apple: (props: any) => (
+  Apple: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={19}
@@ -165,7 +167,7 @@ export const Icons = {
       />
     </svg>
   ),
-  Google: (props: any) => (
+  Google: (props: IconProps) => (
     <svg
       width="20"
       height="20"
@@ -198,7 +200,7 @@ export const Icons = {
       </defs>
     </svg>
   ),
-  InboxCustomize: (props: any) => (
+  InboxCustomize: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={17}
@@ -215,7 +217,7 @@ export const Icons = {
   Settings: MdOutlineSettings,
   Inbox: ArchiveIcon,
   Inbox2: MdOutlineInbox,
-  Check: (props: any) => (
+  Check: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={16}
@@ -229,7 +231,7 @@ export const Icons = {
       />
     </svg>
   ),
-  AlertCircle: (props: any) => (
+  AlertCircle: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={16}
@@ -243,7 +245,7 @@ export const Icons = {
       />
     </svg>
   ),
-  Transactions2: (props: any) => (
+  Transactions2: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={40}
@@ -257,7 +259,7 @@ export const Icons = {
       />
     </svg>
   ),
-  Bank: (props: any) => (
+  Bank: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={36}
@@ -271,7 +273,7 @@ export const Icons = {
       />
     </svg>
   ),
-  Info: (props: any) => (
+  Info: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={14}
@@ -287,7 +289,7 @@ export const Icons = {
   ),
   Close: MdClose,
   Remove: MdRemove,
-  ChartGantt: (props: any) => (
+  ChartGantt: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={25}
@@ -301,7 +303,7 @@ export const Icons = {
       />
     </svg>
   ),
-  CreationOutline: (props: any) => (
+  CreationOutline: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={25}
@@ -315,7 +317,7 @@ export const Icons = {
       />
     </svg>
   ),
-  FileDocument: (props) => (
+  FileDocument: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={24}
@@ -329,7 +331,7 @@ export const Icons = {
       />
     </svg>
   ),
-  OpenSource: (props: any) => (
+  OpenSource: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={25}
@@ -343,7 +345,7 @@ export const Icons = {
       />
     </svg>
   ),
-  ReceiptText: (props: any) => (
+  ReceiptText: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={25}
@@ -357,7 +359,7 @@ export const Icons = {
       />
     </svg>
   ),
-  TimeCog: (props: any) => (
+  TimeCog: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={25}
@@ -371,7 +373,7 @@ export const Icons = {
       />
     </svg>
   ),
-  Slack: (props: any) => (
+  Slack: (props: IconProps) => (
     <svg
       width="20"
       height="21"
@@ -398,7 +400,7 @@ export const Icons = {
       </defs>
     </svg>
   ),
-  Notion: (props: any) => (
+  Notion: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={20}
@@ -412,7 +414,7 @@ export const Icons = {
       />
     </svg>
   ),
-  Github: (props: any) => (
+  Github: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={22}
@@ -432,7 +434,7 @@ export const Icons = {
       />
     </svg>
   ),
-  Figma: (props: any) => (
+  Figma: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={17}
@@ -446,7 +448,7 @@ export const Icons = {
       />
     </svg>
   ),
-  OpenAI: (props: any) => (
+  OpenAI: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={120}

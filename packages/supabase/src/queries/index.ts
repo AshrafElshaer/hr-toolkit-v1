@@ -1,6 +1,5 @@
 import { logger } from "@v1/logger";
 
-
 export async function getUser() {
   // const supabase = createClient();
 
@@ -13,6 +12,15 @@ export async function getUser() {
 
   //   throw error;
   // }
+  return {
+    data: {
+      user: {
+        id: "123",
+        email: "test@test.com",
+        name: "Test",
+      },
+    },
+  };
 }
 
 export async function getUsers() {
@@ -27,4 +35,13 @@ export async function getUsers() {
 
   //   throw error;
   // }
+  return {
+    data: [
+      {
+        id: "123",
+        email: "test@test.com",
+        name: "Test",
+      },
+    ],
+  };
 }

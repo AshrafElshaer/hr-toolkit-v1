@@ -9,7 +9,7 @@ export default function Providers({ children }: Props) {
   return (
     <ThemeProvider>
       {children}
-      <ToastProvider position="top-right" duration={50000} />
+      <ToastProvider position="top-right" duration={5000} />
     </ThemeProvider>
   );
 }

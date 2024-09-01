@@ -73,8 +73,8 @@ export default function LoginPage(): JSX.Element {
           onClick={() =>
             toast.promise(promise, {
               loading: "Loading...",
-              success: (data) => {
-                return `${data.name} toast has been added`;
+              success: () => {
+                return "success toast has been added";
               },
               error: "Error",
             })
