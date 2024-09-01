@@ -26,5 +26,11 @@
   },
   "cSpell.words": [
     "supabase"
-  ]
+  ],
+  "deno.enablePaths": ["./packages/supabase/functions"],
+	"deno.lint": true,
+	"deno.unstable": true,
+	"tailwindCSS.experimental.classRegex": [
+		["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+	],
 }

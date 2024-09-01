@@ -4,7 +4,8 @@ import { cn } from "@v1/ui/cn";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
-import { ThemeProvider } from "next-themes";
+import Providers from "@/components/providers";
+
 
 export const metadata: Metadata = {
   title: "Create v1",
@@ -31,14 +32,9 @@ export default function RootLayout({
           "antialiased",
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <Providers>{children}</Providers>
+
+         
       </body>
     </html>
   );

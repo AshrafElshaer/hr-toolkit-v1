@@ -17,7 +17,7 @@ export function SignOut() {
       variant="outline"
       className="font-mono gap-2 flex items-center"
     >
-      <Icons.SignOut className="size-4" />
+
       <span>Sign out</span>
     </Button>
   );
