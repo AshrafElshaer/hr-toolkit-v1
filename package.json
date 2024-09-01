@@ -1,0 +1,31 @@
+{
+  "name": "hr-toolkit",
+  "private": true,
+  "workspaces": ["packages/*", "apps/*", "tooling/*"],
+  "scripts": {
+    "build": "turbo build",
+    "clean": "git clean -xdf node_modules",
+    "clean:workspaces": "turbo clean",
+    "dev": "turbo dev --parallel",
+    "dev:web": "turbo dev --filter=@v1/web",
+    "dev:dashboard": "turbo dev --filter=@v1/dashboard",
+    "start:web": "turbo start --filter=@v1/web",
+    "start:dashboard": "turbo start --filter=@v1/dashboard",
+    "test": "turbo test --parallel",
+    "format": "biome format --write .",
+    "lint": "turbo lint && manypkg check",
+    "typecheck": "turbo typecheck"
+  },
+  "dependencies": {
+    "@biomejs/biome": "1.8.3",
+    "@manypkg/cli": "^0.21.4",
+    "@supabase/ssr": "^0.5.1",
+    "@t3-oss/env-nextjs": "^0.11.1",
+    "framer-motion": "^11.3.31",
+    "resend": "^4.0.0",
+    "turbo": "2.1.1",
+    "typescript": "^5.5.4",
+    "usehooks-ts": "^3.1.0"
+  },
+  "packageManager": "bun@1.1.26"
+}
