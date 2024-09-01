@@ -1,9 +1,9 @@
+import { createServerClient } from "@/lib/supabase/server";
 import * as Sentry from "@sentry/nextjs";
 import { setupAnalytics } from "@v1/analytics/server";
 import { ratelimit } from "@v1/kv/ratelimit";
 import { logger } from "@v1/logger";
 import { getUser } from "@v1/supabase/queries";
-import { createClient } from "@/lib/supabase/server";
 import {
   DEFAULT_SERVER_ERROR_MESSAGE,
   createSafeActionClient,
@@ -79,7 +79,7 @@ export const authActionClient = actionClientWithMeta
     const {
       data: { user },
     } = await getUser();
-    const supabase = createClient();
+    const supabase = createServerClient();
 
     if (!user) {
       throw new Error("Unauthorized");
