@@ -8,8 +8,14 @@ export const createOrganizationAction = authActionClient
     name: "create-organization",
   })
   .action(async ({ ctx, parsedInput }) => {
-    const { user } = ctx;
+    const { user, supabase } = ctx;
 
-    const newOrg = await OrganizationMutations.create(user.id, parsedInput);
-    return newOrg;
+    const newOrgId = await OrganizationMutations.create(user.id, parsedInput);
+
+    await supabase.auth.updateUser({
+      data: {
+        organization_id: newOrgId,
+      },
+    });
+    return newOrgId;
   });
