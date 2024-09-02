@@ -1,7 +1,5 @@
 "use client";
-import { SignOut } from "@/components/sign-out";
-
-import { getUser } from "@v1/supabase/queries";
+import Main from "@/components/main";
 
 import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
@@ -13,7 +11,7 @@ import { toast } from "sonner";
 
 export default function Page() {
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center">
+    <Main className="flex flex-col items-center justify-center">
       <div className="flex flex-col items-center justify-center gap-4">
         <div className="flex gap-2">
           <Button
@@ -40,20 +38,26 @@ export default function Page() {
             warning
           </Button>
           {/* <Button variant="secondary">secondary</Button> */}
-          <Button variant="destructive"
-             onClick={() => {
-              toast.error("error",{
+          <Button
+            variant="destructive"
+            onClick={() => {
+              toast.error("error", {
                 description: "This is a description",
               });
             }}
-          >danger</Button>
-          <Button variant="ghost"
-          onClick={() => {
-            toast.info("info",{
-              description: "This is a description",
-            });
-          }}
-          >info</Button>
+          >
+            danger
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              toast.info("info", {
+                description: "This is a description",
+              });
+            }}
+          >
+            info
+          </Button>
         </div>
 
         <h1 className="text-2xl font-bold text-foreground">Hello World</h1>
@@ -63,6 +67,6 @@ export default function Page() {
 
         {/* <SignOut /> */}
       </div>
-    </div>
+    </Main>
   );
 }

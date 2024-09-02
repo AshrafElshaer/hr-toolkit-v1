@@ -7,9 +7,38 @@ import type { Metadata } from "next";
 import Providers from "@/components/providers";
 
 
+const baseUrl = "https://dashboard.hrtoolkit.app";
+
 export const metadata: Metadata = {
-  title: "Create v1",
-  description: "Production ready Next.js app",
+	metadataBase: new URL(baseUrl),
+	title: {
+		default: "HR Toolkit",
+		template: "%s | HR Toolkit",
+	},
+	description:
+		"HR Toolkit is a collection of tools to help you manage HR processes.",
+	openGraph: {
+		title: "HR Toolkit | Manage your HR processes smarter",
+		description: "This is my portfolio.",
+		url: baseUrl,
+		siteName: "HR Toolkit | Manage your HR processes smarter",
+		locale: "en_US",
+		type: "website",
+	},
+	robots: {
+		index: true,
+		follow: true,
+		googleBot: {
+			index: true,
+			follow: true,
+			"max-video-preview": -1,
+			"max-image-preview": "large",
+			"max-snippet": -1,
+		},
+	},
+	icons: {
+		icon: { rel: "icon", url: "/icon.ico" },
+	},
 };
 
 export const viewport = {

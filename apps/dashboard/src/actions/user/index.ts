@@ -2,12 +2,21 @@
 
 import { authActionClient } from "@/actions/safe-action";
 import addressMutations from "@v1/supabase/address-mutations";
+import { getCurrentUser } from "@v1/supabase/queries";
 import { UserRolesEnum } from "@v1/supabase/types";
 import userMutations from "@v1/supabase/user-mutations";
 import { createAddressSchema, createUserSchema } from "./schema";
 
 const createOrganizationOwnerSchema =
   createUserSchema.merge(createAddressSchema);
+
+export const getCurrentUserAction = authActionClient
+  .metadata({
+    name: "get-current-user",
+  })
+  .action(async ({ ctx }) => {
+    return await getCurrentUser(ctx.supabase);
+  });
 
 export const createOrganizationOwnerAction = authActionClient
   .schema(createOrganizationOwnerSchema)
