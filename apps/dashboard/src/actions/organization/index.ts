@@ -1,3 +1,4 @@
+"use server";
 import OrganizationMutations from "@v1/supabase/organization-mutations";
 import { authActionClient } from "../safe-action";
 import { createOrganizationSchema } from "./schema";
