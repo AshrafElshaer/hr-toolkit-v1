@@ -1,3 +1,4 @@
+import ReactQueryProvider from "./react-query";
 import ThemeProvider from "./theme";
 import ToastProvider from "./toast";
 
@@ -7,9 +8,9 @@ type Props = {
 
 export default function Providers({ children }: Props) {
   return (
-    <ThemeProvider>
-      {children}
+    <ReactQueryProvider>
+      <ThemeProvider>{children}</ThemeProvider>
       <ToastProvider position="top-right" duration={5000} />
-    </ThemeProvider>
+    </ReactQueryProvider>
   );
 }

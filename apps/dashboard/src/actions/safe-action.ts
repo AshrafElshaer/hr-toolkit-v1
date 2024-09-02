@@ -43,19 +43,19 @@ export const actionClientWithMeta = createSafeActionClient({
 });
 
 export const authActionClient = actionClientWithMeta
-  .use(async ({ next, clientInput, metadata }) => {
-    const result = await next({ ctx: {} });
+  // .use(async ({ next, clientInput, metadata }) => {
+  //   const result = await next({ ctx: {} });
 
-    if (process.env.NODE_ENV === "development") {
-      logger("Input ->", clientInput);
-      logger("Result ->", result.data);
-      logger("Metadata ->", metadata);
+  //   if (process.env.NODE_ENV === "development") {
+  //     logger("Input ->", clientInput);
+  //     logger("Result ->", result.data);
+  //     logger("Metadata ->", metadata);
 
-      return result;
-    }
+  //     return result;
+  //   }
 
-    return result;
-  })
+  //   return result;
+  // })
   .use(async ({ next, metadata }) => {
     const ip = headers().get("x-forwarded-for");
 
@@ -76,10 +76,10 @@ export const authActionClient = actionClientWithMeta
     });
   })
   .use(async ({ next, metadata }) => {
+    const supabase = createServerClient();
     const {
       data: { user },
-    } = await getUser();
-    const supabase = createServerClient();
+    } = await supabase.auth.getUser();
 
     if (!user) {
       throw new Error("Unauthorized");

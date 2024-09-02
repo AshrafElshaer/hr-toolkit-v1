@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.1",
+    "@tanstack/react-query": "^5.53.2",
     "@v1/analytics": "workspace:*",
     "@v1/kv": "workspace:*",
     "@v1/supabase": "workspace:*",
@@ -29,6 +30,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.3.0",
+    "react-phone-number-input": "^3.4.5",
     "sonner": "^1.5.0",
     "zod": "^3.23.8"
   },
