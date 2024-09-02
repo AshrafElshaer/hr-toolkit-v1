@@ -18,7 +18,7 @@ export const createOrganizationOwnerAction = authActionClient
     const { user } = ctx;
     const [newUser] = await userMutations.create({
       id: user.id,
-      email: user.email,
+      email: parsedInput.email,
       first_name: parsedInput.first_name,
       last_name: parsedInput.last_name,
       avatar_url: parsedInput.avatar_url,
