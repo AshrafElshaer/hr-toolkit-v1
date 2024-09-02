@@ -46,7 +46,7 @@ export function OtpConfirmation({
     verifyOtpAction,
     {
       onError: ({ error }) => {
-        toast.error(error.serverError);
+        toast.error(`${error.serverError} , try to resend the code .`);
       },
     },
   );
@@ -84,7 +84,7 @@ export function OtpConfirmation({
           <strong>{userEmail}</strong>
         </CardDescription>
         <Button
-          className="text-secondary-foreground/70"
+          className="text-secondary-foreground"
           onClick={() => {
             setUserEmail(null);
           }}

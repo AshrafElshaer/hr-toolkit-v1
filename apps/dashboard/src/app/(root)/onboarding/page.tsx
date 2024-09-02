@@ -10,7 +10,7 @@ export default function OnboardingPage() {
   useEffect(() => {
     setTimeout(() => {
       router.push("/onboarding/user");
-    }, 4000);
+    }, 4500);
   }, [router]);
   return (
     <TextGenerateEffect
