@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import confetti from "canvas-confetti";
 import { TextGenerateEffect } from "@/components/text-generate-effect";
-import { useCountdown } from "usehooks-ts
+import { useCountdown } from "usehooks-ts"
 import { useRouter } from "next/navigation";
 
 export default function CongratsPage() {
