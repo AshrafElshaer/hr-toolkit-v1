@@ -30,15 +30,17 @@ const Toast = ({ ...props }: ToasterProps) => {
         closeButton: true,
         classNames: {
           toast: twJoin(
-            "bg-background ring-1 ring-border dark:ring-inset sm:min-w-[22rem] rounded-md text-foreground overflow-hidden text-[0.925rem] backdrop-blur-xl px-4 py-3 font-normal sm:px-4 sm:py-3",
+            "bg-background ring-1 ring-border dark:ring-inset sm:min-w-[22rem] rounded-md text-foreground overflow-hidden text-[0.925rem] backdrop-blur-xl px-4 py-3 font-normal ",
             "[&:has([data-icon])_[data-content]]:ml-5",
             '[&:has([data-button])_[data-close-button="true"]]:hidden',
             "[&:not([data-description])_[data-title]]:font-normal",
-            "[&:has([data-description])_[data-title]]:!font-medium [&:has([data-description])_[data-title]]:!text-lg",
+            "[&:has([data-description])_[data-title]]:!font-medium ",
             "[&>[data-button]]:absolute [&>[data-button=true]]:bottom-4",
             "[&>[data-action=true]]:right-4",
             "[&>[data-cancel=true]]:left-4",
           ),
+          description: "text-xs",
+
           icon: "absolute top-[1rem] ",
           content:
             "[&:not(:has(+button))]:pr-10 [&:has(+button)]:pb-11 md:[&:has(+button)]:pb-9",

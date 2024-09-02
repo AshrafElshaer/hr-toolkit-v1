@@ -11,7 +11,7 @@ import { primaryKey } from "drizzle-orm/pg-core";
 import { UserTable } from "./users";
 
 export const OrganizationTable = pgTable("organization", {
-  id: uuid("id").primaryKey().notNull(),
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
   name: text("name").notNull(),
   type: text("type")
     .$type<"for-profit" | "non-profit" | "government">()

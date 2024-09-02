@@ -87,14 +87,17 @@ export default function OwnerOnboarding() {
 function OwnerForm() {
   const session = useSession();
   const router = useRouter();
-  const { execute, isExecuting } = useAction(createOrganizationOwnerAction, {
-    onError: ({ error }) => {
-      toast.error(error.serverError);
+  const { execute, isExecuting, status } = useAction(
+    createOrganizationOwnerAction,
+    {
+      onError: ({ error }) => {
+        toast.error(error.serverError);
+      },
+      onSuccess: () => {
+        router.push("/onboarding/organization");
+      },
     },
-    onSuccess: () => {
-      router.push("/onboarding/organization");
-    },
-  });
+  );
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -398,7 +401,7 @@ function OwnerForm() {
         </div>
 
         <div className="w-full grid place-content-e">
-          <Button type="submit" className="ml-auto" disabled={isExecuting}>
+          <Button type="submit" className="ml-auto" disabled={isExecuting || status === "hasSucceeded"}>
             {isExecuting ? (
               <Loader className="size-4 animate-spin mr-2" />
             ) : null}

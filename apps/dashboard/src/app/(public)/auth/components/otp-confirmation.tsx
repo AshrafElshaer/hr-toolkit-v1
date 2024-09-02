@@ -46,7 +46,7 @@ export function OtpConfirmation({
     verifyOtpAction,
     {
       onError: ({ error }) => {
-        toast.error(`${error.serverError} , try to resend the code .`);
+        toast.error(error.serverError);
       },
     },
   );
@@ -54,7 +54,9 @@ export function OtpConfirmation({
     sendOtpAction,
     {
       onError: ({ error }) => {
-        toast.error(error.serverError);
+        toast.error(error.serverError,{
+          description: `Please try to resend otp after ${resendTimer} seconds`,
+        });
       },
     },
   );
