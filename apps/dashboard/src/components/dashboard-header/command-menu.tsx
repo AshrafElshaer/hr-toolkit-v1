@@ -30,6 +30,7 @@ import {
 
 import { getCurrentUserAction } from "@/actions/user";
 import { RiStickyNoteAddLine } from "react-icons/ri";
+import { useCurrentUser } from "@/hooks/use-current-user";
 // import EventForm from "@/app/(root)/(home)/_components/calendar/event-form";
 
 export function CommandMenu() {
@@ -38,17 +39,7 @@ export function CommandMenu() {
   const [isNewEvent, setIsNewEvent] = React.useState(false);
 
   const router = useRouter();
-  const { data: currentUser } = useQuery({
-    queryKey: ["user"],
-    queryFn: async () => {
-      const user = await getCurrentUserAction();
-      if (!user) {
-        throw Error("User not found");
-      }
-	  console.log({user})
-      return user.data;
-    },
-  });
+  const currentUser = useCurrentUser();
   const allowedNavigation = React.useMemo(() => {
     return roleBasedNavigation(currentUser?.role ?? "");
   }, [currentUser?.role]);

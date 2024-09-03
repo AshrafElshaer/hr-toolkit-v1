@@ -38,6 +38,7 @@ const Toast = ({ ...props }: ToasterProps) => {
             "[&>[data-button]]:absolute [&>[data-button=true]]:bottom-4",
             "[&>[data-action=true]]:right-4",
             "[&>[data-cancel=true]]:left-4",
+            "[&>[data-close-button=true]]:hover:bg-transparent",
           ),
           description: "text-xs",
 
@@ -62,7 +63,7 @@ const Toast = ({ ...props }: ToasterProps) => {
             variant: "secondary",
           }),
           closeButton:
-            "[&_svg]:size-5 size-6 absolute top-1/2 transform -translate-y-1/2 right-2 lg:right-3 left-auto grid place-content-center rounded-md border-0 [&_svg]:text-foreground",
+            "[&_svg]:size-5 size-6 absolute top-1/2 transform -translate-y-1/2 right-2 lg:right-3 left-auto grid place-content-center rounded-md border-0 [&_svg]:text-foreground ",
         },
       }}
       {...props}

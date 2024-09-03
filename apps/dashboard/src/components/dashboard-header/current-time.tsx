@@ -1,15 +1,13 @@
 "use client";
-import { useEffect, useState } from "react";
-import { format } from "date-fns";
 import useCurrentTime from "@/hooks/use-current-time";
+
+import { useEffect } from "react";
 
 export default function CurrentTime() {
   const { fullDay } = useCurrentTime();
-useEffect(()=>{
-  
-},[])
+  useEffect(() => {}, []);
   return (
-    <h4 className="  text-sm font-semibold  text-secondary-foreground/80 w-fit">
+    <h4 className="  text-sm font-semibold  text-foreground w-fit">
       {fullDay}
     </h4>
   );
