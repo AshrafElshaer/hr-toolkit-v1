@@ -3,7 +3,6 @@ import { cookies } from "next/headers";
 import type { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { env } from "@/env.mjs";
 
-
 export interface SupabaseClientOptions {
   isAdmin: boolean;
 }
@@ -37,7 +36,6 @@ export function createServerClient(
           }
         },
       },
-     
     },
   );
 }

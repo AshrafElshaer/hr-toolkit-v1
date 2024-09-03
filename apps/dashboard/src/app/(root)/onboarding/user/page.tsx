@@ -401,7 +401,11 @@ function OwnerForm() {
         </div>
 
         <div className="w-full grid place-content-e">
-          <Button type="submit" className="ml-auto" disabled={isExecuting || status === "hasSucceeded"}>
+          <Button
+            type="submit"
+            className="ml-auto"
+            disabled={isExecuting || status === "hasSucceeded"}
+          >
             {isExecuting ? (
               <Loader className="size-4 animate-spin mr-2" />
             ) : null}

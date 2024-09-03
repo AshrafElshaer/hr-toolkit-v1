@@ -1,28 +1,65 @@
-// Follow this setup guide to integrate the Deno language server with your editor:
-// https://deno.land/manual/getting_started/setup_your_environment
-// This enables autocomplete, go to definition, etc.
+import { WelcomeEmail } from "@v1/email/welcome";
+import React from "react";
+import { render } from "@react-email/components";
+import { Resend } from "resend";
+import { Webhook } from "standardwebhooks";
 
-console.log("Hello from Functions!");
+const resend = new Resend(Deno.env.get("RESEND_API_KEY") ?? "");
+const hookSecret = Deno.env.get("SEND_EMAIL_HOOK_SECRET") ?? "";
 
 Deno.serve(async (req) => {
-  const { name } = await req.json();
-  const data = {
-    message: `Hello ${name}!`,
+  if (req.method !== "POST") {
+    return new Response("not allowed", { status: 400 });
+  }
+
+  const payload = await req.text();
+  const headers = Object.fromEntries(req.headers);
+  const wh = new Webhook(hookSecret);
+
+  const {
+    user,
+    email_data: { token, token_hash, redirect_to, email_action_type },
+  } = wh.verify(payload, headers) as {
+    user: {
+      email: string;
+    };
+    email_data: {
+      token: string;
+      token_hash: string;
+      redirect_to: string;
+      email_action_type: string;
+      site_url: string;
+      token_new: string;
+      token_hash_new: string;
+    };
   };
 
-  return new Response(JSON.stringify(data), {
-    headers: { "Content-Type": "application/json" },
+  switch (email_action_type) {
+    case "signup": {
+      const html = await render(React.createElement(WelcomeEmail));
+
+      await resend.emails.send({
+        from: "Create v1 <onboarding@resend.dev>",
+        to: [user.email],
+        subject: "Welcome to v1",
+        html,
+      });
+
+      break;
+    }
+
+    // Add other email actions here
+    // case 'reset_password':
+    // case 'magic_link':
+    default:
+      throw new Error("Invalid email action type");
+  }
+
+  const responseHeaders = new Headers();
+  responseHeaders.set("Content-Type", "application/json");
+
+  return new Response(JSON.stringify({}), {
+    status: 200,
+    headers: responseHeaders,
   });
 });
-
-/* To invoke locally:
-
-  1. Run `supabase start` (see: https://supabase.com/docs/reference/cli/supabase-start)
-  2. Make an HTTP request:
-
-  curl -i --location --request POST 'http://127.0.0.1:54321/functions/v1/welcome-email' \
-    --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0' \
-    --header 'Content-Type: application/json' \
-    --data '{"name":"Functions"}'
-
-*/

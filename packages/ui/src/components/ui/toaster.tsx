@@ -78,7 +78,7 @@ export function Toaster() {
               <div className="w-full flex justify-end">{footer}</div>
             </Toast>
           );
-        }
+        },
       )}
       <ToastViewport />
     </ToastProvider>

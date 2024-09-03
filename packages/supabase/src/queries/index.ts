@@ -16,7 +16,3 @@ export async function getCurrentUser(supabase: SupabaseClient) {
 
   return user;
 }
-
-
-
-

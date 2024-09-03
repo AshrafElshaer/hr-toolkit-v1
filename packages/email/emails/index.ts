@@ -1,4 +1,4 @@
-import { OtpEmail } from "./otp-email";
-import { NewEmployeeEmail } from "./new-employee";
+import { OtpEmail } from "./otp-email.js";
+import { NewEmployeeEmail } from "./new-employee.js";
 
 export { NewEmployeeEmail, OtpEmail };

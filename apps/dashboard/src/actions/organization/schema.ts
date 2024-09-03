@@ -20,7 +20,6 @@ export const organizationSchema = z.object({
   zip_code: z.string(),
 });
 
-
 export const createOrganizationSchema = organizationSchema.omit({
   id: true,
 });

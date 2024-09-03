@@ -1,4 +1,3 @@
-
 import type {
   GenerateLinkProperties,
   User as AuthUser,

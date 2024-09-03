@@ -1,32 +1,32 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState } from "react";
 
-import type { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, SetStateAction } from "react";
 
 type UseBooleanReturn = {
-  value: boolean
-  setValue: Dispatch<SetStateAction<boolean>>
-  setTrue: () => void
-  setFalse: () => void
-  toggle: () => void
-}
+  value: boolean;
+  setValue: Dispatch<SetStateAction<boolean>>;
+  setTrue: () => void;
+  setFalse: () => void;
+  toggle: () => void;
+};
 
 export function useBoolean(defaultValue = false): UseBooleanReturn {
-  if (typeof defaultValue !== 'boolean') {
-    throw new Error('defaultValue must be `true` or `false`')
+  if (typeof defaultValue !== "boolean") {
+    throw new Error("defaultValue must be `true` or `false`");
   }
-  const [value, setValue] = useState(defaultValue)
+  const [value, setValue] = useState(defaultValue);
 
   const setTrue = useCallback(() => {
-    setValue(true)
-  }, [])
+    setValue(true);
+  }, []);
 
   const setFalse = useCallback(() => {
-    setValue(false)
-  }, [])
+    setValue(false);
+  }, []);
 
   const toggle = useCallback(() => {
-    setValue(x => !x)
-  }, [])
+    setValue((x) => !x);
+  }, []);
 
-  return { value, setValue, setTrue, setFalse, toggle }
+  return { value, setValue, setTrue, setFalse, toggle };
 }

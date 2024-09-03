@@ -2,6 +2,7 @@
   "name": "@v1/email",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
     "lint": "biome check .",
@@ -17,5 +18,9 @@
   },
   "devDependencies": {
     "react-email": "^3.0.1"
+  },
+  "exports": {
+    "./otp-email": "./emails/otp-email.tsx",
+    "./welcome": "./emails/welcome.tsx"
   }
 }

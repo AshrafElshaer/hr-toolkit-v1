@@ -12,7 +12,7 @@ function SubmitButton() {
 
   return (
     <Button type="submit" className="ml-auto rounded-full">
-      {pending ? <Icons.Loader className="size-4" /> : "Subscribe"}
+      {pending ? <Icons.Logo className="size-4" /> : "Subscribe"}
     </Button>
   );
 }

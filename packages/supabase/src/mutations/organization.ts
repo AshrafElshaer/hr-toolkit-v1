@@ -13,7 +13,7 @@ export async function create(ownerId: string, data: InsertOrganization) {
     user_id: ownerId,
   });
 
-  return newOrg.id
+  return newOrg.id;
 }
 
 export default {

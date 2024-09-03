@@ -1,20 +1,13 @@
 {
   "extends": "@v1/typescript/react-library.json",
+  "allowImportingTsExtensions": true,
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@v1/ui/*": [
-        "../ui/src/*"
-      ]
+      "@/*": ["./src/*"],
+      "@v1/ui/*": ["../ui/src/*"]
     }
   },
-  "include": [
-    "."
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["."],
+  "exclude": ["node_modules"]
 }

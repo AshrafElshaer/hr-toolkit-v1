@@ -84,7 +84,7 @@ import { Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 
- function OrganizationForm() {
+function OrganizationForm() {
   const router = useRouter();
   const { execute, status, isExecuting } = useAction(createOrganizationAction, {
     onError: ({ error }) => {

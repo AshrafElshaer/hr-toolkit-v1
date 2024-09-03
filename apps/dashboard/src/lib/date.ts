@@ -58,14 +58,15 @@ export function getHoursFromMinutes(minutes: number) {
   return (minutes / 60).toFixed(2);
 }
 
+export function getDaysInMonth(year: number, month: number) {
+  const daysInMonth = moment(`${year}-${month}`, "YYYY-MM").daysInMonth();
+  const daysArray = [];
 
-export function getDaysInMonth(year:number, month:number) {
-    const daysInMonth = moment(`${year}-${month}`, "YYYY-MM").daysInMonth();
-    const daysArray = [];
+  for (let day = 1; day <= daysInMonth; day++) {
+    daysArray.push(
+      moment(`${year}-${month}-${day}`, "YYYY-MM-DD").format("YYYY-MM-DD"),
+    );
+  }
 
-    for (let day = 1; day <= daysInMonth; day++) {
-        daysArray.push(moment(`${year}-${month}-${day}`, "YYYY-MM-DD").format("YYYY-MM-DD"));
-    }
-
-    return daysArray;
+  return daysArray;
 }

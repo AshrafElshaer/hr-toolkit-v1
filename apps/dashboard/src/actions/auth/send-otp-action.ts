@@ -3,7 +3,7 @@
 import { actionClient } from "@/actions/safe-action";
 import { resend } from "@/lib/resend";
 import { createServerClient } from "@/lib/supabase/server";
-import { OtpEmail } from "@v1/email/emails/otp-email";
+import { OtpEmail } from "@v1/email/otp-email";
 
 import { z } from "zod";
 
@@ -31,7 +31,6 @@ export const sendOtpAction = actionClient
         }),
       },
     );
-
 
     if (emailError || !emailResponse?.id) {
       throw new Error(emailError?.message || "Failed to send OTP email");

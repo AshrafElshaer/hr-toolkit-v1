@@ -14,7 +14,6 @@ export function useSession() {
       return data;
     },
   });
-  
 
   return data?.session;
 }

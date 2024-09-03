@@ -1,5 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { AddressTable, UserTable ,OrganizationTable} from "../db";
+import type { AddressTable, UserTable, OrganizationTable } from "../db";
 
 export type User = typeof UserTable.$inferSelect;
 export type InsertUser = typeof UserTable.$inferInsert;
@@ -24,9 +24,8 @@ export const OrganizationTypeEnum: {
 } = {
   "for-profit": "for-profit",
   "non-profit": "non-profit",
-  "government": "government",
+  government: "government",
 };
-
 
 type PayrollPattern = "weekly" | "bi-weekly" | "monthly";
 
@@ -37,8 +36,6 @@ export const PayrollPatternEnum: {
   "bi-weekly": "bi-weekly",
   monthly: "monthly",
 };
-
-
 
 export type Address = typeof AddressTable.$inferSelect;
 export type InsertAddress = typeof AddressTable.$inferInsert;

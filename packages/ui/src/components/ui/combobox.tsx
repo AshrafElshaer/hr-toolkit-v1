@@ -89,7 +89,7 @@ export const Combobox = ({
         inputRef?.current?.blur();
       }, 0);
     },
-    [onSelect]
+    [onSelect],
   );
 
   return (
@@ -129,7 +129,7 @@ export const Combobox = ({
             <CommandGroup
               className={cn(
                 "bg-background absolute z-10 w-full max-h-[250px] overflow-auto py-2 border rounded-xl",
-                classNameList
+                classNameList,
               )}
             >
               {options.map(({ component: Component, ...option }) => {

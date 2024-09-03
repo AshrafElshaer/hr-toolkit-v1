@@ -47,7 +47,7 @@ export function OtpConfirmation({
     {
       onError: ({ error }) => {
         toast.error(error.serverError, {
-          description: `Please try to resend otp after ${resendTimer} seconds`,
+          description: "Please try to resend otp.",
         });
       },
     },
