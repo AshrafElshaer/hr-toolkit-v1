@@ -1,19 +1,13 @@
 "use client";
-import { Button } from "@v1/ui/button";
-import { AnimatePresence, motion } from "framer-motion";
-import { useTheme } from "next-themes";
+
 import { useState } from "react";
-import { toast } from "sonner";
+import { AnimatePresence, motion } from "framer-motion";
 import LoginForm from "./components/login-form";
 import { OtpConfirmation } from "./components/otp-confirmation";
 
 export default function LoginPage(): JSX.Element {
   const [userEmail, setUserEmail] = useState<string | null>(null);
-  const promise = () =>
-    new Promise((resolve, reject) =>
-      setTimeout(() => reject({ name: "Sonner" }), 2000),
-    );
-  const { setTheme } = useTheme();
+
 
   return (
     <main className="grid place-items-center h-[100svh] p-4">

@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@v1/ui/card";
+import { cn } from "@v1/ui/cn";
 import {
   InputOTP,
   InputOTPGroup,
@@ -21,9 +22,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { useBoolean, useCountdown } from "usehooks-ts";
+import { useCountdown } from "usehooks-ts";
 
 interface OtpConfirmationProps {
   userEmail: string | null;
@@ -34,6 +35,7 @@ export function OtpConfirmation({
   userEmail,
   setUserEmail,
 }: OtpConfirmationProps) {
+  const [isError, setIsError] = useState(false);
   const [
     resendTimer,
     { resetCountdown: resetResendTimer, startCountdown: startResendTimer },
@@ -46,6 +48,7 @@ export function OtpConfirmation({
     verifyOtpAction,
     {
       onError: ({ error }) => {
+        setIsError(true);
         toast.error(error.serverError, {
           description: "Please try to resend otp.",
         });
@@ -91,10 +94,10 @@ export function OtpConfirmation({
           onClick={() => {
             setUserEmail(null);
           }}
-          size="sm"
+
           variant="outline"
         >
-          Wrong email -&gt; change it
+          Wrong email  --&gt; change it
         </Button>
       </CardHeader>
       <CardContent>
@@ -107,17 +110,41 @@ export function OtpConfirmation({
           maxLength={6}
           onComplete={onComplete}
           pattern={REGEXP_ONLY_DIGITS}
+          onChange={() => {
+            if (isError) {
+              setIsError(false);
+            }
+          }}
+          className={cn(isError && "animate-shake")}
         >
           <InputOTPGroup>
-            <InputOTPSlot index={0} />
-            <InputOTPSlot index={1} />
-            <InputOTPSlot index={2} />
+            <InputOTPSlot
+              index={0}
+              className={cn(isError && "border-destructive ")}
+            />
+            <InputOTPSlot
+              index={1}
+              className={cn(isError && "border-destructive")}
+            />
+            <InputOTPSlot
+              index={2}
+              className={cn(isError && "border-destructive")}
+            />
           </InputOTPGroup>
           <InputOTPSeparator />
           <InputOTPGroup>
-            <InputOTPSlot index={3} />
-            <InputOTPSlot index={4} />
-            <InputOTPSlot index={5} />
+            <InputOTPSlot
+              index={3}
+              className={cn(isError && "border-destructive")}
+            />
+            <InputOTPSlot
+              index={4}
+              className={cn(isError && "border-destructive")}
+            />
+            <InputOTPSlot
+              index={5}
+              className={cn(isError && "border-destructive")}
+            />
           </InputOTPGroup>
         </InputOTP>
       </CardContent>
