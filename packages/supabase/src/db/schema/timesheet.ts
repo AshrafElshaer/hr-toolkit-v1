@@ -18,8 +18,6 @@ export const TimeSheetTable = pgTable("time_sheet", {
     .notNull(),
   clock_in: timestamp("clock_in").defaultNow().notNull(),
   clock_out: timestamp("clock_out"),
-  break_start: timestamp("break_start"),
-  break_end: timestamp("break_end"),
   date: date("date").notNull(),
   status: text("status")
     .$type<"clocked_in" | "clocked_out" | "pending" | "approved" | "rejected">()
@@ -29,3 +27,26 @@ export const TimeSheetTable = pgTable("time_sheet", {
   created_at: timestamp("created_at").defaultNow(),
   updated_at: timestamp("updated_at").defaultNow(),
 });
+
+export const TimeSheetBreakTable = pgTable("time_sheet_break", {
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
+  time_sheet_id: uuid("time_sheet_id")
+    .references(() => TimeSheetTable.id)
+    .notNull(),
+  break_start: timestamp("break_start").notNull(),
+  break_end: timestamp("break_end").notNull(),
+});
+
+export const TimeSheetTableRelations = relations(TimeSheetTable, ({ many }) => ({
+  breaks: many(TimeSheetBreakTable),
+}));
+
+export const TimeSheetBreakTableRelations = relations(
+  TimeSheetBreakTable,
+  ({ one }) => ({
+    time_sheet: one(TimeSheetTable, {
+      fields: [TimeSheetBreakTable.time_sheet_id],
+      references: [TimeSheetTable.id],
+    }),
+  }),
+);

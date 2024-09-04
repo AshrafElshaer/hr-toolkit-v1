@@ -1,6 +1,6 @@
 {
-  "id": "ec653803-62d2-48d6-bc42-0e5015f9c857",
-  "prevId": "588d8b80-d4ed-4caf-a07d-66936d00e613",
+  "id": "bb403d31-8a98-4688-a862-a9897545d8eb",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -695,6 +695,55 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
+    "public.time_sheet_break": {
+      "name": "time_sheet_break",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "time_sheet_id": {
+          "name": "time_sheet_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "break_start": {
+          "name": "break_start",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "break_end": {
+          "name": "break_end",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "time_sheet_break_time_sheet_id_time_sheet_id_fk": {
+          "name": "time_sheet_break_time_sheet_id_time_sheet_id_fk",
+          "tableFrom": "time_sheet_break",
+          "tableTo": "time_sheet",
+          "columnsFrom": [
+            "time_sheet_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "public.time_sheet": {
       "name": "time_sheet",
       "schema": "",
@@ -721,18 +770,6 @@
         },
         "clock_out": {
           "name": "clock_out",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "break_start": {
-          "name": "break_start",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "break_end": {
-          "name": "break_end",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": false

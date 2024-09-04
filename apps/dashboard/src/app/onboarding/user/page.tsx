@@ -88,31 +88,31 @@ export default function OwnerOnboarding() {
 const DAYS_OF_WEEK = [
   {
     label: "Monday",
-    value: 1,
+    value: "1",
   },
   {
     label: "Tuesday",
-    value: 2,
+    value: "2",
   },
   {
     label: "Wednesday",
-    value: 3,
+    value: "3",
   },
   {
-      label: "Thursday",
-    value: 4,
+    label: "Thursday",
+    value: "4",
   },
   {
     label: "Friday",
-    value: 5,
+    value: "5",
   },
   {
     label: "Saturday",
-    value: 6,
+    value: "6",
   },
   {
     label: "Sunday",
-    value: 7,
+    value: "7",
   },
 ];
 
@@ -158,7 +158,6 @@ function OwnerForm() {
       working_days_per_week: [],
     },
   });
-
 
   useEffect(() => {
     if (session) {
@@ -345,12 +344,12 @@ function OwnerForm() {
                 <ToggleGroup
                   type="multiple"
                   variant="outline"
-                  value={field.value.map((value) => value.toString())}
-                  onValueChange={(value: string[]) => field.onChange(value.map((value) => Number(value)))}
+                  value={field.value}
+                  onValueChange={field.onChange}
                   className="flex-wrap gap-2 justify-start"
                 >
                   {DAYS_OF_WEEK.map((day) => (
-                    <ToggleGroupItem key={day.value.toString()} value={day.value.toString()}>
+                    <ToggleGroupItem key={day.value} value={day.value}>
                       {day.label}
                     </ToggleGroupItem>
                   ))}

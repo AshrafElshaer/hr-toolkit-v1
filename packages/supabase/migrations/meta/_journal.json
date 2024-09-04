@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1725243945247,
-      "tag": "20240902022545_fixed_golden_guardian",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1725307348286,
-      "tag": "20240902200228_parallel_living_tribunal",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1725467748176,
-      "tag": "20240904163548_illegal_amphibian",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1725468250502,
-      "tag": "20240904164410_cuddly_mesmero",
+      "when": 1725490028063,
+      "tag": "20240904224708_perfect_sue_storm",
       "breakpoints": true
     }
   ]

@@ -42,6 +42,7 @@ export const createOrganizationOwnerAction = authActionClient
       leave_date: parsedInput.leave_date?.toISOString() ?? null,
       salary_per_hour: parsedInput.salary_per_hour,
       work_hours_per_week: parsedInput.work_hours_per_week,
+      working_days_per_week: parsedInput.working_days_per_week,
     });
 
     await addressMutations.create({

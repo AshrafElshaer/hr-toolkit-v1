@@ -1,1 +1,0 @@
-ALTER TABLE "user" ADD COLUMN "working_days_per_week" text[] DEFAULT '{}';

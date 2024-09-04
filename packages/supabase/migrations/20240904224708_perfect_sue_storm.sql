@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS "organization_owners" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "organization" (
-	"id" uuid PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" text NOT NULL,
 	"type" text NOT NULL,
 	"logo_url" text DEFAULT '',
@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS "user" (
 	"employment_type" text DEFAULT 'full_time',
 	"work_hours_per_week" integer DEFAULT 40,
 	"salary_per_hour" integer DEFAULT 0,
+	"working_days_per_week" text[] DEFAULT '{}',
 	"created_at" timestamp DEFAULT now(),
 	"updated_at" timestamp DEFAULT now(),
 	CONSTRAINT "user_email_unique" UNIQUE("email")
@@ -76,6 +77,42 @@ CREATE TABLE IF NOT EXISTS "addresses" (
 	"zip_code" text NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now(),
 	"updated_at" timestamp with time zone DEFAULT now()
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "department_member" (
+	"department_id" uuid NOT NULL,
+	"user_id" uuid NOT NULL,
+	CONSTRAINT "department_member_department_id_user_id_pk" PRIMARY KEY("department_id","user_id")
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "department" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"name" text NOT NULL,
+	"description" text NOT NULL,
+	"organization_id" uuid NOT NULL,
+	"manager_id" uuid,
+	"created_at" timestamp DEFAULT now(),
+	"updated_at" timestamp DEFAULT now()
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "time_sheet_break" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"time_sheet_id" uuid NOT NULL,
+	"break_start" timestamp NOT NULL,
+	"break_end" timestamp NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "time_sheet" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"user_id" uuid NOT NULL,
+	"clock_in" timestamp DEFAULT now() NOT NULL,
+	"clock_out" timestamp,
+	"date" date NOT NULL,
+	"status" text DEFAULT 'pending',
+	"notes" text,
+	"total_worked" real DEFAULT 0,
+	"created_at" timestamp DEFAULT now(),
+	"updated_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
 DO $$ BEGIN
@@ -110,6 +147,42 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "addresses" ADD CONSTRAINT "addresses_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "department_member" ADD CONSTRAINT "department_member_department_id_department_id_fk" FOREIGN KEY ("department_id") REFERENCES "public"."department"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "department_member" ADD CONSTRAINT "department_member_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "department" ADD CONSTRAINT "department_organization_id_organization_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organization"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "department" ADD CONSTRAINT "department_manager_id_user_id_fk" FOREIGN KEY ("manager_id") REFERENCES "public"."user"("id") ON DELETE set null ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "time_sheet_break" ADD CONSTRAINT "time_sheet_break_time_sheet_id_time_sheet_id_fk" FOREIGN KEY ("time_sheet_id") REFERENCES "public"."time_sheet"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "time_sheet" ADD CONSTRAINT "time_sheet_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

@@ -34,7 +34,7 @@ export const UserTable = pgTable("user", {
     .default("full_time"),
   work_hours_per_week: integer("work_hours_per_week").default(40),
   salary_per_hour: integer("salary_per_hour").default(0),
-  working_days_per_week: real("working_days_per_week").array().default([]),
+  working_days_per_week: text("working_days_per_week").array().default([]),
   created_at: timestamp("created_at").defaultNow(),
   updated_at: timestamp("updated_at").defaultNow(),
 });
