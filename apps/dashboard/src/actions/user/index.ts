@@ -22,6 +22,10 @@ export const createOrganizationOwnerAction = authActionClient
   .schema(createOrganizationOwnerSchema)
   .metadata({
     name: "create-organization-owner",
+    track: {
+      event: "create-organization-owner",
+      channel: "user",
+    },
   })
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx;
