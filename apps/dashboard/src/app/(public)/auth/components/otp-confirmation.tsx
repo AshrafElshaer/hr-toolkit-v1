@@ -73,6 +73,7 @@ export function OtpConfirmation({
     await sendOtp({ email: userEmail ?? "" });
 
     resetResendTimer();
+    startResendTimer();
   }
 
   return (

@@ -15,6 +15,20 @@
       "when": 1725307348286,
       "tag": "20240902200228_parallel_living_tribunal",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1725467748176,
+      "tag": "20240904163548_illegal_amphibian",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1725468250502,
+      "tag": "20240904164410_cuddly_mesmero",
+      "breakpoints": true
     }
   ]
 }

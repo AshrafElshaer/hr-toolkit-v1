@@ -22,6 +22,7 @@ export const userSchema = z.object({
     .default("full_time"),
   work_hours_per_week: z.number().int().default(40),
   salary_per_hour: z.number().int().default(0),
+  working_days_per_week: z.array(z.number()).default([]),
   created_at: z
     .date()
     .optional()

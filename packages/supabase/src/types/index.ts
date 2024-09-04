@@ -1,5 +1,12 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { AddressTable, UserTable, OrganizationTable } from "../db";
+import type {
+  AddressTable,
+  DepartmentMemberTable,
+  DepartmentTable,
+  OrganizationTable,
+  TimeSheetTable,
+  UserTable,
+} from "../db";
 
 export type User = typeof UserTable.$inferSelect;
 export type InsertUser = typeof UserTable.$inferInsert;
@@ -36,6 +43,32 @@ export const PayrollPatternEnum: {
   "bi-weekly": "bi-weekly",
   monthly: "monthly",
 };
+
+export type TimeSheet = typeof TimeSheetTable.$inferSelect;
+export type InsertTimeSheet = typeof TimeSheetTable.$inferInsert;
+
+type TimeSheetStatus =
+  | "pending"
+  | "approved"
+  | "rejected"
+  | "clocked_in"
+  | "clocked_out";
+
+export const TimeSheetStatusEnum: {
+  [key in TimeSheetStatus]: key;
+} = {
+  pending: "pending",
+  approved: "approved",
+  rejected: "rejected",
+  clocked_in: "clocked_in",
+  clocked_out: "clocked_out",
+};
+
+export type Department = typeof DepartmentTable.$inferSelect;
+export type InsertDepartment = typeof DepartmentTable.$inferInsert;
+
+export type DepartmentMember = typeof DepartmentMemberTable.$inferSelect;
+export type InsertDepartmentMember = typeof DepartmentMemberTable.$inferInsert;
 
 export type Address = typeof AddressTable.$inferSelect;
 export type InsertAddress = typeof AddressTable.$inferInsert;

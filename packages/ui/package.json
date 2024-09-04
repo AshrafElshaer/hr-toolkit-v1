@@ -74,7 +74,8 @@
     "./sonner": "./src/components/ui/sonner.tsx",
     "./chart": "./src/components/ui/chart.tsx",
     "./tailwind.config": "./tailwind.config.ts",
-    "./postcss": "./postcss.config.js"
+    "./postcss": "./postcss.config.js",
+    "./toggle-group": "./src/components/ui/toggle-group.tsx"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -103,6 +104,8 @@
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-toast": "^1.1.5",
+    "@radix-ui/react-toggle": "^1.1.0",
+    "@radix-ui/react-toggle-group": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.0.7",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.0",

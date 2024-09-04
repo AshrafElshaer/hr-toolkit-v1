@@ -33,15 +33,12 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
     },
   );
 
-  if (!req.nextUrl.pathname.startsWith("/auth")) {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) {
-      const url = req.nextUrl.clone();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-      return NextResponse.redirect(new URL("/auth", url));
-    }
+  if (!session && !req.nextUrl.pathname.startsWith("/auth")) {
+    return NextResponse.redirect(new URL("/auth", req.url));
   }
 
   return res;
@@ -57,6 +54,6 @@ export const config = {
      * Feel free to modify this pattern to include more paths.
      */
     "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
-    "/auth",
+    // "/auth",
   ],
 };

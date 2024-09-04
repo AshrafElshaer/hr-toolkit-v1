@@ -37,6 +37,7 @@ import { subYears } from "date-fns";
 
 import { createOrganizationOwnerAction } from "@/actions/user";
 import { CountrySelector } from "@/components/selectors/country-selector";
+import { ToggleGroup, ToggleGroupItem } from "@v1/ui/toggle-group";
 import { CircleDollarSign, Clock, Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
@@ -70,7 +71,7 @@ export default function OwnerOnboarding() {
         </motion.div>
       ) : (
         <motion.div
-          className="w-full"
+          className="w-full p-4"
           key={"onboarding-form"}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -83,6 +84,37 @@ export default function OwnerOnboarding() {
     </AnimatePresence>
   );
 }
+
+const DAYS_OF_WEEK = [
+  {
+    label: "Monday",
+    value: 1,
+  },
+  {
+    label: "Tuesday",
+    value: 2,
+  },
+  {
+    label: "Wednesday",
+    value: 3,
+  },
+  {
+      label: "Thursday",
+    value: 4,
+  },
+  {
+    label: "Friday",
+    value: 5,
+  },
+  {
+    label: "Saturday",
+    value: 6,
+  },
+  {
+    label: "Sunday",
+    value: 7,
+  },
+];
 
 function OwnerForm() {
   const session = useSession();
@@ -123,9 +155,10 @@ function OwnerForm() {
       zip_code: "",
       country: "US",
       role: "admin",
+      working_days_per_week: [],
     },
   });
-  console.log(form.formState.errors);
+
 
   useEffect(() => {
     if (session) {
@@ -135,6 +168,7 @@ function OwnerForm() {
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     execute(data);
+    // console.log(data);
   }
 
   return (
@@ -301,6 +335,31 @@ function OwnerForm() {
             )}
           />
         </div>
+        <FormField
+          control={form.control}
+          name="working_days_per_week"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>How many days do you work per week?</FormLabel>
+              <FormControl>
+                <ToggleGroup
+                  type="multiple"
+                  variant="outline"
+                  value={field.value.map((value) => value.toString())}
+                  onValueChange={(value: string[]) => field.onChange(value.map((value) => Number(value)))}
+                  className="flex-wrap gap-2 justify-start"
+                >
+                  {DAYS_OF_WEEK.map((day) => (
+                    <ToggleGroupItem key={day.value.toString()} value={day.value.toString()}>
+                      {day.label}
+                    </ToggleGroupItem>
+                  ))}
+                </ToggleGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <h3 className="text-lg font-semibold text-secondary-foreground">
           Mailing Address
         </h3>

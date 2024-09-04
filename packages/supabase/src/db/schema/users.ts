@@ -3,6 +3,7 @@ import {
   date,
   integer,
   pgTable,
+  real,
   text,
   timestamp,
   uuid,
@@ -10,6 +11,7 @@ import {
 import { AddressTable } from "./addresses";
 import { EmergencyContactTable } from "./emergency-contacts";
 import { OrganizationMemberTable } from "./organizations";
+import { TimeSheetTable } from "./timesheet";
 
 export const UserTable = pgTable("user", {
   id: uuid("id").primaryKey().notNull(),
@@ -32,6 +34,7 @@ export const UserTable = pgTable("user", {
     .default("full_time"),
   work_hours_per_week: integer("work_hours_per_week").default(40),
   salary_per_hour: integer("salary_per_hour").default(0),
+  working_days_per_week: real("working_days_per_week").array().default([]),
   created_at: timestamp("created_at").defaultNow(),
   updated_at: timestamp("updated_at").defaultNow(),
 });
@@ -43,4 +46,5 @@ export const UserTableRelations = relations(UserTable, ({ many, one }) => ({
   }),
   emergency_contacts: many(EmergencyContactTable),
   addresses: many(AddressTable),
+  timeSheets: many(TimeSheetTable),
 }));

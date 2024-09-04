@@ -1,4 +1,9 @@
-import { OrganizationOwnerTable, OrganizationTable, db } from "../db";
+import {
+  DepartmentTable,
+  OrganizationOwnerTable,
+  OrganizationTable,
+  db,
+} from "../db";
 import type { InsertOrganization } from "../types";
 
 export async function create(ownerId: string, data: InsertOrganization) {
@@ -11,6 +16,13 @@ export async function create(ownerId: string, data: InsertOrganization) {
   await db.insert(OrganizationOwnerTable).values({
     organization_id: newOrg.id,
     user_id: ownerId,
+  });
+
+  await db.insert(DepartmentTable).values({
+    name: "Exec",
+    description: "Executives",
+    organization_id: newOrg.id,
+    manager_id: ownerId,
   });
 
   return newOrg.id;
