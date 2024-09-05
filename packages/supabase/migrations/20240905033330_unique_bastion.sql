@@ -1,0 +1,1 @@
+ALTER TABLE "time_sheet_break" ALTER COLUMN "break_end" DROP NOT NULL;

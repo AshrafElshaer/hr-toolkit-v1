@@ -13,6 +13,7 @@
     "@v1/logger": "workspace:*",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.33.0",
+    "moment": "^2.30.1",
     "postgres": "^3.4.4",
     "react": "^18.3.1",
     "server-only": "^0.0.1",

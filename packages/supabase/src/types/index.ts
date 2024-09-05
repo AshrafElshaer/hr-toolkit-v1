@@ -4,6 +4,7 @@ import type {
   DepartmentMemberTable,
   DepartmentTable,
   OrganizationTable,
+  TimeSheetBreakTable,
   TimeSheetTable,
   UserTable,
 } from "../db";
@@ -46,6 +47,7 @@ export const PayrollPatternEnum: {
 
 export type TimeSheet = typeof TimeSheetTable.$inferSelect;
 export type InsertTimeSheet = typeof TimeSheetTable.$inferInsert;
+export type UpdateTimeSheet = Partial<InsertTimeSheet>;
 
 type TimeSheetStatus =
   | "pending"
@@ -63,6 +65,9 @@ export const TimeSheetStatusEnum: {
   clocked_in: "clocked_in",
   clocked_out: "clocked_out",
 };
+
+export type TimeSheetBreak = typeof TimeSheetBreakTable.$inferSelect;
+export type InsertTimeSheetBreak = typeof TimeSheetBreakTable.$inferInsert;
 
 export type Department = typeof DepartmentTable.$inferSelect;
 export type InsertDepartment = typeof DepartmentTable.$inferInsert;

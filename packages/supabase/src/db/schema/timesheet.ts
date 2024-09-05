@@ -21,7 +21,8 @@ export const TimeSheetTable = pgTable("time_sheet", {
   date: date("date").notNull(),
   status: text("status")
     .$type<"clocked_in" | "clocked_out" | "pending" | "approved" | "rejected">()
-    .default("pending"),
+    .default("pending")
+    .notNull(),
   notes: text("notes"),
   total_worked: real("total_worked").default(0),
   created_at: timestamp("created_at").defaultNow(),
@@ -34,7 +35,7 @@ export const TimeSheetBreakTable = pgTable("time_sheet_break", {
     .references(() => TimeSheetTable.id)
     .notNull(),
   break_start: timestamp("break_start").notNull(),
-  break_end: timestamp("break_end").notNull(),
+  break_end: timestamp("break_end"),
 });
 
 export const TimeSheetTableRelations = relations(

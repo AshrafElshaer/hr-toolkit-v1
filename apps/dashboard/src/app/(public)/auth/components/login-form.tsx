@@ -42,7 +42,7 @@ export default function LoginForm({
 }: LoginFormProps): JSX.Element {
   const { execute, status, isExecuting } = useAction(sendOtpAction, {
     onError: ({ error }) => {
-      toast.error(error.serverError);
+      toast.error(checkErrorMessage(error.serverError));
     },
     onSuccess: ({ data }) => {
       setUserEmail(data ?? null);
@@ -150,4 +150,17 @@ export default function LoginForm({
       </CardFooter>
     </Card>
   );
+}
+
+function checkErrorMessage(message?: string): string {
+  if (
+    message?.toLowerCase().includes("failed to fetch") ||
+    message?.toLowerCase().includes("network error")
+  ) {
+    return "Please check your internet connection and try again.";
+  }
+
+  // Add more specific error checks here if needed
+
+  return message ?? "An error occurred. Please try again later.";
 }

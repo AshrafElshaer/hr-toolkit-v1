@@ -1,7 +1,7 @@
-import { format } from "date-fns";
+import type { TimeSheetBreak } from "@v1/supabase/types";
+
 import moment from "moment";
-import type { useRouter } from "next/navigation";
-import type { DateRange } from "react-day-picker";
+
 export function currentTimezone() {
   return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
@@ -30,30 +30,6 @@ export function differenceInBusinessDays(startDate: Date, endDate: Date) {
   return count;
 }
 
-export function handleDateSearch(
-  date: DateRange,
-  searchParams: URLSearchParams,
-  router: ReturnType<typeof useRouter>,
-  pathname: string,
-  prefix?: string,
-) {
-  const params = new URLSearchParams(searchParams);
-  const fromKey = prefix ? `${prefix}-from` : "from";
-  const toKey = prefix ? `${prefix}-to` : "to";
-
-  if (date) {
-    params.set(fromKey, format(new Date(date.from ?? ""), "yyyy-MM-dd") ?? "");
-    if (date.to) {
-      params.set(toKey, format(new Date(date.to ?? ""), "yyyy-MM-dd") ?? "");
-    }
-  } else {
-    params.delete(fromKey);
-    params.delete(toKey);
-  }
-
-  router.replace(`${pathname}?${params.toString()}`);
-}
-
 export function getHoursFromMinutes(minutes: number) {
   return (minutes / 60).toFixed(2);
 }
@@ -69,4 +45,44 @@ export function getDaysInMonth(year: number, month: number) {
   }
 
   return daysArray;
+}
+
+export function calcWorkedTime(
+  clockInAt: Date,
+  breaks: TimeSheetBreak[] = [],
+  clockOutAt?: Date,
+) {
+  const endTime = clockOutAt || new Date();
+  const clockInTime = clockInAt.getTime();
+
+  // Calculate the total break time
+  const totalBreakTime = breaks.reduce((accumulatedBreakTime, currentBreak) => {
+    const breakStartTime = currentBreak.break_start
+      ? new Date(currentBreak.break_start).getTime()
+      : 0;
+    const breakEndTime = currentBreak.break_end
+      ? new Date(currentBreak.break_end).getTime()
+      : endTime.getTime(); // Use end time if break is ongoing
+
+    if (breakStartTime) {
+      // Calculate the duration of each break and add it to the total
+      return accumulatedBreakTime + (breakEndTime - breakStartTime);
+    }
+
+    return accumulatedBreakTime;
+  }, 0);
+
+  // Calculate total work time excluding breaks
+  const totalWorkTime = endTime.getTime() - clockInTime - totalBreakTime;
+
+  // Convert milliseconds to hours, minutes, and seconds
+  const hours = Math.floor(totalWorkTime / (1000 * 60 * 60));
+  const minutes = Math.floor((totalWorkTime % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((totalWorkTime % (1000 * 60)) / 1000);
+
+  return {
+    hours,
+    minutes,
+    seconds,
+  };
 }
