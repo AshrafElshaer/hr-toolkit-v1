@@ -77,7 +77,10 @@ export function calcWorkedTime(
 
   // Convert milliseconds to hours, minutes, and seconds
   const hours = Math.max(0, Math.floor(totalWorkTime / (1000 * 60 * 60)));
-  const minutes = Math.max(0, Math.floor((totalWorkTime % (1000 * 60 * 60)) / (1000 * 60)));
+  const minutes = Math.max(
+    0,
+    Math.floor((totalWorkTime % (1000 * 60 * 60)) / (1000 * 60)),
+  );
   const seconds = Math.max(0, Math.floor((totalWorkTime % (1000 * 60)) / 1000));
 
   return {

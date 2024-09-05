@@ -51,7 +51,7 @@ const Toast = ({ ...props }: ToasterProps) => {
           warning:
             "bg-warning/75 text-warning-foreground ring-warning ring-inset shadow-md shadow-warning/50 [&>[data-close-button=true]>svg]:text-warning-foreground [&>[data-close-button=true]:hover]:bg-transparent",
           success:
-            "bg-success/75 ring-success text-success-foreground ring-inset shadow-md shadow-success/50 [&>[data-close-button=true]>svg]:text-success-foreground [&>[data-close-button=true]:hover]:bg-transparent",
+            "bg-success ring-success text-success-foreground ring-inset shadow-md shadow-success/50 [&>[data-close-button=true]>svg]:text-success-foreground [&>[data-close-button=true]:hover]:bg-transparent",
           cancelButton: buttonVariants({
             className: "",
             size: "sm",

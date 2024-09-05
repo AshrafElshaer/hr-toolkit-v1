@@ -27,7 +27,6 @@ export const updateTimeSheetSchema = timeSheetSchema.omit({
   updated_at: true,
 });
 
-
 export const timeSheetBreakSchema = z.object({
   id: z.string().uuid(),
   time_sheet_id: z.string().uuid(),
@@ -43,4 +42,3 @@ export const updateTimeSheetBreakSchema = timeSheetBreakSchema.partial().omit({
   id: true,
   time_sheet_id: true,
 });
-
