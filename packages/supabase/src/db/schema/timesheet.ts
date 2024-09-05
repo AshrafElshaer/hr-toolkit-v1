@@ -24,7 +24,7 @@ export const TimeSheetTable = pgTable("time_sheet", {
     .default("pending")
     .notNull(),
   notes: text("notes"),
-  total_worked: real("total_worked").default(0),
+  total_worked_minutes: real("total_worked_minutes").default(0),
   created_at: timestamp("created_at").defaultNow(),
   updated_at: timestamp("updated_at").defaultNow(),
 });
@@ -32,7 +32,9 @@ export const TimeSheetTable = pgTable("time_sheet", {
 export const TimeSheetBreakTable = pgTable("time_sheet_break", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   time_sheet_id: uuid("time_sheet_id")
-    .references(() => TimeSheetTable.id)
+    .references(() => TimeSheetTable.id, {
+      onDelete: "cascade",
+    })
     .notNull(),
   break_start: timestamp("break_start").notNull(),
   break_end: timestamp("break_end"),

@@ -109,7 +109,7 @@ export const clockOutAction = authActionClient
       {
         clock_out: now.utc().toDate(),
         status: TimeSheetStatusEnum.clocked_out,
-        total_worked: totalWorkedMinutes,
+        total_worked_minutes: totalWorkedMinutes,
       },
     );
 
