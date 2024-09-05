@@ -4,7 +4,7 @@ import { Command as CommandPrimitive } from "cmdk";
 import { Loader2 } from "lucide-react";
 import * as React from "react";
 import { useCallback, useRef, useState } from "react";
-import { cn } from "../utils/cn";
+import { cn } from "../../utils/cn";
 import {
   CommandGroup,
   CommandInput,
@@ -67,7 +67,7 @@ export const Combobox = ({
 
   const handleBlur = useCallback(() => {
     setOpen(false);
-    setInputValue(selected?.name);
+    setInputValue(selected?.name ?? '');
   }, [selected]);
 
   const handleOnFocus = () => {
