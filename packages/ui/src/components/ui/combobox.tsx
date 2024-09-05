@@ -67,7 +67,7 @@ export const Combobox = ({
 
   const handleBlur = useCallback(() => {
     setOpen(false);
-    setInputValue(selected?.name ?? '');
+    setInputValue(selected?.name ?? "");
   }, [selected]);
 
   const handleOnFocus = () => {
