@@ -1,8 +1,8 @@
 "use client";
-import React, { useMemo } from "react";
-import { usePathname } from "next/navigation";
 import { roleBasedNavigation } from "@/constants/sidebar-navigations";
 import { cn } from "@v1/ui/cn";
+import { usePathname } from "next/navigation";
+import React, { useMemo } from "react";
 
 import type { ReactSetState } from "@/types";
 import type { User } from "@v1/supabase/types";
@@ -25,14 +25,14 @@ function MainSidebar({
   }, [currentUser.role]);
 
   return (
-    <nav className=" hidden md:block shadow-md w-[3.3rem] border-r border-t fixed top-0 bottom-0 left-0 hover:w-[185px] transition-all group z-40 bg-background">
+    <nav className=" hidden md:flex flex-col shadow-md w-[3.3rem] border-r border-t  fixed top-0 bottom-0 left-0 hover:w-[185px] transition-all group z-40 bg-background overflow-y-scroll overflow-x-hidden scrollbar-hide">
       <div className="flex items-center justify-start  p-3 relative w-full">
         <LogoSVG className="text-foreground fill-current size-7" />
         <div className="w-full font-semibold opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity delay-[25ms] absolute left-12 text-lg min-w-28">
           Hr ToolKit
         </div>
       </div>
-      <ul className="flex flex-col items-start justify-start h-full gap-1 p-2">
+      <ul className="flex flex-col items-start justify-start h-full gap-1 p-2 pb-4">
         {allowedNavigation.map((route) => {
           const isActivePath =
             pathname === route.path ||
