@@ -76,9 +76,9 @@ export function calcWorkedTime(
   const totalWorkTime = endTime.getTime() - clockInTime - totalBreakTime;
 
   // Convert milliseconds to hours, minutes, and seconds
-  const hours = Math.floor(totalWorkTime / (1000 * 60 * 60));
-  const minutes = Math.floor((totalWorkTime % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((totalWorkTime % (1000 * 60)) / 1000);
+  const hours = Math.max(0, Math.floor(totalWorkTime / (1000 * 60 * 60)));
+  const minutes = Math.max(0, Math.floor((totalWorkTime % (1000 * 60 * 60)) / (1000 * 60)));
+  const seconds = Math.max(0, Math.floor((totalWorkTime % (1000 * 60)) / 1000));
 
   return {
     hours,

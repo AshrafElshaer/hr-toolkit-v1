@@ -75,7 +75,7 @@ export default function ClockInOutClient({
     endBreakAction,
     {
       onSuccess: () => {
-        toast.success("You are break is over, Let's get back to work!");
+        toast.success("You're break is over, Let's get back to work!");
       },
       onError: ({ error }) => {
         toast.error(error.serverError);
