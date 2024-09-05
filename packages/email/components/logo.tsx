@@ -1,5 +1,5 @@
-import React from "react";
 import { Img } from "@react-email/components";
+import React from "react";
 
 const baseUrl = "https://dashboard.hrtoolkit.app";
 

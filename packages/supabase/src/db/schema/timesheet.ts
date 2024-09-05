@@ -37,9 +37,12 @@ export const TimeSheetBreakTable = pgTable("time_sheet_break", {
   break_end: timestamp("break_end").notNull(),
 });
 
-export const TimeSheetTableRelations = relations(TimeSheetTable, ({ many }) => ({
-  breaks: many(TimeSheetBreakTable),
-}));
+export const TimeSheetTableRelations = relations(
+  TimeSheetTable,
+  ({ many }) => ({
+    breaks: many(TimeSheetBreakTable),
+  }),
+);
 
 export const TimeSheetBreakTableRelations = relations(
   TimeSheetBreakTable,

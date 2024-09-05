@@ -94,10 +94,9 @@ export function OtpConfirmation({
           onClick={() => {
             setUserEmail(null);
           }}
-
           variant="outline"
         >
-          Wrong email  --&gt; change it
+          Wrong email --&gt; change it
         </Button>
       </CardHeader>
       <CardContent>

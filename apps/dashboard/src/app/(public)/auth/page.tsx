@@ -8,7 +8,6 @@ import { OtpConfirmation } from "./components/otp-confirmation";
 export default function LoginPage(): JSX.Element {
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
-
   return (
     <main className="grid place-items-center h-[100svh] p-4">
       <AnimatePresence mode="wait">

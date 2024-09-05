@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Body,
   Container,
@@ -11,6 +10,7 @@ import {
   Tailwind,
   Text,
 } from "@react-email/components";
+import React from "react";
 import { colors } from "../components/colors.js";
 import Logo from "../components/logo.js";
 

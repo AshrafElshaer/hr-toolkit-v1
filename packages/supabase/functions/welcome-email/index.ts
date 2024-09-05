@@ -1,6 +1,6 @@
+import { render } from "@react-email/components";
 import { WelcomeEmail } from "@v1/email/welcome";
 import React from "react";
-import { render } from "@react-email/components";
 import { Resend } from "resend";
 import { Webhook } from "standardwebhooks";
 
