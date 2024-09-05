@@ -11,24 +11,22 @@ import {
 import { headers } from "next/headers";
 import { z } from "zod";
 
-export const actionClient = createSafeActionClient({
-  handleReturnedServerError(e) {
-    if (e instanceof Error) {
-      return e.message;
-    }
+const handleServerError = (e: Error) => {
+  console.error("Action error:", e.message);
 
-    return DEFAULT_SERVER_ERROR_MESSAGE;
-  },
+  if (e instanceof Error) {
+    return e.message;
+  }
+
+  return DEFAULT_SERVER_ERROR_MESSAGE;
+};
+
+export const actionClient = createSafeActionClient({
+  handleServerError,
 });
 
 export const actionClientWithMeta = createSafeActionClient({
-  handleReturnedServerError(e) {
-    if (e instanceof Error) {
-      return e.message;
-    }
-
-    return DEFAULT_SERVER_ERROR_MESSAGE;
-  },
+  handleServerError,
   defineMetadataSchema() {
     return z.object({
       name: z.string(),
@@ -43,19 +41,19 @@ export const actionClientWithMeta = createSafeActionClient({
 });
 
 export const authActionClient = actionClientWithMeta
-  // .use(async ({ next, clientInput, metadata }) => {
-  //   const result = await next({ ctx: {} });
+  .use(async ({ next, clientInput, metadata }) => {
+    const result = await next({ ctx: {} });
 
-  //   if (process.env.NODE_ENV === "development") {
-  //     logger("Input ->", clientInput);
-  //     logger("Result ->", result.data);
-  //     logger("Metadata ->", metadata);
+    if (process.env.NODE_ENV === "development") {
+      logger.info(`Input -> ${JSON.stringify(clientInput)}`);
+      logger.info(`Result -> ${JSON.stringify(result.data)}`);
+      logger.info(`Metadata -> ${JSON.stringify(metadata)}`);
 
-  //     return result;
-  //   }
+      return result;
+    }
 
-  //   return result;
-  // })
+    return result;
+  })
   .use(async ({ next, metadata }) => {
     const ip = headers().get("x-forwarded-for");
 
