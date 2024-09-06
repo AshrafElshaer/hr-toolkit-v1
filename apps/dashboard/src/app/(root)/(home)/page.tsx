@@ -8,26 +8,32 @@ import { Card } from "@v1/ui/card";
 
 import { toast } from "sonner";
 import ClockInOut from "./components/clock-in-out";
+import { ClockInOutSkeleton } from "./components/clock-in-out/clock-in-out.loading";
+import Events from "./components/events";
+import { eventsSearchParamsCache } from "./components/events/events-search-params";
 import WelcomeMessage from "./components/welcome";
 import { WelcomeMessageLoading } from "./components/welcome/welcome.loading";
 // export const metadata = {
 //   title: "Home",
 // };
-
-export default function Page() {
+type Props = {
+  searchParams: Record<string, string | string[] | undefined>;
+};
+export default function Page({ searchParams }: Props) {
+  eventsSearchParamsCache.parse(searchParams);
   return (
     <Main
       isMaxHeight
       className="grid gap-4 sm:grid-rows-[min-content_repeat(3,1fr)] lg:grid-rows-[min-content_repeat(2,1fr)] sm:grid-cols-2 lg:grid-cols-4"
     >
       <Suspense fallback={<WelcomeMessageLoading />}>
-        {/* <WelcomeMessageLoading /> */}
         <WelcomeMessage />
       </Suspense>
+      <Suspense fallback={<ClockInOutSkeleton />}>
+        <ClockInOut />
+      </Suspense>
 
-      <ClockInOut />
-
-      <Card className="w-full sm:col-span-2 lg:col-span-4 p-2 min-h-[250px]">calendar</Card>
+      <Events />
       <Card className="w-full overflow-scroll scrollbar-hide min-h-[250px] max-h-[350px]  p-0 ">
         <div className="h-[100px] w-full bg-red-500">notes</div>
         <div className="h-[100px] w-full bg-blue-500">notes</div>

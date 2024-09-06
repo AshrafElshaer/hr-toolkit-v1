@@ -154,7 +154,7 @@ export default function LoginForm({
 
 function checkErrorMessage(message?: string): string {
   if (
-    message?.toLowerCase().includes("failed to fetch") ||
+    message?.toLowerCase().includes("fetch failed") ||
     message?.toLowerCase().includes("network error")
   ) {
     return "Please check your internet connection and try again.";
