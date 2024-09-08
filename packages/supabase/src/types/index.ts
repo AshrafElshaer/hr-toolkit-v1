@@ -9,74 +9,35 @@ import type {
   UserTable,
 } from "../db";
 
+export * from "./enums";
+
 export type User = typeof UserTable.$inferSelect;
 export type InsertUser = typeof UserTable.$inferInsert;
+export type UpdateUser = Partial<InsertUser>;
 
-type UserRoles = "admin" | "manager" | "staff" | "team_leader";
-
-export const UserRolesEnum: {
-  [key in UserRoles]: key;
-} = {
-  admin: "admin",
-  manager: "manager",
-  staff: "staff",
-  team_leader: "team_leader",
-};
 export type Organization = typeof OrganizationTable.$inferSelect;
 export type InsertOrganization = typeof OrganizationTable.$inferInsert;
-
-type OrganizationType = "for-profit" | "non-profit" | "government";
-
-export const OrganizationTypeEnum: {
-  [key in OrganizationType]: key;
-} = {
-  "for-profit": "for-profit",
-  "non-profit": "non-profit",
-  government: "government",
-};
-
-type PayrollPattern = "weekly" | "bi-weekly" | "monthly";
-
-export const PayrollPatternEnum: {
-  [key in PayrollPattern]: key;
-} = {
-  weekly: "weekly",
-  "bi-weekly": "bi-weekly",
-  monthly: "monthly",
-};
+export type UpdateOrganization = Partial<InsertOrganization>;
 
 export type TimeSheet = typeof TimeSheetTable.$inferSelect;
 export type InsertTimeSheet = typeof TimeSheetTable.$inferInsert;
 export type UpdateTimeSheet = Partial<InsertTimeSheet>;
 
-type TimeSheetStatus =
-  | "pending"
-  | "approved"
-  | "rejected"
-  | "clocked_in"
-  | "clocked_out";
-
-export const TimeSheetStatusEnum: {
-  [key in TimeSheetStatus]: key;
-} = {
-  pending: "pending",
-  approved: "approved",
-  rejected: "rejected",
-  clocked_in: "clocked_in",
-  clocked_out: "clocked_out",
-};
-
 export type TimeSheetBreak = typeof TimeSheetBreakTable.$inferSelect;
 export type InsertTimeSheetBreak = typeof TimeSheetBreakTable.$inferInsert;
+export type UpdateTimeSheetBreak = Partial<InsertTimeSheetBreak>;
 
 export type Department = typeof DepartmentTable.$inferSelect;
 export type InsertDepartment = typeof DepartmentTable.$inferInsert;
+export type UpdateDepartment = Partial<InsertDepartment>;
 
 export type DepartmentMember = typeof DepartmentMemberTable.$inferSelect;
 export type InsertDepartmentMember = typeof DepartmentMemberTable.$inferInsert;
+export type UpdateDepartmentMember = Partial<InsertDepartmentMember>;
 
 export type Address = typeof AddressTable.$inferSelect;
 export type InsertAddress = typeof AddressTable.$inferInsert;
+export type UpdateAddress = Partial<InsertAddress>;
 
 type StorageListFunction = SupabaseClient["storage"]["from"];
 type ListFunctionReturn = ReturnType<StorageListFunction>;

@@ -2,28 +2,40 @@ import { relations, sql } from "drizzle-orm";
 import {
   date,
   integer,
+  pgEnum,
   pgTable,
+  primaryKey,
   text,
   timestamp,
   uuid,
 } from "drizzle-orm/pg-core";
-import { primaryKey } from "drizzle-orm/pg-core";
+
 import { UserTable } from "./users";
+
+const OrganizationTypeEnum = pgEnum("organization_type", [
+  "for-profit",
+  "non-profit",
+  "government",
+]);
+
+const PayrollPatternEnum = pgEnum("payroll_pattern", [
+  "weekly",
+  "bi-weekly",
+  "monthly",
+]);
 
 export const OrganizationTable = pgTable("organization", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   name: text("name").notNull(),
-  type: text("type")
-    .$type<"for-profit" | "non-profit" | "government">()
-    .notNull(),
+  type: OrganizationTypeEnum("type").default("for-profit").notNull(),
   logo_url: text("logo_url").default(""),
   time_zone: text("time_zone").notNull(),
   website: text("website").default(""),
   contact_name: text("contact_name").notNull(),
   contact_email: text("contact_email").notNull(),
   contact_number: text("contact_number").notNull(),
-  payroll_pattern: text("payroll_pattern")
-    .$type<"weekly" | "bi-weekly" | "monthly">()
+  payroll_pattern: PayrollPatternEnum("payroll_pattern")
+    .default("weekly")
     .notNull(),
   payroll_start_day: integer("payroll_start_day").notNull(),
   address_1: text("address_1").notNull(),

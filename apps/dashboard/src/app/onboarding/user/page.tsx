@@ -21,10 +21,13 @@ import { useForm } from "react-hook-form";
 import type * as RPNInput from "react-phone-number-input";
 import type { z } from "zod";
 
-import { createAddressSchema, createUserSchema } from "@/actions/user/schema";
 import { PhoneInputSimple } from "@/components/phone-input";
 import { COUNTRIES } from "@/constants/countries";
 import { useSession } from "@/hooks/use-session";
+import {
+  addressInsertSchema,
+  userInsertSchema,
+} from "@v1/supabase/validations";
 import { DateOfBirthPicker } from "@v1/ui/date-of-birth-picker";
 import {
   Select,
@@ -42,7 +45,7 @@ import { CircleDollarSign, Clock, Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 
-const formSchema = createUserSchema.merge(createAddressSchema);
+const formSchema = userInsertSchema.merge(addressInsertSchema);
 
 export default function OwnerOnboarding() {
   const [counter, { startCountdown }] = useCountdown({
@@ -139,11 +142,11 @@ function OwnerForm() {
       last_name: "",
       avatar_url: null,
       phone_number: "",
-      date_of_birth: subYears(new Date(), 18),
+      date_of_birth: subYears(new Date(), 18).toISOString(),
       employment_status: "active",
       employment_type: "full_time",
       gender: "male",
-      hire_date: new Date(),
+      hire_date: new Date().toISOString(),
       leave_date: null,
       job_title: "CEO",
       salary_per_hour: 0,
@@ -229,7 +232,7 @@ function OwnerForm() {
                 <FormLabel>Gender</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  defaultValue={field.value ?? undefined}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -254,9 +257,12 @@ function OwnerForm() {
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormLabel>Date of Birth</FormLabel>
-
                 <DateOfBirthPicker
-                  date={field.value}
+                  date={
+                    field.value
+                      ? new Date(field.value)
+                      : new Date(subYears(new Date(), 18))
+                  }
                   onSelect={(value) => {
                     field.onChange(value);
                   }}
@@ -301,7 +307,9 @@ function OwnerForm() {
                     {...field}
                     onChange={(e) => field.onChange(Number(e.target.value))}
                     value={
-                      Number.isNaN(field.value) ? "" : field.value.toString()
+                      Number.isNaN(field.value)
+                        ? ""
+                        : field?.value?.toString() ?? ""
                     }
                     startIcon={Clock}
                   />
@@ -344,8 +352,8 @@ function OwnerForm() {
                 <ToggleGroup
                   type="multiple"
                   variant="outline"
-                  value={field.value}
-                  onValueChange={field.onChange}
+                  value={field.value ?? []}
+                  onValueChange={(value: string[]) => field.onChange(value)}
                   className="flex-wrap gap-2 justify-start"
                 >
                   {DAYS_OF_WEEK.map((day) => (

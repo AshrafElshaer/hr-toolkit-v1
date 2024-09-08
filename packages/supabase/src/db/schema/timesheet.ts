@@ -2,6 +2,7 @@ import { relations, sql } from "drizzle-orm";
 import {
   date,
   integer,
+  pgEnum,
   pgTable,
   text,
   timestamp,
@@ -11,6 +12,14 @@ import {
 import { real } from "drizzle-orm/pg-core";
 import { UserTable } from "./users";
 
+const TimeSheetStatusEnum = pgEnum("time_sheet_status", [
+  "pending",
+  "approved",
+  "rejected",
+  "clocked_in",
+  "clocked_out",
+]);
+
 export const TimeSheetTable = pgTable("time_sheet", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   user_id: uuid("user_id")
@@ -19,10 +28,7 @@ export const TimeSheetTable = pgTable("time_sheet", {
   clock_in: timestamp("clock_in").defaultNow().notNull(),
   clock_out: timestamp("clock_out"),
   date: date("date").notNull(),
-  status: text("status")
-    .$type<"clocked_in" | "clocked_out" | "pending" | "approved" | "rejected">()
-    .default("pending")
-    .notNull(),
+  status: TimeSheetStatusEnum("status").default("pending").notNull(),
   notes: text("notes"),
   total_worked_minutes: real("total_worked_minutes").default(0),
   created_at: timestamp("created_at").defaultNow(),

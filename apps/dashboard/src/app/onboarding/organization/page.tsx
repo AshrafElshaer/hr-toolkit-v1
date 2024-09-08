@@ -1,6 +1,6 @@
 "use client";
 
-import { createOrganizationSchema } from "@/actions/organization/schema";
+import { organizationInsertSchema } from "@v1/supabase/validations";
 import { TextGenerateEffect } from "@/components/text-generate-effect";
 import { Button } from "@v1/ui/button";
 import {
@@ -94,8 +94,8 @@ function OrganizationForm() {
       router.push("/onboarding/congrats");
     },
   });
-  const form = useForm<z.infer<typeof createOrganizationSchema>>({
-    resolver: zodResolver(createOrganizationSchema),
+  const form = useForm<z.infer<typeof organizationInsertSchema>>({
+    resolver: zodResolver(organizationInsertSchema),
     defaultValues: {
       name: "",
       type: OrganizationTypeEnum["for-profit"],
@@ -116,7 +116,7 @@ function OrganizationForm() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof createOrganizationSchema>) {
+  async function onSubmit(data: z.infer<typeof organizationInsertSchema>) {
     execute(data);
   }
 

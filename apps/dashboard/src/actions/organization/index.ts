@@ -1,10 +1,10 @@
 "use server";
 import OrganizationMutations from "@v1/supabase/organization-mutations";
+import { organizationInsertSchema } from "@v1/supabase/validations";
 import { authActionClient } from "../safe-action";
-import { createOrganizationSchema } from "./schema";
 
 export const createOrganizationAction = authActionClient
-  .schema(createOrganizationSchema)
+  .schema(organizationInsertSchema)
   .metadata({
     name: "create-organization",
     track: {

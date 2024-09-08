@@ -8,7 +8,10 @@ import moment from "moment";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { authActionClient } from "../safe-action";
-import { timeSheetBreakSchema, timeSheetSchema } from "./schema";
+import {
+  timeSheetBreakSchema,
+  timeSheetSchema,
+} from "@v1/supabase/validations";
 
 export const clockInAction = authActionClient
   .metadata({

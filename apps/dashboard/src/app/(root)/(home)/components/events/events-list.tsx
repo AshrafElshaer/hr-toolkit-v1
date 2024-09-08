@@ -56,11 +56,9 @@ export default async function EventsList() {
           </h3>
           <Separator className="w-full" />
           <ScrollArea className="p-2 h-full ">
-            {
-               Array.from({ length: 15 }, (_, idx) => {
-                return <p key={idx.toString()}>list</p>;
-              })
-            }
+            {Array.from({ length: 15 }, (_, idx) => {
+              return <p key={idx.toString()}>list</p>;
+            })}
             {/* {!events[date] ? (
               <div className="text-center h-full flex flex-col items-center justify-center gap-2 text-muted-foreground text-sm">
                 <LuCalendarX size={44} />

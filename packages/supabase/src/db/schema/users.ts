@@ -2,6 +2,7 @@ import { relations, sql } from "drizzle-orm";
 import {
   date,
   integer,
+  pgEnum,
   pgTable,
   real,
   text,
@@ -12,6 +13,24 @@ import { AddressTable } from "./addresses";
 import { EmergencyContactTable } from "./emergency-contacts";
 import { OrganizationMemberTable } from "./organizations";
 import { TimeSheetTable } from "./timesheet";
+
+const UserRolesEnum = pgEnum("user_roles", [
+  "admin",
+  "manager",
+  "staff",
+  "team_lead",
+]);
+const EmploymentStatusEnum = pgEnum("employment_status", [
+  "active",
+  "inactive",
+  "terminated",
+]);
+const EmploymentTypeEnum = pgEnum("employment_type", [
+  "full_time",
+  "part_time",
+  "contract",
+  "internship",
+]);
 
 export const UserTable = pgTable("user", {
   id: uuid("id").primaryKey().notNull(),
@@ -25,13 +44,13 @@ export const UserTable = pgTable("user", {
   hire_date: date("hire_date").default(sql`current_date`),
   leave_date: date("leave_date"),
   job_title: text("job_title").default(""),
-  role: text("role").$type<"admin" | "manager" | "staff" | "team_lead">(),
-  employment_status: text("employment_status")
-    .$type<"active" | "inactive" | "terminated">()
-    .default("active"),
-  employment_type: text("employment_type")
-    .$type<"full_time" | "part_time" | "contract" | "internship">()
-    .default("full_time"),
+  role: UserRolesEnum("role").default("staff").notNull(),
+  employment_status: EmploymentStatusEnum("employment_status")
+    .default("active")
+    .notNull(),
+  employment_type: EmploymentTypeEnum("employment_type")
+    .default("full_time")
+    .notNull(),
   work_hours_per_week: integer("work_hours_per_week").default(40),
   salary_per_hour: integer("salary_per_hour").default(0),
   working_days_per_week: text("working_days_per_week").array().default([]),

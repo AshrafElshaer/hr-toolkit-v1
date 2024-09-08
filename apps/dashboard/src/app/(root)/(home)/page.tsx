@@ -24,7 +24,7 @@ export default function Page({ searchParams }: Props) {
   return (
     <Main
       isMaxHeight
-      className="grid gap-4 sm:grid-rows-[min-content_repeat(3,1fr)] lg:grid-rows-[min-content_repeat(2,1fr)] sm:grid-cols-2 lg:grid-cols-4"
+      className="space-y-4 sm:space-y-0 sm:grid  sm:gap-4 sm:grid-rows-[min-content_repeat(3,1fr)] lg:grid-rows-[min-content_repeat(2,1fr)] sm:grid-cols-2 lg:grid-cols-4"
     >
       <Suspense fallback={<WelcomeMessageLoading />}>
         <WelcomeMessage />
@@ -35,7 +35,7 @@ export default function Page({ searchParams }: Props) {
 
       <Events />
       <Card className="w-full overflow-scroll scrollbar-hide min-h-[250px] max-h-[350px]  p-0 ">
-        <div className="h-[100px] w-full bg-red-500">notes</div>
+        <div className="h-[100px] w-full bg-red-500">hello</div>
         <div className="h-[100px] w-full bg-blue-500">notes</div>
         <div className="h-[100px] w-full bg-slate-500">notes</div>
         <div className="h-[100px] w-full bg-orange-500">notes</div>

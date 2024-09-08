@@ -5,10 +5,13 @@ import addressMutations from "@v1/supabase/address-mutations";
 import { getCurrentUser } from "@v1/supabase/queries";
 import { UserRolesEnum } from "@v1/supabase/types";
 import userMutations from "@v1/supabase/user-mutations";
-import { createAddressSchema, createUserSchema } from "./schema";
+import {
+  addressInsertSchema,
+  userInsertSchema,
+} from "@v1/supabase/validations";
 
 const createOrganizationOwnerSchema =
-  createUserSchema.merge(createAddressSchema);
+  userInsertSchema.merge(addressInsertSchema);
 
 export const getCurrentUserAction = authActionClient
   .metadata({
@@ -36,14 +39,14 @@ export const createOrganizationOwnerAction = authActionClient
       last_name: parsedInput.last_name,
       avatar_url: parsedInput.avatar_url,
       phone_number: parsedInput.phone_number,
-      date_of_birth: parsedInput.date_of_birth.toISOString(),
+      date_of_birth: parsedInput.date_of_birth,
       gender: parsedInput.gender,
-      hire_date: parsedInput.hire_date.toISOString(),
+      hire_date: parsedInput.hire_date,
       employment_status: parsedInput.employment_status,
       job_title: parsedInput.job_title,
       employment_type: parsedInput.employment_type,
       role: UserRolesEnum.admin,
-      leave_date: parsedInput.leave_date?.toISOString() ?? null,
+      leave_date: parsedInput.leave_date ?? null,
       salary_per_hour: parsedInput.salary_per_hour,
       work_hours_per_week: parsedInput.work_hours_per_week,
       working_days_per_week: parsedInput.working_days_per_week,

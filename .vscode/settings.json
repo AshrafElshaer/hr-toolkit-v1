@@ -24,13 +24,11 @@
   "search.exclude": {
     "**/node_modules": true
   },
-  "cSpell.words": [
-    "supabase"
-  ],
+  "cSpell.words": ["supabase"],
   "deno.enablePaths": ["./packages/supabase/functions"],
-	"deno.lint": true,
-	"deno.unstable": true,
-	"tailwindCSS.experimental.classRegex": [
-		["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
-	],
+  "deno.lint": true,
+  "deno.unstable": true,
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ]
 }

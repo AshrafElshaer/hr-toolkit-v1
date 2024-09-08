@@ -13,6 +13,7 @@
     "@v1/logger": "workspace:*",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.33.0",
+    "drizzle-zod": "^0.5.1",
     "moment": "^2.30.1",
     "postgres": "^3.4.4",
     "react": "^18.3.1",
@@ -32,6 +33,7 @@
     "./queries": "./src/queries/index.ts",
     "./cached-queries": "./src/queries/cached-queries.ts",
     "./storage": "./src/utils/storage.ts",
-    "./types": "./src/types/index.ts"
+    "./types": "./src/types/index.ts",
+    "./validations": "./src/db/validations/index.ts"
   }
 }
