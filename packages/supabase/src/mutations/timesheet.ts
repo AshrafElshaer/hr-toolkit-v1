@@ -7,44 +7,31 @@ import type {
   InsertTimeSheetBreak,
   UpdateTimeSheet,
 } from "../types";
+import { safeAsync } from "../utils";
 
 export async function create(data: InsertTimeSheet) {
-  try {
+  return await safeAsync(async () => {
     const [newTimeSheet] = await db
       .insert(TimeSheetTable)
       .values(data)
       .returning();
     return newTimeSheet;
-  } catch (error) {
-    if (error instanceof Error) {
-      logger.error("Error creating time sheet:", error.message);
-      throw new Error(error.message);
-    }
-    logger.error("Unknown error creating time sheet:", error);
-    throw new Error("Unknown error creating time sheet");
-  }
+  });
 }
 
 export async function update(timeSheetId: string, data: UpdateTimeSheet) {
-  try {
+  return await safeAsync(async () => {
     const [updatedTimeSheet] = await db
       .update(TimeSheetTable)
       .set(data)
       .where(eq(TimeSheetTable.id, timeSheetId))
       .returning();
     return updatedTimeSheet;
-  } catch (error) {
-    if (error instanceof Error) {
-      logger.error("Error updating time sheet:", error.message);
-      throw new Error(error.message);
-    }
-    logger.error("Unknown error updating time sheet:", error);
-    throw new Error("Unknown error updating time sheet");
-  }
+  });
 }
 
 export async function takeBreak(data: InsertTimeSheetBreak) {
-  try {
+  return await safeAsync(async () => {
     const [newTimeSheetBreak] = await db
       .insert(TimeSheetBreakTable)
       .values(data)
@@ -52,18 +39,11 @@ export async function takeBreak(data: InsertTimeSheetBreak) {
         id: TimeSheetBreakTable.id,
       });
     return newTimeSheetBreak;
-  } catch (error) {
-    if (error instanceof Error) {
-      logger.error("Error taking break:", error.message);
-      throw new Error(error.message);
-    }
-    logger.error("Unknown error taking break:", error);
-    throw new Error("Unknown error taking break");
-  }
+  });
 }
 
 export async function endBreak(timeSheetId: string) {
-  try {
+  return await safeAsync(async () => {
     const [updatedTimeSheetBreak] = await db
       .update(TimeSheetBreakTable)
       .set({ break_end: moment().utc().toDate() })
@@ -78,14 +58,7 @@ export async function endBreak(timeSheetId: string) {
       });
 
     return updatedTimeSheetBreak;
-  } catch (error) {
-    if (error instanceof Error) {
-      logger.error("Error ending break:", error.message);
-      throw new Error(error.message);
-    }
-    logger.error("Unknown error ending break:", error);
-    throw new Error("Unknown error ending break");
-  }
+  });
 }
 
 export default {

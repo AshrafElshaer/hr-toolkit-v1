@@ -32,7 +32,8 @@ export const createOrganizationOwnerAction = authActionClient
   })
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx;
-    const [newUser] = await userMutations.create({
+
+    const { data: newUser, error } = await userMutations.create({
       id: user.id,
       email: parsedInput.email,
       first_name: parsedInput.first_name,
@@ -51,6 +52,10 @@ export const createOrganizationOwnerAction = authActionClient
       work_hours_per_week: parsedInput.work_hours_per_week,
       working_days_per_week: parsedInput.working_days_per_week,
     });
+
+    if (error || !newUser) {
+      throw new Error(error?.message ?? "Error creating user");
+    }
 
     await addressMutations.create({
       address_1: parsedInput.address_1,

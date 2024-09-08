@@ -4,14 +4,14 @@ import { calcWorkedTime } from "@/lib/date";
 import { getCurrentBreaks, getCurrentTimeSheet } from "@v1/supabase/queries";
 import timeSheetMutations from "@v1/supabase/timesheet-mutations";
 import { TimeSheetStatusEnum } from "@v1/supabase/types";
-import moment from "moment";
-import { revalidatePath } from "next/cache";
-import { z } from "zod";
-import { authActionClient } from "../safe-action";
 import {
   timeSheetBreakSchema,
   timeSheetSchema,
 } from "@v1/supabase/validations";
+import moment from "moment";
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
+import { authActionClient } from "../safe-action";
 
 export const clockInAction = authActionClient
   .metadata({
@@ -24,19 +24,19 @@ export const clockInAction = authActionClient
   .action(async ({ ctx }) => {
     const { user } = ctx;
     const now = moment();
-    const timeSheet = await timeSheetMutations.create({
+    const { data, error } = await timeSheetMutations.create({
       user_id: user.id,
       clock_in: now.utc().toDate(),
       date: now.format("YYYY-MM-DD"),
       status: TimeSheetStatusEnum.clocked_in,
     });
 
-    if (!timeSheet.id) {
-      throw new Error("Failed to clock in");
+    if (error) {
+      throw new Error(error.message);
     }
 
     revalidatePath("/");
-    return timeSheet;
+    return data;
   });
 
 export const takeBreakAction = authActionClient
@@ -54,15 +54,16 @@ export const takeBreakAction = authActionClient
   )
   .action(async ({ parsedInput }) => {
     const now = moment();
-    const timeSheet = await timeSheetMutations.takeBreak({
+    const { data, error } = await timeSheetMutations.takeBreak({
       time_sheet_id: parsedInput.time_sheet_id,
       break_start: now.utc().toDate(),
     });
 
-    if (!timeSheet.id) {
-      throw new Error("Failed to take break");
+    if (error) {
+      throw new Error(error.message);
     }
     revalidatePath("/");
+    return data;
   });
 
 export const endBreakAction = authActionClient
@@ -76,14 +77,15 @@ export const endBreakAction = authActionClient
   .schema(z.object({ time_sheet_id: z.string() }))
   .action(async ({ parsedInput }) => {
     console.log("endBreakAction", parsedInput);
-    const timeSheet = await timeSheetMutations.endBreak(
+    const { data, error } = await timeSheetMutations.endBreak(
       parsedInput.time_sheet_id,
     );
 
-    if (!timeSheet.id) {
-      throw new Error("Failed to end break");
+    if (error) {
+      throw new Error(error.message);
     }
     revalidatePath("/");
+    return data;
   });
 
 export const clockOutAction = authActionClient
@@ -107,7 +109,7 @@ export const clockOutAction = authActionClient
     const workedTime = calcWorkedTime(timeSheet.clock_in, breaks);
     const totalWorkedMinutes = workedTime.hours * 60 + workedTime.minutes;
 
-    const updatedTimeSheet = await timeSheetMutations.update(
+    const { data, error } = await timeSheetMutations.update(
       parsedInput.timeSheet.id,
       {
         clock_out: now.utc().toDate(),
@@ -116,9 +118,9 @@ export const clockOutAction = authActionClient
       },
     );
 
-    if (!updatedTimeSheet.id) {
-      throw new Error("Failed to clock out");
+    if (error) {
+      throw new Error(error.message);
     }
     revalidatePath("/");
-    return updatedTimeSheet;
+    return data;
   });
