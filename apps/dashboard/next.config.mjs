@@ -14,5 +14,8 @@ export default withSentryConfig(nextConfig, {
   widenClientFileUpload: true,
   hideSourceMaps: true,
   disableLogger: true,
-  tunnelRoute: "/monitoring",
+  // tunnelRoute: "/monitoring",
+  org: "hr-toolkit",
+  project: "dashboard",
+  authToken: process.env.SENTRY_AUTH_TOKEN,
 });

@@ -2,10 +2,11 @@ import React from "react";
 import LogoSVG from "../logo-svg";
 import UserMenu from "./user-menu";
 
-import CurrentTime from "./current-time";
 import MobileSidebar from "../sidebar/mobile-sidebar";
 import type { User } from "@v1/supabase/types";
 import { CommandMenu } from "./command-menu";
+import dynamic from "next/dynamic";
+const CurrentTime = dynamic(() => import("./current-time"), { ssr: false });
 
 export default function DashboardHeader({
   currentUser,
