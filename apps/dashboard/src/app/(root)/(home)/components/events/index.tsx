@@ -8,7 +8,7 @@ import EventsList from "./events-list";
 
 export default async function Events() {
   return (
-    <Card className="w-full sm:col-span-2 lg:col-span-4 p-2 min-h-[250px] max-h-[290px] flex flex-col">
+    <Card className="w-full sm:col-span-2 lg:col-span-4 p-2 min-h-[250px] max-h-[290px] md:max-h-fit flex flex-col">
       <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center ">
         <div className="flex gap-2 items-center">
           <CalendarCheck className="size-4" />

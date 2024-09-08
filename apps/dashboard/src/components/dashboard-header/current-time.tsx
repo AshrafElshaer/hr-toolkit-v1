@@ -1,6 +1,5 @@
 "use client";
 import useCurrentTime from "@/hooks/use-current-time";
-
 import { useEffect, useState } from "react";
 
 export default function CurrentTime() {

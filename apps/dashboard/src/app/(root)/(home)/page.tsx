@@ -13,6 +13,7 @@ import Events from "./components/events";
 import { eventsSearchParamsCache } from "./components/events/events-search-params";
 import WelcomeMessage from "./components/welcome";
 import { WelcomeMessageLoading } from "./components/welcome/welcome.loading";
+import Notes from "./components/notes";
 // export const metadata = {
 //   title: "Home",
 // };
@@ -34,12 +35,8 @@ export default function Page({ searchParams }: Props) {
       </Suspense>
 
       <Events />
-      <Card className="w-full overflow-scroll scrollbar-hide min-h-[250px] max-h-[350px]  p-0 ">
-        <div className="h-[100px] w-full bg-red-500">hello</div>
-        <div className="h-[100px] w-full bg-blue-500">notes</div>
-        <div className="h-[100px] w-full bg-slate-500">notes</div>
-        <div className="h-[100px] w-full bg-orange-500">notes</div>
-      </Card>
+      <Notes />
+      
       <Card className="w-full  p-0 ">tasks</Card>
 
       <Card className="w-full  p-0 ">PROJECTS</Card>
