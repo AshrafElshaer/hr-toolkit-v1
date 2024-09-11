@@ -99,6 +99,7 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
+  mode: "jit",
 } satisfies Config;
 
 export default config;

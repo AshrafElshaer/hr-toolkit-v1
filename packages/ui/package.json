@@ -73,7 +73,8 @@
     "./chart": "./src/components/ui/chart.tsx",
     "./tailwind.config": "./tailwind.config.ts",
     "./postcss": "./postcss.config.js",
-    "./toggle-group": "./src/components/ui/toggle-group.tsx"
+    "./toggle-group": "./src/components/ui/toggle-group.tsx",
+    "./toggle": "./src/components/ui/toggle.tsx"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

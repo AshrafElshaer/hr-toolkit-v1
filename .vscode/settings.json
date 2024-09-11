@@ -24,11 +24,13 @@
   "search.exclude": {
     "**/node_modules": true
   },
-  "cSpell.words": ["supabase"],
+  "cSpell.words": ["supabase", "Tiptap"],
   "deno.enablePaths": ["./packages/supabase/functions"],
   "deno.lint": true,
   "deno.unstable": true,
   "tailwindCSS.experimental.classRegex": [
-    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["clsx\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
   ]
 }

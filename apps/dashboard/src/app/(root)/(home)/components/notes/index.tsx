@@ -15,7 +15,7 @@ import NewNote from "./new-note";
 // };
 export default function Notes() {
   return (
-    <Card className="w-full  min-h-[300px] max-h-[350px] flex flex-col  p-0  overflow-hidden">
+    <Card className="w-full  min-h-[300px] max-h-[350px] md:max-h-fit flex flex-col  p-0  overflow-hidden">
       <div className="flex gap-2 items-center p-2">
         <FaRegNoteSticky className="size-4" />
         <span className="font-semibold">Notes</span>
