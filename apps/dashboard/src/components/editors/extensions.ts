@@ -1,4 +1,5 @@
 import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
+import TextAlign from "@tiptap/extension-text-align";
 import TextStyle from "@tiptap/extension-text-style";
 import { all, createLowlight } from "lowlight";
 import {
@@ -10,6 +11,7 @@ import {
   TaskList,
   TiptapImage,
   TiptapLink,
+  TiptapUnderline,
   UpdatedImage,
 } from "novel/extensions";
 
@@ -39,6 +41,17 @@ const textStyle = TextStyle.configure({
     class: cx("text-foreground"),
   },
 });
+
+const textAlign = TextAlign.configure({
+  types: ["heading", "paragraph", "blockquote", "code"],
+});
+
+const tiptapUnderline = TiptapUnderline.configure({
+  HTMLAttributes: {
+    class: cx("underline underline-offset-[3px]"),
+  },
+});
+
 const tiptapLink = TiptapLink.configure({
   HTMLAttributes: {
     class: cx(
@@ -122,4 +135,6 @@ export const defaultExtensions = [
   tiptapLink,
   codeBlockLowlight,
   textStyle,
+  textAlign,
+  tiptapUnderline,
 ];

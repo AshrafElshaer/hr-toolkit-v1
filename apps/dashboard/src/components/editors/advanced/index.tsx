@@ -89,7 +89,7 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
 
           <EditorBubble
             tippyOptions={{
-              placement: "top",
+              placement: "auto",
             }}
             className="flex w-fit max-w-[90vw] overflow-hidden rounded-md border  bg-background shadow-xl"
           >
@@ -97,11 +97,11 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
             <NodeSelector open={openNode} onOpenChange={setOpenNode} />
             <Separator orientation="vertical" />
 
-            <LinkSelector open={openLink} onOpenChange={setOpenLink} />
-            <Separator orientation="vertical" />
+            {/* <LinkSelector open={openLink} onOpenChange={setOpenLink} /> */}
+            {/* <Separator orientation="vertical" /> */}
             <TextButtons />
-            <Separator orientation="vertical" />
-            <ColorSelector open={openColor} onOpenChange={setOpenColor} />
+            {/* <Separator orientation="vertical" /> */}
+            {/* <ColorSelector open={openColor} onOpenChange={setOpenColor} /> */}
           </EditorBubble>
         </EditorContent>
       </EditorRoot>

@@ -15,6 +15,7 @@
     "@supabase/ssr": "^0.5.1",
     "@tanstack/react-query": "^5.53.2",
     "@tiptap/extension-color": "^2.6.6",
+    "@tiptap/extension-text-align": "^2.6.6",
     "@tiptap/extension-text-style": "^2.6.6",
     "@v1/analytics": "workspace:*",
     "@v1/email": "workspace:*",

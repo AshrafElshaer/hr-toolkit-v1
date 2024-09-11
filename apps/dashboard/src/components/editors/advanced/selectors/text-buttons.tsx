@@ -1,14 +1,17 @@
-import { cn } from "@v1/ui/cn";
-import { EditorBubbleItem, useEditor } from "novel";
-import {
-  BoldIcon,
-  ItalicIcon,
-  UnderlineIcon,
-  StrikethroughIcon,
-  CodeIcon,
-} from "lucide-react";
-import type { SelectorItem } from "./node-selector";
 import { Button } from "@v1/ui/button";
+import { cn } from "@v1/ui/cn";
+import {
+  AlignCenterIcon,
+  AlignLeftIcon,
+  AlignRightIcon,
+  BoldIcon,
+  CodeIcon,
+  ItalicIcon,
+  StrikethroughIcon,
+  UnderlineIcon,
+} from "lucide-react";
+import { EditorBubbleItem, useEditor } from "novel";
+import type { SelectorItem } from "./node-selector";
 
 export const TextButtons = () => {
   const { editor } = useEditor();
@@ -30,7 +33,7 @@ export const TextButtons = () => {
     {
       name: "underline",
       isActive: (editor) => editor.isActive("underline"),
-      command: (editor) => editor.chain().focus().toggleUnderline().run(),
+      command: (editor) => editor.commands.toggleUnderline(),
       icon: UnderlineIcon,
     },
     {
@@ -44,6 +47,25 @@ export const TextButtons = () => {
       isActive: (editor) => editor.isActive("code"),
       command: (editor) => editor.chain().focus().toggleCode().run(),
       icon: CodeIcon,
+    },
+    {
+      name: "align-left",
+      isActive: (editor) => editor.isActive({ textAlign: "left" }),
+      // Note: Requires the TextAlign extension to be enabled
+      command: (editor) => editor.chain().focus().setTextAlign("left").run(),
+      icon: AlignLeftIcon,
+    },
+    {
+      name: "align-center",
+      isActive: (editor) => editor.isActive({ textAlign: "center" }),
+      command: (editor) => editor.chain().focus().setTextAlign("center").run(),
+      icon: AlignCenterIcon,
+    },
+    {
+      name: "align-right",
+      isActive: (editor) => editor.isActive({ textAlign: "right" }),
+      command: (editor) => editor.chain().focus().setTextAlign("right").run(),
+      icon: AlignRightIcon,
     },
   ];
 
@@ -59,7 +81,7 @@ export const TextButtons = () => {
           <Button size="sm" className="rounded-none" variant="ghost">
             <item.icon
               className={cn("h-4 w-4", {
-                "text-blue-500": item.isActive(editor),
+                "text-success": item.isActive(editor),
               })}
             />
           </Button>
