@@ -29,7 +29,7 @@ export default function NoteSheet({ children: trigger }: Props) {
       {
         type: "heading",
         level: 1,
-        content: [{ type: "text", text: "New Note" }],
+        content: [{ type: "text", text: "" }],
       },
     ],
   });
@@ -40,7 +40,7 @@ export default function NoteSheet({ children: trigger }: Props) {
   return (
     <Sheet>
       <SheetTrigger asChild>{trigger}</SheetTrigger>
-      <SheetContent className="w-full max-w-xl">
+      <SheetContent className="w-full max-w-4xl">
         <div className="flex flex-col gap-4  h-full p-4">
           <SheetHeader>
             <div className="flex justify-between items-center">

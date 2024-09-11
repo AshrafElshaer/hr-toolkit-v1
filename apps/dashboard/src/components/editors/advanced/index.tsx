@@ -89,7 +89,7 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
 
           <EditorBubble
             tippyOptions={{
-              placement: "auto",
+              placement: "bottom",
             }}
             className="flex w-fit max-w-[90vw] overflow-hidden rounded-md border  bg-background shadow-xl"
           >
