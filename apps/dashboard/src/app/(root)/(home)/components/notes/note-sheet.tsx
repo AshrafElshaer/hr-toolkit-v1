@@ -23,12 +23,19 @@ import { FaRegNoteSticky } from "react-icons/fa6";
 import { toast } from "sonner";
 import { useDebounceCallback } from "usehooks-ts";
 type Props = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  isOpen?: boolean;
+  setIsOpen?: (isOpen: boolean) => void;
 };
-export default function NoteSheet({ children: trigger }: Props) {
+export default function NoteSheet({
+  children: trigger,
+  isOpen,
+  setIsOpen,
+}: Props) {
   const { execute, status, isExecuting } = useAction(createNoteAction, {
     onSuccess: (data) => {
       toast.success("Note created successfully");
+      setIsOpen?.(false);
     },
     onError: ({ error }) => {
       toast.error(error.serverError);
@@ -50,8 +57,8 @@ export default function NoteSheet({ children: trigger }: Props) {
     setContent(json);
   }, 500);
   return (
-    <Sheet>
-      <SheetTrigger asChild>{trigger}</SheetTrigger>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      {trigger ? <SheetTrigger asChild>{trigger}</SheetTrigger> : null}
       <SheetContent className="w-full max-w-3xl">
         <div className="flex flex-col gap-4  h-full p-4">
           <SheetHeader>

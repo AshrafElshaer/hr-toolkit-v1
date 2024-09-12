@@ -31,6 +31,7 @@ import {
 import { getCurrentUserAction } from "@/actions/user";
 import { RiStickyNoteAddLine } from "react-icons/ri";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import NoteSheet from "@/app/(root)/(home)/components/notes/note-sheet";
 // import EventForm from "@/app/(root)/(home)/_components/calendar/event-form";
 
 export function CommandMenu() {
@@ -48,28 +49,28 @@ export function CommandMenu() {
     enableOnFormTags: true,
   });
 
-  // const quickActions = React.useMemo(() => {
-  // 	return [
-  // 		{
-  // 			title: "New Note",
-  // 			Icon: <RiStickyNoteAddLine className="size-4 mr-4" />,
-  // 			ActionComponent: <NoteDialog open={isNewNote} setOpen={setIsNewNote} />,
-  // 			onSelect() {
-  // 				setIsNewNote(true);
-  // 			},
-  // 		},
-  // 		{
-  // 			title: "New Event",
-  // 			Icon: <CalendarPlus className="size-4 mr-4" />,
-  // 			ActionComponent: (
-  // 				<EventForm isOpen={isNewEvent} setIsOpen={setIsNewEvent} />
-  // 			),
-  // 			onSelect() {
-  // 				setIsNewEvent(true);
-  // 			},
-  // 		},
-  // 	];
-  // }, [isNewNote, isNewEvent]);
+  const quickActions = React.useMemo(() => {
+  	return [
+  		{
+  			title: "New Note",
+  			Icon: <RiStickyNoteAddLine className="size-4 mr-4" />,
+  			ActionComponent: <NoteSheet isOpen={isNewNote} setIsOpen={setIsNewNote} />,
+  			onSelect() {
+  				setIsNewNote(true);
+  			},
+  		},
+  		// {
+  		// 	title: "New Event",
+  		// 	Icon: <CalendarPlus className="size-4 mr-4" />,
+  		// 	ActionComponent: (
+  		// 		<EventForm isOpen={isNewEvent} setIsOpen={setIsNewEvent} />
+  		// 	),
+  		// 	onSelect() {
+  		// 		setIsNewEvent(true);
+  		// 	},
+  		// },
+  	];
+  }, [isNewNote, isNewEvent]);
 
   return (
     <>
@@ -121,9 +122,9 @@ export function CommandMenu() {
             className="*:text-foreground/75 hover:text-foreground "
             heading="Quick actions"
           >
-            {/* {quickActions.map((action) => (
+            {quickActions.map((action) => (
 							<QuickAction key={action.title} {...action} />
-						))} */}
+						))}
           </CommandGroup>
         </CommandList>
         <CommandSeparator />
