@@ -9,6 +9,7 @@ import React from "react";
 import { FaRegNoteSticky } from "react-icons/fa6";
 import NewNote from "./new-note";
 import NoteDisplay from "./note-display";
+import NotesLoading from "./notes.loading";
 
 export default async function Notes() {
   const notesAction = await getUserNotesAction();

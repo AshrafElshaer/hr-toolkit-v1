@@ -14,6 +14,7 @@ import { eventsSearchParamsCache } from "./components/events/events-search-param
 import WelcomeMessage from "./components/welcome";
 import { WelcomeMessageLoading } from "./components/welcome/welcome.loading";
 import Notes from "./components/notes";
+import NotesLoading from "./components/notes/notes.loading";
 // export const metadata = {
 //   title: "Home",
 // };
@@ -35,8 +36,9 @@ export default function Page({ searchParams }: Props) {
       </Suspense>
 
       <Events />
-
+      <Suspense fallback={<NotesLoading />}>
       <Notes />
+      </Suspense>
 
       <Card className="w-full  p-0 min-h-[300px] max-h-[350px] md:max-h-fit">
         tasks
