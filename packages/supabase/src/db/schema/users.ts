@@ -11,6 +11,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { AddressTable } from "./addresses";
 import { EmergencyContactTable } from "./emergency-contacts";
+import { NotesTable } from "./notes";
 import { OrganizationMemberTable } from "./organizations";
 import { TimeSheetTable } from "./timesheet";
 
@@ -66,4 +67,5 @@ export const UserTableRelations = relations(UserTable, ({ many, one }) => ({
   emergency_contacts: many(EmergencyContactTable),
   addresses: many(AddressTable),
   timeSheets: many(TimeSheetTable),
+  notes: many(NotesTable),
 }));

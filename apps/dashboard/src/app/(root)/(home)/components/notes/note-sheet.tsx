@@ -65,6 +65,13 @@ export default function NoteSheet({ children: trigger }: Props) {
               onChange={debouncedUpdates}
             />
           </div>
+          <Button
+            onClick={() => {
+              console.log("content", content);
+            }}
+          >
+            Save
+          </Button>
         </div>
       </SheetContent>
     </Sheet>

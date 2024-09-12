@@ -170,7 +170,7 @@ function OwnerForm() {
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     execute(data);
-    // console.log(data);
+
   }
 
   return (

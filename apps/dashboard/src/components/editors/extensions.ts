@@ -114,6 +114,12 @@ const starterKit = StarterKit.configure({
   gapcursor: false,
   codeBlock: false,
 });
+const updatedImage = UpdatedImage.configure({
+  HTMLAttributes: {
+    class: cx("rounded-lg border border-muted"),
+  },
+  
+});
 
 const codeBlockLowlight = CodeBlockLowlight.configure({
   lowlight: createLowlight(all),
@@ -128,7 +134,7 @@ export const defaultExtensions = [
   placeholder,
   TiptapLink,
   TiptapImage,
-  //   updatedImage,
+  updatedImage,
   taskList,
   taskItem,
   horizontalRule,

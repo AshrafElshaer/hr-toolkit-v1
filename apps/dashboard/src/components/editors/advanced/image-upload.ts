@@ -1,22 +1,36 @@
+import { getCurrentUserAction } from "@/actions/user";
+import { createClient } from "@/lib/supabase/client";
 import { createImageUpload } from "novel/plugins";
 import { toast } from "sonner";
 
-const onUpload = (file: File) => {
-  const promise = fetch("/api/upload", {
-    method: "POST",
-    headers: {
-      "content-type": file?.type || "application/octet-stream",
-      "x-vercel-filename": file?.name || "image.png",
-    },
-    body: file,
-  });
+const onUpload = async (file: File) => {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+  const promise = supabase.storage
+    .from("note-images")
+    .upload(`${user.id}/${file.name}-${Date.now()}`, file, {
+      cacheControl: "3600000000",
+      upsert: false,
+    });
+
+
 
   return new Promise((resolve) => {
     toast.promise(
       promise.then(async (res) => {
         // Successfully uploaded image
-        if (res.status === 200) {
-          const { url } = (await res.json()) as { url: string };
+        if (!res.error) {
+          const { data } = await supabase.storage
+            .from("note-images")
+            .getPublicUrl(res.data.path);
+          const { publicUrl: url } = data;
+
           // preload the image
           const image = new Image();
           image.src = url;
@@ -24,11 +38,9 @@ const onUpload = (file: File) => {
             resolve(url);
           };
           // No blob store configured
-        } else if (res.status === 401) {
+        } else if (res.error) {
           resolve(file);
-          throw new Error(
-            "`BLOB_READ_WRITE_TOKEN` environment variable not found, reading image locally instead.",
-          );
+          throw new Error(res.error.message);
           // Unknown error
         } else {
           throw new Error("Error uploading image. Please try again.");
