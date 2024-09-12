@@ -19,8 +19,6 @@ const onUpload = async (file: File) => {
       upsert: false,
     });
 
-
-
   return new Promise((resolve) => {
     toast.promise(
       promise.then(async (res) => {

@@ -1,4 +1,3 @@
-
 import { AddressTable, db } from "../db";
 import type { InsertAddress } from "../types";
 import { safeAsync } from "../utils";

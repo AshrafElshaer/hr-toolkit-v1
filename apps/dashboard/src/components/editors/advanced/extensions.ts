@@ -102,7 +102,6 @@ const starterKit = StarterKit.configure({
     width: 4,
   },
   gapcursor: false,
-  
 });
 
 export const defaultExtensions = [

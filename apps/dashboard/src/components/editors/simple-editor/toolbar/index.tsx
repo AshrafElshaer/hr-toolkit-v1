@@ -71,9 +71,9 @@ const toolbarItems = [
     command: (editor: EditorInstance) => {
       editor.chain().focus().toggleOrderedList().run();
     },
-  }, 
+  },
   {
-    label : "Task List",
+    label: "Task List",
     icon: <FaTasks />,
     value: "taskList",
     command: (editor: EditorInstance) => {

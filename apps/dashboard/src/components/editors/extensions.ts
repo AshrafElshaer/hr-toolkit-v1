@@ -118,7 +118,6 @@ const updatedImage = UpdatedImage.configure({
   HTMLAttributes: {
     class: cx("rounded-lg border border-muted"),
   },
-  
 });
 
 const codeBlockLowlight = CodeBlockLowlight.configure({

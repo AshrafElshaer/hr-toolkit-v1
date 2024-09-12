@@ -9,7 +9,6 @@ export const NotesTable = pgTable("notes", {
   content: json("content").notNull(),
   createdAt: timestamp("createdAt").defaultNow(),
   updatedAt: timestamp("updatedAt").defaultNow(),
-
 });
 export const notesRelations = relations(NotesTable, ({ one }) => ({
   user: one(UserTable, {

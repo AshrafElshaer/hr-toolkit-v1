@@ -83,7 +83,9 @@ export default function NoteSheet({ children: trigger }: Props) {
 
             <Button
               onClick={() => {
-                const noteTitle = content?.content?.find(element => element.content?.[0]?.text)?.content?.[0]?.text ;
+                const noteTitle = content?.content?.find(
+                  (element) => element.content?.[0]?.text,
+                )?.content?.[0]?.text;
                 console.log(noteTitle);
                 if (!noteTitle) {
                   toast.error("Note cannot be empty");

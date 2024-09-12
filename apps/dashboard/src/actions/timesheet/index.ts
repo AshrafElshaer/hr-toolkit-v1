@@ -76,7 +76,6 @@ export const endBreakAction = authActionClient
   })
   .schema(z.object({ time_sheet_id: z.string() }))
   .action(async ({ parsedInput }) => {
-
     const { data, error } = await timeSheetMutations.endBreak(
       parsedInput.time_sheet_id,
     );

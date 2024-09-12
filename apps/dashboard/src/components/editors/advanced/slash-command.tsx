@@ -186,7 +186,7 @@ export const suggestionItems = createSuggestionItems([
                   editor
                     .chain()
                     .focus()
-                    .setImage({ 
+                    .setImage({
                       src: url,
                       alt: file.name,
                       title: file.name,

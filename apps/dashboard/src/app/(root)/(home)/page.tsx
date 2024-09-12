@@ -36,7 +36,7 @@ export default function Page({ searchParams }: Props) {
 
       <Events />
       <Notes />
-      
+
       <Card className="w-full  p-0 ">tasks</Card>
 
       <Card className="w-full  p-0 ">PROJECTS</Card>
