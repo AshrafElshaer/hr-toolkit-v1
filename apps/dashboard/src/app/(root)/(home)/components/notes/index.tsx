@@ -1,8 +1,10 @@
 import { getUserNotesAction } from "@/actions/notes";
+import type { Note } from "@v1/supabase/types";
 import { Button } from "@v1/ui/button";
 import { Card, CardContent } from "@v1/ui/card";
 import { Separator } from "@v1/ui/separator";
-import { NotebookPen, PlusIcon } from "lucide-react";
+import { CalendarArrowDown, NotebookPen, PlusIcon } from "lucide-react";
+import moment from "moment";
 import React from "react";
 import { FaRegNoteSticky } from "react-icons/fa6";
 import NewNote from "./new-note";
@@ -11,6 +13,18 @@ import NoteDisplay from "./note-display";
 export default async function Notes() {
   const notesAction = await getUserNotesAction();
   const notes = notesAction?.data;
+
+  const groupedNotes: Record<string, Note[]> | undefined = notes?.reduce(
+    (acc, note) => {
+      const date = moment(note.createdAt).format("D MMM, YY");
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(note);
+      return acc;
+    },
+    {} as Record<string, Note[]>,
+  );
 
   return (
     <Card className="w-full  min-h-[300px] max-h-[350px] md:max-h-fit flex flex-col  p-0  overflow-hidden">
@@ -22,10 +36,20 @@ export default async function Notes() {
 
       <Separator className="w-full " />
       <CardContent className="p-0  flex-grow overflow-scroll scrollbar-hide">
-        {!notes || notes.length === 0 ? (
+        {!groupedNotes || notes?.length === 0 ? (
           <NotesEmptyState />
         ) : (
-          notes.map((note) => <NoteDisplay key={note.id} note={note} />)
+          Object.entries(groupedNotes).map(([date, notes]) => (
+            <div key={date}>
+              <p className="font-semibold text-sm   text-secondary-foreground  bg-secondary border-y sticky top-0 p-1 flex items-center justify-center gap-2">
+                <CalendarArrowDown className="size-4" />
+                {date}
+              </p>
+              {notes.map((note) => (
+                <NoteDisplay key={note.id} note={note} />
+              ))}
+            </div>
+          ))
         )}
       </CardContent>
     </Card>

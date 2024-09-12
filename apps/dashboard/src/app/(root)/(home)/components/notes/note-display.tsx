@@ -14,10 +14,7 @@ export default function NoteDisplay({ note }: Props) {
   return (
     <NoteSheet isOpen={isOpen} setIsOpen={setIsOpen} note={note}>
       <div className="p-2 w-full hover:bg-accent cursor-pointer flex justify-between gap-2">
-        <p className="font-semibold truncate">{note.title}</p>
-        <p className="text-sm text-secondary-foreground min-w-fit">
-          {moment(note.createdAt).format("D MMM, YY")}
-        </p>
+        <p className="font-medium truncate">{note.title}</p>
       </div>
     </NoteSheet>
   );

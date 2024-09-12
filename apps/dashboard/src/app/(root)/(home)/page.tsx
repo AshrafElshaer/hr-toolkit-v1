@@ -35,12 +35,19 @@ export default function Page({ searchParams }: Props) {
       </Suspense>
 
       <Events />
+
       <Notes />
 
-      <Card className="w-full  p-0 ">tasks</Card>
+      <Card className="w-full  p-0 min-h-[300px] max-h-[350px] md:max-h-fit">
+        tasks
+      </Card>
 
-      <Card className="w-full  p-0 ">PROJECTS</Card>
-      <Card className="w-full  p-0 ">metrics</Card>
+      <Card className="w-full  p-0 min-h-[300px] max-h-[350px] md:max-h-fit">
+        PROJECTS
+      </Card>
+      <Card className="w-full  p-0 min-h-[300px] max-h-[350px] md:max-h-fit">
+        metrics
+      </Card>
     </Main>
   );
 }

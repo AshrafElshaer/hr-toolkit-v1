@@ -116,7 +116,7 @@ const starterKit = StarterKit.configure({
 });
 const updatedImage = UpdatedImage.configure({
   HTMLAttributes: {
-    class: cx("rounded-lg border border-muted"),
+    class: cx("rounded-lg border border-muted my-6"),
   },
 });
 
