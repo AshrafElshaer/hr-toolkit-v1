@@ -6,18 +6,12 @@ import { NotebookPen, PlusIcon } from "lucide-react";
 import React from "react";
 import { FaRegNoteSticky } from "react-icons/fa6";
 import NewNote from "./new-note";
-// import SingleNote from "./single-note";
-// import { ScrollArea } from "@hr-toolkit/ui/scroll-area";
-// import type { NoteSelect } from "@hr-toolkit/supabase/types";
-// import NoteDialog from "./note-dialog";
+import NoteDisplay from "./note-display";
 
-// type Props = {
-// 	notes: NoteSelect[];
-// };
 export default async function Notes() {
   const notesAction = await getUserNotesAction();
   const notes = notesAction?.data;
-  console.log("notes", notes);
+
   return (
     <Card className="w-full  min-h-[300px] max-h-[350px] md:max-h-fit flex flex-col  p-0  overflow-hidden">
       <div className="flex gap-2 items-center p-2">
@@ -31,7 +25,7 @@ export default async function Notes() {
         {!notes || notes.length === 0 ? (
           <NotesEmptyState />
         ) : (
-          notes.map((note) => <div key={note.id}>{note.title}</div>)
+          notes.map((note) => <NoteDisplay key={note.id} note={note} />)
         )}
       </CardContent>
     </Card>

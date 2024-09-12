@@ -2,6 +2,7 @@
 import { createNoteAction } from "@/actions/notes";
 import AdvancedEditor from "@/components/editors/advanced";
 import SimpleEditor from "@/components/editors/simple-editor";
+import type { Note } from "@v1/supabase/types";
 import { Button } from "@v1/ui/button";
 import { ScrollArea } from "@v1/ui/scroll-area";
 import {
@@ -23,15 +24,18 @@ import { FaRegNoteSticky } from "react-icons/fa6";
 import { toast } from "sonner";
 import { useDebounceCallback } from "usehooks-ts";
 type Props = {
+  note?: Note;
   children?: React.ReactNode;
   isOpen?: boolean;
   setIsOpen?: (isOpen: boolean) => void;
 };
 export default function NoteSheet({
   children: trigger,
+  note,
   isOpen,
   setIsOpen,
 }: Props) {
+  console.log({ note });
   const { execute, status, isExecuting } = useAction(createNoteAction, {
     onSuccess: (data) => {
       toast.success("Note created successfully");
@@ -41,17 +45,22 @@ export default function NoteSheet({
       toast.error(error.serverError);
     },
   });
-  const [content, setContent] = useState<JSONContent>({
-    type: "doc",
-    content: [
-      {
-        type: "heading",
-        attrs: {
-          level: 1,
+  const [content, setContent] = useState<JSONContent>(
+    note?.content
+      ? note.content as JSONContent
+      :
+    {
+      type: "doc",
+      content: [
+        {
+          type: "heading",
+          attrs: {
+            level: 1,
+          },
         },
-      },
-    ],
-  });
+      ],
+    },
+  );
 
   const debouncedUpdates = useDebounceCallback(async (json: JSONContent) => {
     setContent(json);
