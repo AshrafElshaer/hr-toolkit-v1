@@ -183,10 +183,16 @@ export const suggestionItems = createSuggestionItems([
                 const image = new Image();
                 image.src = url;
                 image.onload = () => {
-                  editor.chain().focus().setImage({ src: url }).run();
+                  editor
+                    .chain()
+                    .focus()
+                    .setImage({ 
+                      src: url,
+                      alt: file.name,
+                      title: file.name,
+                    })
+                    .run();
                 };
-
-                // No blob store configured
               } else if (res.error) {
                 throw new Error(res.error.message);
                 // Unknown error

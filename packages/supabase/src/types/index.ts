@@ -3,6 +3,7 @@ import type {
   AddressTable,
   DepartmentMemberTable,
   DepartmentTable,
+  NotesTable,
   OrganizationTable,
   TimeSheetBreakTable,
   TimeSheetTable,
@@ -38,6 +39,10 @@ export type UpdateDepartmentMember = Partial<InsertDepartmentMember>;
 export type Address = typeof AddressTable.$inferSelect;
 export type InsertAddress = typeof AddressTable.$inferInsert;
 export type UpdateAddress = Partial<InsertAddress>;
+
+export type Note = typeof NotesTable.$inferSelect;
+export type InsertNote = typeof NotesTable.$inferInsert;
+export type UpdateNote = Partial<InsertNote>;
 
 type StorageListFunction = SupabaseClient["storage"]["from"];
 type ListFunctionReturn = ReturnType<StorageListFunction>;

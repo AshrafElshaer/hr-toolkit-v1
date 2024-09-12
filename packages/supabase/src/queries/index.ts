@@ -3,6 +3,8 @@ import { eq } from "drizzle-orm";
 import { UserTable, db } from "../db";
 
 export * from "./timesheet";
+export * from "./notes";
+
 export async function getCurrentUser(supabase: SupabaseClient) {
   const { data, error } = await supabase.auth.getUser();
 

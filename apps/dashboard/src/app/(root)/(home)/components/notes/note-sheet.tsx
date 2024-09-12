@@ -1,4 +1,5 @@
 "use client";
+import { createNoteAction } from "@/actions/notes";
 import AdvancedEditor from "@/components/editors/advanced";
 import SimpleEditor from "@/components/editors/simple-editor";
 import { Button } from "@v1/ui/button";
@@ -13,16 +14,26 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@v1/ui/sheet";
-import { NotebookIcon, X } from "lucide-react";
+import { Loader, NotebookIcon, X } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
 import type { EditorInstance, JSONContent } from "novel";
 import type React from "react";
 import { useState } from "react";
 import { FaRegNoteSticky } from "react-icons/fa6";
+import { toast } from "sonner";
 import { useDebounceCallback } from "usehooks-ts";
 type Props = {
   children: React.ReactNode;
 };
 export default function NoteSheet({ children: trigger }: Props) {
+  const { execute, status, isExecuting } = useAction(createNoteAction, {
+    onSuccess: (data) => {
+      toast.success("Note created successfully");
+    },
+    onError: ({ error }) => {
+      toast.error(error.serverError);
+    },
+  });
   const [content, setContent] = useState<JSONContent>({
     type: "doc",
     content: [
@@ -65,13 +76,32 @@ export default function NoteSheet({ children: trigger }: Props) {
               onChange={debouncedUpdates}
             />
           </div>
-          <Button
-            onClick={() => {
-              console.log("content", content);
-            }}
-          >
-            Save
-          </Button>
+          <div className="flex justify-end">
+            <Button variant="outline" onClick={() => console.log(content)}>
+              content
+            </Button>
+
+            <Button
+              onClick={() => {
+                const noteTitle = content?.content?.find(element => element.content?.[0]?.text)?.content?.[0]?.text ;
+                console.log(noteTitle);
+                if (!noteTitle) {
+                  toast.error("Note cannot be empty");
+                  return;
+                }
+                execute({
+                  title: noteTitle,
+                  content: JSON.stringify(content),
+                });
+              }}
+              disabled={isExecuting}
+            >
+              {isExecuting ? (
+                <Loader className="size-4 mr-2 animate-spin" />
+              ) : null}
+              Save
+            </Button>
+          </div>
         </div>
       </SheetContent>
     </Sheet>

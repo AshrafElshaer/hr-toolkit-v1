@@ -1,3 +1,4 @@
+import { getUserNotesAction } from "@/actions/notes";
 import { Button } from "@v1/ui/button";
 import { Card, CardContent } from "@v1/ui/card";
 import { Separator } from "@v1/ui/separator";
@@ -13,7 +14,10 @@ import NewNote from "./new-note";
 // type Props = {
 // 	notes: NoteSelect[];
 // };
-export default function Notes() {
+export default async function Notes() {
+  const notesAction = await getUserNotesAction();
+  const notes = notesAction?.data;
+  console.log("notes", notes);
   return (
     <Card className="w-full  min-h-[300px] max-h-[350px] md:max-h-fit flex flex-col  p-0  overflow-hidden">
       <div className="flex gap-2 items-center p-2">
@@ -24,19 +28,11 @@ export default function Notes() {
 
       <Separator className="w-full " />
       <CardContent className="p-0  flex-grow overflow-scroll scrollbar-hide">
-        {/* {notes.length === 0 ? (
-					<NotesEmptyState />
-				) : (
-					<ScrollArea className="h-64  ">
-						{notes.map((note) => (
-							<SingleNote note={note} key={note.id} />
-						))}
-					</ScrollArea>
-				)} */}
-        <div className="h-[100px] w-full bg-red-500">hello</div>
-        <div className="h-[100px] w-full bg-blue-500">notes</div>
-        <div className="h-[100px] w-full bg-slate-500">notes</div>
-        <div className="h-[100px] w-full bg-orange-500">notes</div>
+        {!notes || notes.length === 0 ? (
+          <NotesEmptyState />
+        ) : (
+          notes.map((note) => <div key={note.id}>{note.title}</div>)
+        )}
       </CardContent>
     </Card>
   );

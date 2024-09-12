@@ -1,5 +1,5 @@
 {
-  "id": "bb403d31-8a98-4688-a862-a9897545d8eb",
+  "id": "b30e8f9c-0317-47d7-a3cd-eb845841f030",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -66,8 +66,12 @@
           "name": "emergency_contacts_user_id_user_id_fk",
           "tableFrom": "emergency_contacts",
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -98,8 +102,12 @@
           "name": "organization_members_organization_id_organization_id_fk",
           "tableFrom": "organization_members",
           "tableTo": "organization",
-          "columnsFrom": ["organization_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -107,8 +115,12 @@
           "name": "organization_members_user_id_user_id_fk",
           "tableFrom": "organization_members",
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -116,7 +128,10 @@
       "compositePrimaryKeys": {
         "organization_members_organization_id_user_id_pk": {
           "name": "organization_members_organization_id_user_id_pk",
-          "columns": ["organization_id", "user_id"]
+          "columns": [
+            "organization_id",
+            "user_id"
+          ]
         }
       },
       "uniqueConstraints": {}
@@ -144,8 +159,12 @@
           "name": "organization_owners_organization_id_organization_id_fk",
           "tableFrom": "organization_owners",
           "tableTo": "organization",
-          "columnsFrom": ["organization_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -153,8 +172,12 @@
           "name": "organization_owners_user_id_user_id_fk",
           "tableFrom": "organization_owners",
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -162,7 +185,10 @@
       "compositePrimaryKeys": {
         "organization_owners_organization_id_user_id_pk": {
           "name": "organization_owners_organization_id_user_id_pk",
-          "columns": ["organization_id", "user_id"]
+          "columns": [
+            "organization_id",
+            "user_id"
+          ]
         }
       },
       "uniqueConstraints": {}
@@ -186,9 +212,11 @@
         },
         "type": {
           "name": "type",
-          "type": "text",
+          "type": "organization_type",
+          "typeSchema": "public",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "'for-profit'"
         },
         "logo_url": {
           "name": "logo_url",
@@ -230,9 +258,11 @@
         },
         "payroll_pattern": {
           "name": "payroll_pattern",
-          "type": "text",
+          "type": "payroll_pattern",
+          "typeSchema": "public",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "'weekly'"
         },
         "payroll_start_day": {
           "name": "payroll_start_day",
@@ -376,22 +406,26 @@
         },
         "role": {
           "name": "role",
-          "type": "text",
+          "type": "user_roles",
+          "typeSchema": "public",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": "'staff'"
         },
         "employment_status": {
           "name": "employment_status",
-          "type": "text",
+          "type": "employment_status",
+          "typeSchema": "public",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "'active'"
         },
         "employment_type": {
           "name": "employment_type",
-          "type": "text",
+          "type": "employment_type",
+          "typeSchema": "public",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "'full_time'"
         },
         "work_hours_per_week": {
@@ -437,7 +471,9 @@
         "user_email_unique": {
           "name": "user_email_unique",
           "nullsNotDistinct": false,
-          "columns": ["email"]
+          "columns": [
+            "email"
+          ]
         }
       }
     },
@@ -515,8 +551,12 @@
           "name": "addresses_user_id_user_id_fk",
           "tableFrom": "addresses",
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -547,8 +587,12 @@
           "name": "department_member_department_id_department_id_fk",
           "tableFrom": "department_member",
           "tableTo": "department",
-          "columnsFrom": ["department_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "department_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -556,8 +600,12 @@
           "name": "department_member_user_id_user_id_fk",
           "tableFrom": "department_member",
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -565,7 +613,10 @@
       "compositePrimaryKeys": {
         "department_member_department_id_user_id_pk": {
           "name": "department_member_department_id_user_id_pk",
-          "columns": ["department_id", "user_id"]
+          "columns": [
+            "department_id",
+            "user_id"
+          ]
         }
       },
       "uniqueConstraints": {}
@@ -626,8 +677,12 @@
           "name": "department_organization_id_organization_id_fk",
           "tableFrom": "department",
           "tableTo": "organization",
-          "columnsFrom": ["organization_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -635,8 +690,12 @@
           "name": "department_manager_id_user_id_fk",
           "tableFrom": "department",
           "tableTo": "user",
-          "columnsFrom": ["manager_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "manager_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -671,7 +730,7 @@
           "name": "break_end",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         }
       },
       "indexes": {},
@@ -680,9 +739,13 @@
           "name": "time_sheet_break_time_sheet_id_time_sheet_id_fk",
           "tableFrom": "time_sheet_break",
           "tableTo": "time_sheet",
-          "columnsFrom": ["time_sheet_id"],
-          "columnsTo": ["id"],
-          "onDelete": "no action",
+          "columnsFrom": [
+            "time_sheet_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -727,9 +790,10 @@
         },
         "status": {
           "name": "status",
-          "type": "text",
+          "type": "time_sheet_status",
+          "typeSchema": "public",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "'pending'"
         },
         "notes": {
@@ -738,8 +802,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "total_worked": {
-          "name": "total_worked",
+        "total_worked_minutes": {
+          "name": "total_worked_minutes",
           "type": "real",
           "primaryKey": false,
           "notNull": false,
@@ -766,8 +830,75 @@
           "name": "time_sheet_user_id_user_id_fk",
           "tableFrom": "time_sheet",
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.notes": {
+      "name": "notes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "notes_user_id_user_id_fk": {
+          "name": "notes_user_id_user_id_fk",
+          "tableFrom": "notes",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }

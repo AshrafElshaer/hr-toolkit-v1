@@ -6,6 +6,11 @@ const nextConfig = {
   experimental: {
     instrumentationHook: process.env.NODE_ENV === "production",
   },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
 };
 
 export default withSentryConfig(nextConfig, {

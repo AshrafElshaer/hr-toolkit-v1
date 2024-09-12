@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1725490028063,
-      "tag": "20240904224708_perfect_sue_storm",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1725507210422,
-      "tag": "20240905033330_unique_bastion",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1725514019911,
-      "tag": "20240905052659_hard_santa_claus",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1725515983868,
-      "tag": "20240905055943_complete_wrecker",
+      "when": 1726155209814,
+      "tag": "20240912153329_orange_screwball",
       "breakpoints": true
     }
   ]

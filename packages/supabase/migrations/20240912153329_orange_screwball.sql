@@ -24,14 +24,14 @@ CREATE TABLE IF NOT EXISTS "organization_owners" (
 CREATE TABLE IF NOT EXISTS "organization" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" text NOT NULL,
-	"type" text NOT NULL,
+	"type" "organization_type" DEFAULT 'for-profit' NOT NULL,
 	"logo_url" text DEFAULT '',
 	"time_zone" text NOT NULL,
 	"website" text DEFAULT '',
 	"contact_name" text NOT NULL,
 	"contact_email" text NOT NULL,
 	"contact_number" text NOT NULL,
-	"payroll_pattern" text NOT NULL,
+	"payroll_pattern" "payroll_pattern" DEFAULT 'weekly' NOT NULL,
 	"payroll_start_day" integer NOT NULL,
 	"address_1" text NOT NULL,
 	"address_2" text DEFAULT '',
@@ -55,9 +55,9 @@ CREATE TABLE IF NOT EXISTS "user" (
 	"hire_date" date DEFAULT current_date,
 	"leave_date" date,
 	"job_title" text DEFAULT '',
-	"role" text,
-	"employment_status" text DEFAULT 'active',
-	"employment_type" text DEFAULT 'full_time',
+	"role" "user_roles" DEFAULT 'staff' NOT NULL,
+	"employment_status" "employment_status" DEFAULT 'active' NOT NULL,
+	"employment_type" "employment_type" DEFAULT 'full_time' NOT NULL,
 	"work_hours_per_week" integer DEFAULT 40,
 	"salary_per_hour" integer DEFAULT 0,
 	"working_days_per_week" text[] DEFAULT '{}',
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS "time_sheet_break" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"time_sheet_id" uuid NOT NULL,
 	"break_start" timestamp NOT NULL,
-	"break_end" timestamp NOT NULL
+	"break_end" timestamp
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "time_sheet" (
@@ -108,11 +108,20 @@ CREATE TABLE IF NOT EXISTS "time_sheet" (
 	"clock_in" timestamp DEFAULT now() NOT NULL,
 	"clock_out" timestamp,
 	"date" date NOT NULL,
-	"status" text DEFAULT 'pending',
+	"status" "time_sheet_status" DEFAULT 'pending' NOT NULL,
 	"notes" text,
-	"total_worked" real DEFAULT 0,
+	"total_worked_minutes" real DEFAULT 0,
 	"created_at" timestamp DEFAULT now(),
 	"updated_at" timestamp DEFAULT now()
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "notes" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"user_id" uuid,
+	"title" text NOT NULL,
+	"content" json NOT NULL,
+	"createdAt" timestamp DEFAULT now(),
+	"updatedAt" timestamp DEFAULT now()
 );
 --> statement-breakpoint
 DO $$ BEGIN
@@ -176,13 +185,19 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "time_sheet_break" ADD CONSTRAINT "time_sheet_break_time_sheet_id_time_sheet_id_fk" FOREIGN KEY ("time_sheet_id") REFERENCES "public"."time_sheet"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "time_sheet_break" ADD CONSTRAINT "time_sheet_break_time_sheet_id_time_sheet_id_fk" FOREIGN KEY ("time_sheet_id") REFERENCES "public"."time_sheet"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "time_sheet" ADD CONSTRAINT "time_sheet_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "notes" ADD CONSTRAINT "notes_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

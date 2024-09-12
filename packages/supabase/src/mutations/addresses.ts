@@ -1,4 +1,4 @@
-import { logger } from "@v1/logger";
+
 import { AddressTable, db } from "../db";
 import type { InsertAddress } from "../types";
 import { safeAsync } from "../utils";

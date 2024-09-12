@@ -5,6 +5,7 @@ import {
   DepartmentMemberTable,
   DepartmentTable,
   EmergencyContactTable,
+  NotesTable,
   OrganizationMemberTable,
   OrganizationOwnerTable,
   OrganizationTable,
@@ -82,3 +83,9 @@ export const departmentMemberInsertSchema = createInsertSchema(
 export const departmentMemberUpdateSchema = createInsertSchema(
   DepartmentMemberTable,
 ).partial();
+
+export const noteSchema = createSelectSchema(NotesTable);
+export const noteInsertSchema = createInsertSchema(NotesTable).omit({
+  user_id: true,
+});
+export const noteUpdateSchema = createInsertSchema(NotesTable).partial();
