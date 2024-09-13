@@ -7,6 +7,16 @@ import {
 import AdvancedEditor from "@/components/editors/advanced";
 import SimpleEditor from "@/components/editors/simple-editor";
 import type { Note } from "@v1/supabase/types";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@v1/ui/alert-dialog";
 import { Button } from "@v1/ui/button";
 import { ScrollArea } from "@v1/ui/scroll-area";
 import {
@@ -51,6 +61,9 @@ export default function NoteSheet({
   isOpen,
   setIsOpen,
 }: Props) {
+  const [isTouched, setIsTouched] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
   const [content, setContent] = useState<JSONContent>(
     note?.content ? (note.content as JSONContent) : DEFAULT_CONTENT,
   );
@@ -62,6 +75,7 @@ export default function NoteSheet({
       onSuccess: (data) => {
         toast.success("Note created successfully");
         setIsOpen?.(false);
+        setIsTouched(false);
       },
       onError: ({ error }) => {
         toast.error(error.serverError);
@@ -75,6 +89,7 @@ export default function NoteSheet({
       onSuccess: (data) => {
         toast.success("Note updated successfully");
         setIsOpen?.(false);
+        setIsTouched(false);
       },
       onError: ({ error }) => {
         toast.error(error.serverError);
@@ -88,6 +103,8 @@ export default function NoteSheet({
       onSuccess: () => {
         toast.success("Note deleted successfully");
         setIsOpen?.(false);
+        setIsConfirmDeleteOpen(false);
+        setIsTouched(false);
       },
       onError: ({ error }) => {
         toast.error(error.serverError);
@@ -96,6 +113,9 @@ export default function NoteSheet({
   );
 
   const debouncedUpdates = useDebounceCallback(async (json: JSONContent) => {
+    if (!isTouched) {
+      setIsTouched(true);
+    }
     setContent(json);
   }, 500);
 
@@ -138,71 +158,128 @@ export default function NoteSheet({
   }
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      {trigger ? <SheetTrigger asChild>{trigger}</SheetTrigger> : null}
-      <SheetContent className="w-full max-w-3xl">
-        <div className="flex flex-col gap-4  h-full p-4">
-          <SheetHeader>
-            <div className="flex justify-between items-center">
-              <SheetTitle className="flex items-center">
-                {isNewNote ? (
-                  <FaRegNoteSticky className="size-4 mr-2" />
-                ) : (
-                  <FaRegNoteSticky className="size-4 mr-2" />
-                )}
+    <>
+      <Sheet
+        open={isOpen}
+        onOpenChange={(bol) =>
+          !bol && isTouched ? setIsAlertOpen(true) : setIsOpen?.(bol)
+        }
+      >
+        {trigger ? <SheetTrigger asChild>{trigger}</SheetTrigger> : null}
+        <SheetContent className="w-full max-w-3xl">
+          <div className="flex flex-col gap-4  h-full p-4">
+            <SheetHeader>
+              <div className="flex justify-between items-center">
+                <SheetTitle className="flex items-center">
+                  {isNewNote ? (
+                    <FaRegNoteSticky className="size-4 mr-2" />
+                  ) : (
+                    <FaRegNoteSticky className="size-4 mr-2" />
+                  )}
 
-                <span className="font-semibold">
-                  {isNewNote ? "New Note" : "Edit Note"}
-                </span>
-              </SheetTitle>
-              <SheetClose>
-                <X className="size-4" />
-              </SheetClose>
+                  <span className="font-semibold">
+                    {isNewNote ? "New Note" : "Edit Note"}
+                  </span>
+                </SheetTitle>
+                <SheetClose>
+                  <X className="size-4" />
+                </SheetClose>
+              </div>
+              <SheetDescription>
+                Create a new note or edit an existing one. Notes are a great way
+                to keep track of important information, ideas, or tasks.
+              </SheetDescription>
+            </SheetHeader>
+
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <AdvancedEditor
+                initialValue={content}
+                onChange={debouncedUpdates}
+              />
             </div>
-            <SheetDescription>
-              Create a new note or edit an existing one. Notes are a great way
-              to keep track of important information, ideas, or tasks.
-            </SheetDescription>
-          </SheetHeader>
+            <div className="flex justify-start gap-2">
+              <SheetClose asChild>
+                <Button variant="secondary">cancel</Button>
+              </SheetClose>
 
-          <div className="flex-1 flex flex-col overflow-hidden">
-            <AdvancedEditor
-              initialValue={content}
-              onChange={debouncedUpdates}
-            />
-          </div>
-          <div className="flex justify-start gap-2">
-            <SheetClose asChild>
-              <Button variant="secondary">cancel</Button>
-            </SheetClose>
-
-            <Button
-              onClick={isNewNote ? handleNewNote : handleUpdateNote}
-              disabled={isCreating || isUpdating || isDeleting}
-            >
-              {isCreating || isUpdating ? (
-                <Loader className="size-4 mr-2 animate-spin" />
-              ) : null}
-              Save
-            </Button>
-
-            {isNewNote ? null : (
               <Button
-                variant="destructive"
-                className="ml-auto"
-                onClick={handleDeleteNote}
-                disabled={isDeleting || isCreating || isUpdating}
+                onClick={isNewNote ? handleNewNote : handleUpdateNote}
+                disabled={isCreating || isUpdating || isDeleting}
               >
-                {isDeleting ? (
+                {isCreating || isUpdating ? (
                   <Loader className="size-4 mr-2 animate-spin" />
                 ) : null}
-                Delete
+                Save
               </Button>
-            )}
+
+              {isNewNote ? null : (
+                <Button
+                  variant="destructive"
+                  className="ml-auto"
+                  onClick={() => setIsConfirmDeleteOpen(true)}
+                  disabled={isCreating || isUpdating}
+                >
+                  Delete
+                </Button>
+              )}
+            </div>
           </div>
-        </div>
-      </SheetContent>
-    </Sheet>
+        </SheetContent>
+      </Sheet>
+
+      <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Your note is not saved. Discard all changes and close the note?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+            <Button
+              variant="warning"
+              onClick={() => {
+                setIsTouched(false);
+                setIsAlertOpen(false);
+                setIsOpen?.(false);
+              }}
+            >
+              Discard
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog
+        open={isConfirmDeleteOpen}
+        onOpenChange={setIsConfirmDeleteOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your
+              note and all of its content.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <Button
+              variant="destructive"
+              onClick={handleDeleteNote}
+              disabled={isDeleting}
+            >
+              {isDeleting ? (
+                <Loader className="size-4 mr-2 animate-spin" />
+              ) : null}
+              Delete
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }
 

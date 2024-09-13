@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
 import { NotesTable, db } from "../db";
 import { safeAsync } from "../utils";
@@ -10,7 +10,8 @@ export const getUserNotes = async (userId: string) =>
         return await db
           .select()
           .from(NotesTable)
-          .where(eq(NotesTable.user_id, userId));
+          .where(eq(NotesTable.user_id, userId))
+          .orderBy(desc(NotesTable.createdAt));
       });
       return result;
     },
