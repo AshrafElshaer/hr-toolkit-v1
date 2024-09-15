@@ -21,6 +21,8 @@
   },
   "exports": {
     "./otp-email": "./emails/otp-email.tsx",
-    "./welcome": "./emails/welcome.tsx"
+    "./new-employee": "./emails/new-employee.tsx",
+    "./unconfirmed-deletion-email": "./emails/unconfirmed-deletion-email.tsx",
+    "./account-deletions-notice": "./emails/account-deletions-notice.tsx"
   }
 }

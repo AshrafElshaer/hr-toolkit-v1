@@ -1,8 +1,7 @@
 import type { TriggerConfig } from "@trigger.dev/sdk/v3";
 
 export const config: TriggerConfig = {
-  // Replace <your-project-ref> with your project id: https://trigger.dev/docs/trigger-config
-  project: "<your-project-ref>",
+  project: "proj_wlvanvtxvnxlxewmqfbh",
   logLevel: "log",
   retries: {
     enabledInDev: true,
@@ -14,4 +13,10 @@ export const config: TriggerConfig = {
       randomize: true,
     },
   },
+  dependenciesToBundle: [
+    /^@v1\/email/,
+    "resend",
+    "@supabase/supabase-js",
+    "@react-email/components",
+  ],
 };

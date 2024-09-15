@@ -1,4 +1,8 @@
 {
+  "deno.enablePaths": ["./packages/supabase/functions"],
+  "deno.lint": true,
+  "deno.unstable": true,
+  "deno.importMap": "./packages/supabase/functions/import_map.json",
   "editor.defaultFormatter": "biomejs.biome",
   "[javascript]": {
     "editor.defaultFormatter": "biomejs.biome"
@@ -25,12 +29,11 @@
     "**/node_modules": true
   },
   "cSpell.words": ["supabase", "Tiptap"],
-  "deno.enablePaths": ["./packages/supabase/functions"],
-  "deno.lint": true,
-  "deno.unstable": true,
+
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cx\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["clsx\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
-  ]
+  ],
+  "deno.enable": true
 }

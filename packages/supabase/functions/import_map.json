@@ -4,6 +4,10 @@
     "react": "npm:react@18.3.1",
     "resend": "npm:resend@4.0.0",
     "standardwebhooks": "npm:standardwebhooks@1.0.0",
-    "@v1/email/*": "../../../../../packages/email/emails/*"
+    "@v1/email/*": "../../../../../packages/email/emails/*",
+    "@v1/tasks/*": "../../../../../packages/jobs/src/tasks/*",
+    "supabase": "jsr:@supabase/functions-js/edge-runtime.d.ts",
+    "@v1/tasks/delete-unconfirmed-emails": "../../jobs/src/trigger/delete-unconfirmed-emails.ts",
+    "@v1/tasks/account-deletion-notice": "../../jobs/src/trigger/account-deletion-notice.ts"
   }
 }
