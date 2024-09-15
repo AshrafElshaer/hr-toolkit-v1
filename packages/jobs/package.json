@@ -10,10 +10,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@v1/email": "workspace:*",
     "@react-email/components": "^0.0.25",
     "@supabase/supabase-js": "^2.45.4",
     "@trigger.dev/sdk": "3.0.0-beta.56",
+    "@v1/email": "workspace:*",
     "react-email": "^3.0.1"
   }
 }
