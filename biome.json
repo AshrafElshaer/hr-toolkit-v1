@@ -4,7 +4,14 @@
     "enabled": true
   },
   "linter": {
-    "ignore": ["node_modules", ".next", "packages/tsconfig", ".trigger", ".turbo"],
+    "ignore": [
+      "node_modules",
+      ".next",
+      "packages/tsconfig",
+      ".trigger",
+      ".turbo",
+      "packages/jobs/.trigger"
+    ],
     "enabled": true,
     "rules": {
       "recommended": true,

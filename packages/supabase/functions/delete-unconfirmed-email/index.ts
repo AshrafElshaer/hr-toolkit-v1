@@ -2,8 +2,8 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { tasks } from "npm:@trigger.dev/sdk@3.0.0-beta.56/v3";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import { Webhook } from "standardwebhooks";
-import type { deleteUnconfirmedEmails } from "../../../jobs/src/trigger/delete-unconfirmed-emails.ts";
 import type { accountDeletionsNotice } from "../../../jobs/src/trigger/account-deletion-notice.ts";
+import type { deleteUnconfirmedEmails } from "../../../jobs/src/trigger/delete-unconfirmed-emails.ts";
 
 const hookSecret = Deno.env.get("WEBHOOK_SECRET") as string;
 

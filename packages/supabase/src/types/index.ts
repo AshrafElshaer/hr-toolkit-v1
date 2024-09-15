@@ -1,4 +1,3 @@
-
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type {
   AddressTable,
@@ -12,8 +11,6 @@ import type {
 } from "../db";
 
 export * from "./enums";
-
-
 
 export type User = typeof UserTable.$inferSelect;
 export type InsertUser = typeof UserTable.$inferInsert;

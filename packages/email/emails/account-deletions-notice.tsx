@@ -130,8 +130,6 @@ export function AccountDeletionsNotice() {
   );
 }
 
-export const renderAccountDeletionsNotice = render(
-  <AccountDeletionsNotice />,
-);
+export const renderAccountDeletionsNotice = render(<AccountDeletionsNotice />);
 
 export default AccountDeletionsNotice;
