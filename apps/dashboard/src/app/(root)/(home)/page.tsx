@@ -9,12 +9,14 @@ import { Card } from "@v1/ui/card";
 import { toast } from "sonner";
 import ClockInOut from "./components/clock-in-out";
 import { ClockInOutSkeleton } from "./components/clock-in-out/clock-in-out.loading";
+import CurrentTasks from "./components/current-tasks";
+import TasksLoading from "./components/current-tasks/tasks.loading";
 import Events from "./components/events";
 import { eventsSearchParamsCache } from "./components/events/events-search-params";
-import WelcomeMessage from "./components/welcome";
-import { WelcomeMessageLoading } from "./components/welcome/welcome.loading";
 import Notes from "./components/notes";
 import NotesLoading from "./components/notes/notes.loading";
+import WelcomeMessage from "./components/welcome";
+import { WelcomeMessageLoading } from "./components/welcome/welcome.loading";
 // export const metadata = {
 //   title: "Home",
 // };
@@ -37,12 +39,12 @@ export default function Page({ searchParams }: Props) {
 
       <Events />
       <Suspense fallback={<NotesLoading />}>
-      <Notes />
+        <Notes />
       </Suspense>
 
-      <Card className="w-full  p-0 min-h-[300px] max-h-[350px] md:max-h-fit">
-        tasks
-      </Card>
+      <Suspense fallback={<TasksLoading />}>
+        <CurrentTasks />
+      </Suspense>
 
       <Card className="w-full  p-0 min-h-[300px] max-h-[350px] md:max-h-fit">
         PROJECTS
