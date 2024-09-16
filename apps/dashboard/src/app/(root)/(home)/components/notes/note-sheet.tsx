@@ -274,7 +274,7 @@ export default function NoteSheet({
               {isDeleting ? (
                 <Loader className="size-4 mr-2 animate-spin" />
               ) : null}
-              Delete
+              Continue
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

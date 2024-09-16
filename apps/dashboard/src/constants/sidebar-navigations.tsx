@@ -46,8 +46,8 @@ export const sidebarNavigation = [
     icon: <Layers size={18} />,
   },
   {
-    title: "Messages",
-    path: "/messages",
+    title: "Chats",
+    path: "/chats",
     icon: <IoChatbubblesOutline size={18} />,
   },
 ];

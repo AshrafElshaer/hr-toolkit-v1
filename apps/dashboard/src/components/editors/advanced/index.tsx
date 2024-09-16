@@ -9,7 +9,11 @@ import {
   EditorRoot,
   type JSONContent,
 } from "novel";
-import { ImageResizer, handleCommandNavigation } from "novel/extensions";
+import {
+  ImageResizer,
+  Placeholder,
+  handleCommandNavigation,
+} from "novel/extensions";
 import React, { useEffect, useState } from "react";
 import { defaultExtensions } from "../extensions";
 import { ColorSelector } from "./selectors/color-selector";
@@ -23,7 +27,23 @@ import { uploadFn } from "./image-upload";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
 
-const extensions = [...defaultExtensions, slashCommand];
+const extensions = [
+  ...defaultExtensions,
+  slashCommand,
+  Placeholder.configure({
+    placeholder: ({ editor, node, pos, hasAnchor }) => {
+      if (node.type.name === "heading" && pos === 0) {
+        return "Untitled Note";
+      }
+
+      if (node.type.name === "heading" && pos !== 0) {
+        return "What’s the title?";
+      }
+
+      return "Press '/' for commands";
+    },
+  }),
+];
 
 interface EditorProp {
   initialValue?: JSONContent;

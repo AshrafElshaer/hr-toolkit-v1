@@ -20,22 +20,7 @@ import { cx } from "class-variance-authority";
 // TODO I am using cx here to get tailwind autocomplete working, idk if someone else can write a regex to just capture the class key in objects
 
 // You can overwrite the placeholder with your own configuration
-const placeholder = Placeholder.configure({
-  placeholder: ({ editor, node, pos, hasAnchor }) => {
-    if (node.type.name === "heading" && pos === 0) {
-      return "Untitled Note";
-    }
 
-    if (node.type.name === "heading" && pos !== 0) {
-      return "What’s the title?";
-    }
-
-    if (editor?.isEmpty) {
-      return "What are you thinking about ?";
-    }
-    return "Start typing...";
-  },
-});
 const textStyle = TextStyle.configure({
   HTMLAttributes: {
     class: cx("text-foreground"),
@@ -130,7 +115,7 @@ const codeBlockLowlight = CodeBlockLowlight.configure({
 
 export const defaultExtensions = [
   starterKit,
-  placeholder,
+
   TiptapLink,
   TiptapImage,
   updatedImage,
