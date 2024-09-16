@@ -25,13 +25,14 @@ import {
   ChevronUp,
   CornerDownLeft,
   Search,
+  Settings,
 } from "lucide-react";
 // import NoteDialog from "@/app/(root)/(home)/_components/notes/note-dialog";
 
 import { getCurrentUserAction } from "@/actions/user";
-import { RiStickyNoteAddLine } from "react-icons/ri";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import NoteSheet from "@/app/(root)/(home)/components/notes/note-sheet";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { RiStickyNoteAddLine } from "react-icons/ri";
 // import EventForm from "@/app/(root)/(home)/_components/calendar/event-form";
 
 export function CommandMenu() {
@@ -50,26 +51,28 @@ export function CommandMenu() {
   });
 
   const quickActions = React.useMemo(() => {
-  	return [
-  		{
-  			title: "New Note",
-  			Icon: <RiStickyNoteAddLine className="size-4 mr-4" />,
-  			ActionComponent: <NoteSheet isOpen={isNewNote} setIsOpen={setIsNewNote} />,
-  			onSelect() {
-  				setIsNewNote(true);
-  			},
-  		},
-  		// {
-  		// 	title: "New Event",
-  		// 	Icon: <CalendarPlus className="size-4 mr-4" />,
-  		// 	ActionComponent: (
-  		// 		<EventForm isOpen={isNewEvent} setIsOpen={setIsNewEvent} />
-  		// 	),
-  		// 	onSelect() {
-  		// 		setIsNewEvent(true);
-  		// 	},
-  		// },
-  	];
+    return [
+      {
+        title: "New Note",
+        Icon: <RiStickyNoteAddLine className="size-4 mr-4" />,
+        ActionComponent: (
+          <NoteSheet isOpen={isNewNote} setIsOpen={setIsNewNote} />
+        ),
+        onSelect() {
+          setIsNewNote(true);
+        },
+      },
+      // {
+      // 	title: "New Event",
+      // 	Icon: <CalendarPlus className="size-4 mr-4" />,
+      // 	ActionComponent: (
+      // 		<EventForm isOpen={isNewEvent} setIsOpen={setIsNewEvent} />
+      // 	),
+      // 	onSelect() {
+      // 		setIsNewEvent(true);
+      // 	},
+      // },
+    ];
   }, [isNewNote, isNewEvent]);
 
   return (
@@ -114,6 +117,17 @@ export function CommandMenu() {
                 </CommandItem>
               );
             })}
+            <CommandItem
+              key="settings"
+              onSelect={() => {
+                router.push("/settings");
+                setOpen(false);
+              }}
+              className="hover:border gap-4 aria-selected:border aria-selected:bg-accent/70 hover:bg-accent/70"
+            >
+              <Settings size={18} />
+              <span>Settings</span>
+            </CommandItem>
           </CommandGroup>
 
           <CommandSeparator />
@@ -123,8 +137,8 @@ export function CommandMenu() {
             heading="Quick actions"
           >
             {quickActions.map((action) => (
-							<QuickAction key={action.title} {...action} />
-						))}
+              <QuickAction key={action.title} {...action} />
+            ))}
           </CommandGroup>
         </CommandList>
         <CommandSeparator />
