@@ -6,24 +6,24 @@ import { Button, buttonVariants } from "@v1/ui/button";
 import { Card, CardContent } from "@v1/ui/card";
 import { ScrollArea } from "@v1/ui/scroll-area";
 import { Separator } from "@v1/ui/separator";
+import Link from "next/link";
 import { BiTaskX } from "react-icons/bi";
 import { FaTasks } from "react-icons/fa";
 import TaskDisplay from "./task-display";
-import Link from "next/link";
 
-const tasks:{
-    id: string;
-    name: string;
-    description: string;
-    priority: "low" | "medium" | "high";
-    status: "completed" | "in_progress" | "to_do" | "in_review";
-    created_at: string;
-    updated_at: string;
-    due_date: string;
-    assigned_to: string;
-    organization_id: string;
-    project_id: string;
-  }[] = [
+const tasks: {
+  id: string;
+  name: string;
+  description: string;
+  priority: "low" | "medium" | "high";
+  status: "completed" | "in_progress" | "to_do" | "in_review";
+  created_at: string;
+  updated_at: string;
+  due_date: string;
+  assigned_to: string;
+  organization_id: string;
+  project_id: string;
+}[] = [
   {
     id: "1",
     name: "Project Kickoff Meeting",
@@ -80,26 +80,28 @@ const tasks:{
 
 export default function CurrentTasks() {
   return (
-    <Card className="w-full  p-0 min-h-[300px] max-h-[350px] md:max-h-fit">
+    <Card className="w-full  min-h-[300px] max-h-[350px] md:max-h-fit flex flex-col  p-0  overflow-hidden">
       <div className="flex gap-2 items-center p-2">
         <FaTasks className="size-4" />
         <span className="font-semibold">Your Tasks</span>
-        <Link href="/projects" className={buttonVariants({variant: "secondary", size: "xs", className: "ml-auto"})}>
+        <Link
+          href="/projects"
+          className={buttonVariants({
+            variant: "secondary",
+            size: "xs",
+            className: "ml-auto",
+          })}
+        >
           View All
         </Link>
-       
       </div>
 
       <Separator className="w-full " />
-      <CardContent className="p-0">
+      <CardContent className="p-0  flex-grow overflow-scroll scrollbar-hide">
         {tasks.length === 0 ? (
           <TasksEmptyState />
         ) : (
-          <ScrollArea className="h-64  ">
-            {tasks.map((task) => (
-              <TaskDisplay key={task.id} task={task} />
-            ))}
-          </ScrollArea>
+          tasks.map((task) => <TaskDisplay key={task.id} task={task} />)
         )}
       </CardContent>
     </Card>
