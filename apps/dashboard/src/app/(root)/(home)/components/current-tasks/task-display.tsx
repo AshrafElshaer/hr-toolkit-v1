@@ -46,7 +46,7 @@ export default function TaskDisplay({ task }: Props) {
   }
 
   return (
-    <div className="flex flex-col py-2 pl-3 pr-4 border-b gap-2 text-sm relative last:border-b-0">
+    <div className="flex flex-col py-2 px-3 border-b gap-2 text-sm relative last:border-b-0">
       <div className="*:text-ellipsis *:overflow-hidden *:whitespace-nowrap space-y-1">
         <div className="flex justify-between w-full">
           <p className="font-semibold ">{task.name}</p>

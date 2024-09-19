@@ -45,7 +45,7 @@ export const deleteUnconfirmedEmails = task({
       );
       try {
         await resend.emails.send({
-          from: "noreply@hrtoolkit.app",
+          from: "HR Toolkit Accounts <noreply@hrtoolkit.app>",
           to: email,
           subject: "Account Deletion Confirmation",
           html: emailHtml,

@@ -9,6 +9,8 @@ import { Card } from "@v1/ui/card";
 import { toast } from "sonner";
 import ClockInOut from "./components/clock-in-out";
 import { ClockInOutSkeleton } from "./components/clock-in-out/clock-in-out.loading";
+import CurrentProject from "./components/current-project";
+import CurrentProjectLoading from "./components/current-project/curent-project.loading";
 import CurrentTasks from "./components/current-tasks";
 import TasksLoading from "./components/current-tasks/tasks.loading";
 import Events from "./components/events";
@@ -46,9 +48,9 @@ export default function Page({ searchParams }: Props) {
         <CurrentTasks />
       </Suspense>
 
-      <Card className="w-full  p-0 min-h-[300px] max-h-[350px] md:max-h-fit">
-        PROJECTS
-      </Card>
+      <Suspense fallback={<CurrentProjectLoading />}>
+        <CurrentProject />
+      </Suspense>
       <Card className="w-full  p-0 min-h-[300px] max-h-[350px] md:max-h-fit">
         metrics
       </Card>

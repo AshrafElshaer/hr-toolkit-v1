@@ -37,7 +37,7 @@ export const accountDeletionsNotice = task({
       const emailHtml = await renderAccountDeletionsNotice;
       try {
         await resend.emails.send({
-          from: "noreply@hrtoolkit.app",
+          from: "HR Toolkit Accounts <noreply@hrtoolkit.app>",
           to: email,
           subject: "Account Deletion Notice",
           html: emailHtml,
