@@ -25,7 +25,7 @@ export default async function Events() {
   );
 }
 
-function CalendarListLoading() {
+export function CalendarListLoading() {
   return (
     <div className="w-full flex divide-x h-full overflow-y-hidden overflow-x-scroll scrollbar-hide">
       {Array.from({ length: 7 }).map((_, index) => (
