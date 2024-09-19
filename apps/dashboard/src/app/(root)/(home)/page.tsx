@@ -15,6 +15,8 @@ import CurrentTasks from "./components/current-tasks";
 import TasksLoading from "./components/current-tasks/tasks.loading";
 import Events from "./components/events";
 import { eventsSearchParamsCache } from "./components/events/events-search-params";
+import Metrics from "./components/metrics/indes";
+import MetricsLoading from "./components/metrics/metrics.loading";
 import Notes from "./components/notes";
 import NotesLoading from "./components/notes/notes.loading";
 import WelcomeMessage from "./components/welcome";
@@ -51,9 +53,9 @@ export default function Page({ searchParams }: Props) {
       <Suspense fallback={<CurrentProjectLoading />}>
         <CurrentProject />
       </Suspense>
-      <Card className="w-full  p-0 min-h-[300px] max-h-[350px] md:max-h-fit">
-        metrics
-      </Card>
+      <Suspense fallback={<MetricsLoading />}>
+        <Metrics />
+      </Suspense>
     </Main>
   );
 }
