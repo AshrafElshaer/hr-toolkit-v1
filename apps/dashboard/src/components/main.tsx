@@ -5,15 +5,18 @@ export default function Main({
   className,
   children,
   isMaxHeight,
+  mdMaxHeight,
   ...props
 }: React.ComponentProps<"main"> & {
   isMaxHeight?: boolean;
+  mdMaxHeight?: boolean;
 }) {
   return (
     <main
       className={cn(
         "w-full md:w-[calc(100%_-_3.3rem)] p-4 pt-[11px] ml-auto min-h-[calc(100svh_-_50px)]",
-        isMaxHeight && "md:h-[calc(100svh_-_50px)]",
+        isMaxHeight && "h-[calc(100svh_-_50px)]",
+        mdMaxHeight && "md:h-[calc(100svh_-_50px)]",
         className,
       )}
       {...props}

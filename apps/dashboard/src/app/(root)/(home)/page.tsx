@@ -31,7 +31,7 @@ export default function Page({ searchParams }: Props) {
   eventsSearchParamsCache.parse(searchParams);
   return (
     <Main
-      isMaxHeight
+      mdMaxHeight
       className="space-y-4 sm:space-y-0 sm:grid  sm:gap-4 sm:grid-rows-[min-content_repeat(3,1fr)] lg:grid-rows-[min-content_repeat(2,1fr)] sm:grid-cols-2 lg:grid-cols-4"
     >
       <Suspense fallback={<WelcomeMessageLoading />}>

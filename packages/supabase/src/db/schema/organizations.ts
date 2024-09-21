@@ -92,3 +92,17 @@ export const OrganizationMemberTable = pgTable(
     };
   },
 );
+
+export const OrganizationMemberTableRelations = relations(
+  OrganizationMemberTable,
+  ({ one }) => ({
+    user: one(UserTable, {
+      fields: [OrganizationMemberTable.user_id],
+      references: [UserTable.id],
+    }),
+    organization: one(OrganizationTable, {
+      fields: [OrganizationMemberTable.organization_id],
+      references: [OrganizationTable.id],
+    }),
+  }),
+);

@@ -1,5 +1,6 @@
 import { logger } from "@v1/logger";
 import {
+  DepartmentMemberTable,
   DepartmentTable,
   OrganizationOwnerTable,
   OrganizationTable,
@@ -34,17 +35,49 @@ export async function create(ownerId: string, data: InsertOrganization) {
     throw new Error(ownerError.message);
   }
 
-  const { error: departmentError } = await safeAsync(async () => {
-    await db.insert(DepartmentTable).values({
-      name: "Exec",
-      description: "Executives",
-      organization_id: newOrg.id,
-      manager_id: ownerId,
+  const { data: execDepartment, error: departmentError } = await safeAsync(
+    async () => {
+      const [department] = await db
+        .insert(DepartmentTable)
+        .values({
+          name: "Exec",
+          description: "Executives",
+          organization_id: newOrg.id,
+          manager_id: ownerId,
+        })
+        .returning({
+          id: DepartmentTable.id,
+        });
+      return department;
+    },
+  );
+
+  if (departmentError || !execDepartment) {
+    logger.error(
+      "Error creating default department:",
+      departmentError?.message,
+    );
+    throw new Error(
+      departmentError?.message ?? "Unknown error creating department",
+    );
+  }
+
+  const { error: departmentMemberError } = await safeAsync(async () => {
+    await db.insert(DepartmentMemberTable).values({
+      department_id: execDepartment.id,
+      user_id: ownerId,
     });
   });
-  if (departmentError) {
-    logger.error("Error creating default department:", departmentError.message);
-    throw new Error(departmentError.message);
+
+  if (departmentMemberError) {
+    logger.error(
+      "Error creating default department member:",
+      departmentMemberError.message,
+    );
+    throw new Error(
+      departmentMemberError.message ??
+        "Unknown error creating department member",
+    );
   }
 
   return newOrg;

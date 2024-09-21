@@ -2,7 +2,15 @@
 
 import { authActionClient } from "@/actions/safe-action";
 import addressMutations from "@v1/supabase/address-mutations";
-import { getCurrentUser } from "@v1/supabase/queries";
+import {
+  getCurrentUser,
+  getDepartmentMembers,
+  getEmployees,
+  getOrganizationMembers,
+  getUserById,
+  getUserDepartment,
+
+} from "@v1/supabase/queries";
 import { UserRolesEnum } from "@v1/supabase/types";
 import userMutations from "@v1/supabase/user-mutations";
 import {
@@ -70,4 +78,34 @@ export const createOrganizationOwnerAction = authActionClient
     return {
       success: true,
     };
+  });
+
+export const getEmployeesAction = authActionClient
+  .metadata({
+    name: "get-employees",
+  })
+  .action(async ({ ctx }) => {
+    const { user } = ctx;
+
+    if (user.role === UserRolesEnum.admin) {
+      const { data: employees, error: employeesError } =
+        await getOrganizationMembers(user.user_metadata.organization_id);
+      if (employeesError) {
+        throw new Error(employeesError.message);
+      }
+      return employees;
+    }
+
+    const { data, error: departmentError } = await getUserDepartment(user.id);
+    if (departmentError || !data) {
+      throw new Error(departmentError?.message ?? "Error getting department");
+    }
+
+    const { data: employees, error: employeesError } =
+      await getDepartmentMembers(data.department_id);
+    if (employeesError) {
+      throw new Error(employeesError.message);
+    }
+
+    return employees;
   });
