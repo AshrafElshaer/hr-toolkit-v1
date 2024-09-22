@@ -45,7 +45,7 @@ import { CircleDollarSign, Clock, Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 
-const formSchema = userInsertSchema.merge(addressInsertSchema)
+const formSchema = userInsertSchema.merge(addressInsertSchema);
 
 export default function OwnerOnboarding() {
   const [counter, { startCountdown }] = useCountdown({

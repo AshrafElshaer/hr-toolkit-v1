@@ -8,26 +8,16 @@ export default function ProjectsPage() {
         <h1>Projects</h1>
       </div>
       <div className="flex gap-2">
-        <Badge size="lg">
-
-                Default
-
-        </Badge>
+        <Badge size="lg">Default</Badge>
         <Badge variant="outline" size="lg">
-            Draft
+          Draft
         </Badge>
         <Badge variant="secondary" size="lg">
-            Pending
+          Pending
         </Badge>
-        <Badge variant="destructive">
-            Failed
-        </Badge>
-        <Badge variant="warning">
-            warning
-        </Badge>
-        <Badge variant="success">
-            success
-        </Badge>
+        <Badge variant="destructive">Failed</Badge>
+        <Badge variant="warning">warning</Badge>
+        <Badge variant="success">success</Badge>
       </div>
     </Main>
   );

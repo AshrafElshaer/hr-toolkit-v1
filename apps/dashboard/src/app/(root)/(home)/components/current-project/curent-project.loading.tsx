@@ -13,12 +13,7 @@ export default function CurrentProjectLoading() {
       <div className="flex gap-2 items-center p-2">
         <Zap className="size-4" />
         <span className="font-semibold">Current Project</span>
-        <Button
-          variant="secondary"
-          size="xs"
-          className="ml-auto"
-          disabled
-        >
+        <Button variant="secondary" size="xs" className="ml-auto" disabled>
           Go To Project
         </Button>
       </div>

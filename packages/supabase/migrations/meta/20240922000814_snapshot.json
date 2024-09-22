@@ -66,12 +66,8 @@
           "name": "emergency_contacts_user_id_user_id_fk",
           "tableFrom": "emergency_contacts",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -102,12 +98,8 @@
           "name": "organization_members_organization_id_organization_id_fk",
           "tableFrom": "organization_members",
           "tableTo": "organization",
-          "columnsFrom": [
-            "organization_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["organization_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -115,12 +107,8 @@
           "name": "organization_members_user_id_user_id_fk",
           "tableFrom": "organization_members",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -128,10 +116,7 @@
       "compositePrimaryKeys": {
         "organization_members_organization_id_user_id_pk": {
           "name": "organization_members_organization_id_user_id_pk",
-          "columns": [
-            "organization_id",
-            "user_id"
-          ]
+          "columns": ["organization_id", "user_id"]
         }
       },
       "uniqueConstraints": {}
@@ -159,12 +144,8 @@
           "name": "organization_owners_organization_id_organization_id_fk",
           "tableFrom": "organization_owners",
           "tableTo": "organization",
-          "columnsFrom": [
-            "organization_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["organization_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -172,12 +153,8 @@
           "name": "organization_owners_user_id_user_id_fk",
           "tableFrom": "organization_owners",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -185,10 +162,7 @@
       "compositePrimaryKeys": {
         "organization_owners_organization_id_user_id_pk": {
           "name": "organization_owners_organization_id_user_id_pk",
-          "columns": [
-            "organization_id",
-            "user_id"
-          ]
+          "columns": ["organization_id", "user_id"]
         }
       },
       "uniqueConstraints": {}
@@ -471,9 +445,7 @@
         "user_email_unique": {
           "name": "user_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       }
     },
@@ -551,12 +523,8 @@
           "name": "addresses_user_id_user_id_fk",
           "tableFrom": "addresses",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -587,12 +555,8 @@
           "name": "department_member_department_id_department_id_fk",
           "tableFrom": "department_member",
           "tableTo": "department",
-          "columnsFrom": [
-            "department_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["department_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -600,12 +564,8 @@
           "name": "department_member_user_id_user_id_fk",
           "tableFrom": "department_member",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -613,10 +573,7 @@
       "compositePrimaryKeys": {
         "department_member_department_id_user_id_pk": {
           "name": "department_member_department_id_user_id_pk",
-          "columns": [
-            "department_id",
-            "user_id"
-          ]
+          "columns": ["department_id", "user_id"]
         }
       },
       "uniqueConstraints": {}
@@ -677,12 +634,8 @@
           "name": "department_organization_id_organization_id_fk",
           "tableFrom": "department",
           "tableTo": "organization",
-          "columnsFrom": [
-            "organization_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["organization_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -690,12 +643,8 @@
           "name": "department_manager_id_user_id_fk",
           "tableFrom": "department",
           "tableTo": "user",
-          "columnsFrom": [
-            "manager_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["manager_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -739,12 +688,8 @@
           "name": "time_sheet_break_time_sheet_id_time_sheet_id_fk",
           "tableFrom": "time_sheet_break",
           "tableTo": "time_sheet",
-          "columnsFrom": [
-            "time_sheet_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["time_sheet_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -830,12 +775,8 @@
           "name": "time_sheet_user_id_user_id_fk",
           "tableFrom": "time_sheet",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -893,12 +834,8 @@
           "name": "notes_user_id_user_id_fk",
           "tableFrom": "notes",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }

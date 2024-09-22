@@ -9,7 +9,6 @@ import {
   getOrganizationMembers,
   getUserById,
   getUserDepartment,
-
 } from "@v1/supabase/queries";
 import { UserRolesEnum } from "@v1/supabase/types";
 import userMutations from "@v1/supabase/user-mutations";
