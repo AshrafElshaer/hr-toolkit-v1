@@ -17,4 +17,4 @@ export const getUserNotes = async (userId: string) =>
     },
     [userId],
     { revalidate: 180, tags: [`user-notes-${userId}`] }, // Cache for 3 minutes, adjust as needed
-  );
+  )();

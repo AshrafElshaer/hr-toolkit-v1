@@ -29,7 +29,6 @@ export async function getCurrentUser(supabase: SupabaseClient) {
 }
 
 export const getUserById = async (id: string) => {
-  
   const result = await safeAsync(async () => {
     return await db.query.UserTable.findFirst({
       where: eq(UserTable.id, id),

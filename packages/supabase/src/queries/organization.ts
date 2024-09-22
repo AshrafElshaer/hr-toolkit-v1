@@ -25,7 +25,6 @@ export const getOrganizationById = async (organizationId: string) =>
       const result = await safeAsync(async () => {
         const query = await db.query.OrganizationTable.findFirst({
           where: eq(OrganizationTable.id, organizationId),
-         
         });
         console.log({ query });
         return query;
