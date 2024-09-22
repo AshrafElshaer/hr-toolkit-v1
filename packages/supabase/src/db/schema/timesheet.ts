@@ -23,7 +23,9 @@ const TimeSheetStatusEnum = pgEnum("time_sheet_status", [
 export const TimeSheetTable = pgTable("time_sheet", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   user_id: uuid("user_id")
-    .references(() => UserTable.id)
+    .references(() => UserTable.id, {
+      onDelete: "cascade",
+    })
     .notNull(),
   clock_in: timestamp("clock_in").defaultNow().notNull(),
   clock_out: timestamp("clock_out"),

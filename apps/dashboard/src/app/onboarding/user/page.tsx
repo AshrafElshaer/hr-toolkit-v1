@@ -45,7 +45,7 @@ import { CircleDollarSign, Clock, Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 
-const formSchema = userInsertSchema.merge(addressInsertSchema);
+const formSchema = userInsertSchema.merge(addressInsertSchema)
 
 export default function OwnerOnboarding() {
   const [counter, { startCountdown }] = useCountdown({
@@ -137,6 +137,7 @@ function OwnerForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      user_id: "",
       email: "",
       first_name: "",
       last_name: "",
@@ -165,6 +166,7 @@ function OwnerForm() {
   useEffect(() => {
     if (session) {
       form.setValue("email", session.user.email as string);
+      form.setValue("user_id", session.user.id as string);
     }
   }, [session, form]);
 
@@ -263,7 +265,7 @@ function OwnerForm() {
                       : new Date(subYears(new Date(), 18))
                   }
                   onSelect={(value) => {
-                    field.onChange(value);
+                    field.onChange(value?.toISOString() ?? "");
                   }}
                   className="w-full"
                   toDate={new Date(subYears(new Date(), 18))}
