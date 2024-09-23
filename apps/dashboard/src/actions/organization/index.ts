@@ -24,7 +24,7 @@ export const createOrganizationAction = authActionClient
     await supabase.auth.admin.updateUserById(user.id, {
       role: "admin",
       user_metadata: {
-        organization_id: newOrgId,
+        organization_id: newOrgId.id,
       },
     });
 
