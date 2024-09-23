@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
 import {
   DepartmentMemberTable,
@@ -8,6 +8,7 @@ import {
   UserTable,
   db,
 } from "../db";
+import { getOrganizationMembersQuery } from "../db/statements/employees";
 import { safeAsync } from "../utils";
 
 // export const getOrganizationMembers = async (organizationId: string) =>
@@ -40,22 +41,9 @@ export const getOrganizationMembers = async (organizationId: string) =>
   unstable_cache(
     async () => {
       const result = await safeAsync(async () => {
-        return await db
-          .select()
-          .from(OrganizationMemberTable)
-          .where(eq(OrganizationMemberTable.organization_id, organizationId))
-          .leftJoin(
-            UserTable,
-            eq(OrganizationMemberTable.user_id, UserTable.id),
-          )
-          .leftJoin(
-            DepartmentMemberTable,
-            eq(UserTable.id, DepartmentMemberTable.user_id),
-          )
-          .leftJoin(
-            DepartmentTable,
-            eq(DepartmentMemberTable.department_id, DepartmentTable.id),
-          );
+        return await getOrganizationMembersQuery.execute({
+          organization_id: organizationId,
+        });
       });
       return result;
     },

@@ -85,12 +85,11 @@ export const getEmployeesAction = authActionClient
   })
   .action(async ({ ctx }) => {
     const { user } = ctx;
-    console.log(user.user_metadata);
 
     if (user.role === UserRolesEnum.admin) {
       const { data: employees, error: employeesError } =
         await getOrganizationMembers(user.user_metadata.organization_id);
-      console.log({ employees, employeesError });
+
       if (employeesError) {
         throw new Error(employeesError.message);
       }

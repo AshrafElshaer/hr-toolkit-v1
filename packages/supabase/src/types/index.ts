@@ -4,6 +4,7 @@ import type {
   DepartmentMemberTable,
   DepartmentTable,
   NotesTable,
+  OrganizationMemberTable,
   OrganizationTable,
   TimeSheetBreakTable,
   TimeSheetTable,
@@ -11,6 +12,7 @@ import type {
 } from "../db";
 
 export * from "./enums";
+export * from "./statements";
 
 export type User = typeof UserTable.$inferSelect;
 export type InsertUser = typeof UserTable.$inferInsert;
@@ -19,6 +21,7 @@ export type UpdateUser = Partial<InsertUser>;
 export type Organization = typeof OrganizationTable.$inferSelect;
 export type InsertOrganization = typeof OrganizationTable.$inferInsert;
 export type UpdateOrganization = Partial<InsertOrganization>;
+export type OrganizationMember = typeof OrganizationMemberTable.$inferSelect;
 
 export type TimeSheet = typeof TimeSheetTable.$inferSelect;
 export type InsertTimeSheet = typeof TimeSheetTable.$inferInsert;
