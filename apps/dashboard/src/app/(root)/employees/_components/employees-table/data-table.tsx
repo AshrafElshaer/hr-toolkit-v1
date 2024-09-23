@@ -41,7 +41,7 @@ export function DataTable<TData, TValue>({
                 return (
                   <TableHead
                     key={header.id}
-                    className="text-accent-foreground bg-secondary"
+                    className="text-accent-foreground bg-secondary font-semibold"
                   >
                     {header.isPlaceholder
                       ? null
