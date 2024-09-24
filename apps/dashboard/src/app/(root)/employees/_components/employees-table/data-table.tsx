@@ -15,6 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@v1/ui/table";
+import { UserSearch } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -32,8 +33,8 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="rounded-md border h-full  min-h-40">
-      <Table>
+    <div className="rounded-md border flex-grow overflow-x-scroll flex flex-col min-h-40">
+      <Table isEmpty={table.getRowModel().rows.length === 0}>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -56,28 +57,34 @@ export function DataTable<TData, TValue>({
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
+          {
+            table.getRowModel().rows?.length
+              ? table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              : null
+           
+          }
         </TableBody>
       </Table>
+      {table.getRowModel().rows.length === 0 && (
+        <div className="flex flex-col justify-center items-center flex-grow p-4 text-sm text-secondary-foreground">
+          <UserSearch className="size-16 mb-2" />
+          <p className="font-semibold">No employees found</p>
+        </div>
+      )}
     </div>
   );
 }

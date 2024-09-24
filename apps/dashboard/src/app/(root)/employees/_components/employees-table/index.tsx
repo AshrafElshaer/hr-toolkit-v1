@@ -9,7 +9,7 @@ export default async function EmployeesTable() {
   // const employees = employeesAction?.data ?? [];
 
   return (
-    <section className="flex-grow grid">
+    <section className="flex-grow flex flex-col">
       <DataTable columns={columns} data={[]} />
     </section>
   );

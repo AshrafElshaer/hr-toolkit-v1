@@ -27,13 +27,14 @@ import {
   Search,
   Settings,
 } from "lucide-react";
-// import NoteDialog from "@/app/(root)/(home)/_components/notes/note-dialog";
 
-import { getCurrentUserAction } from "@/actions/user";
+
+
 import NoteSheet from "@/app/(root)/(home)/components/notes/note-sheet";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { RiStickyNoteAddLine } from "react-icons/ri";
+
 // import EventForm from "@/app/(root)/(home)/_components/calendar/event-form";
+import { useSession } from "@/hooks/use-session";
+import { RiStickyNoteAddLine } from "react-icons/ri";
 
 export function CommandMenu() {
   const [open, setOpen] = React.useState(false);
@@ -41,10 +42,11 @@ export function CommandMenu() {
   const [isNewEvent, setIsNewEvent] = React.useState(false);
 
   const router = useRouter();
-  const currentUser = useCurrentUser();
+
+  const session = useSession();
   const allowedNavigation = React.useMemo(() => {
-    return roleBasedNavigation(currentUser?.role ?? "");
-  }, [currentUser?.role]);
+    return roleBasedNavigation(session?.user?.role ?? "");
+  }, [session?.user?.role]);
 
   useHotkeys("meta+k", () => setOpen((open) => !open), {
     enableOnFormTags: true,

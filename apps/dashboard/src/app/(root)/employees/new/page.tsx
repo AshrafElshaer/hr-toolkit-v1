@@ -1,21 +1,27 @@
 import Main from "@/components/main";
 import { buttonVariants } from "@v1/ui/button";
-import { ArrowLeft } from "lucide-react";
+import {  ChevronLeft } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
 
+export const metadata: Metadata = {
+  title: "New Employee",
+  description: "Add a new employee",
+};
+
 export default function NewEmployeePage() {
   return (
-    <Main>
+    <Main className="flex flex-col gap-4">
       <Link
         href="/employees"
         className={buttonVariants({
           variant: "secondary",
-          className: "items-center",
+          className: "items-center gap-1 w-fit font-medium",
         })}
       >
-        <ArrowLeft className="size-4 mr-2" />
-        Back
+        <ChevronLeft className="size-4" />
+        <span>Back</span>
       </Link>
     </Main>
   );
