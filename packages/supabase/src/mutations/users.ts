@@ -1,4 +1,4 @@
-import { logger } from "@v1/logger";
+import { logger } from "@toolkit/logger";
 import { UserTable, db } from "../db";
 import type { InsertUser } from "../types";
 import { safeAsync } from "../utils";

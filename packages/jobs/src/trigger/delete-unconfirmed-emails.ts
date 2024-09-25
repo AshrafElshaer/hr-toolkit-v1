@@ -1,7 +1,7 @@
 import { render } from "@react-email/components";
 import { createClient } from "@supabase/supabase-js";
+import { UnconfirmedDeletionEmail } from "@toolkit/email/unconfirmed-deletion-email";
 import { envvars, logger, task } from "@trigger.dev/sdk/v3";
-import { UnconfirmedDeletionEmail } from "@v1/email/unconfirmed-deletion-email";
 import React from "react";
 import { Resend } from "resend";
 

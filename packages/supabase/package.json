@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.1",
-    "@v1/logger": "workspace:*",
+    "@toolkit/logger": "workspace:*",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.33.0",
     "drizzle-zod": "^0.5.1",

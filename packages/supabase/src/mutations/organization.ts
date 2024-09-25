@@ -1,4 +1,4 @@
-import { logger } from "@v1/logger";
+import { logger } from "@toolkit/logger";
 import {
   DepartmentMemberTable,
   DepartmentTable,

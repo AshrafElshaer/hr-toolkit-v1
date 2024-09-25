@@ -1,5 +1,5 @@
 {
-  "name": "@v1/jobs",
+  "name": "@toolkit/jobs",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -12,8 +12,8 @@
   "dependencies": {
     "@react-email/components": "^0.0.25",
     "@supabase/supabase-js": "^2.45.4",
+    "@toolkit/email": "workspace:*",
     "@trigger.dev/sdk": "3.0.0-beta.56",
-    "@v1/email": "workspace:*",
     "react-email": "^3.0.1"
   }
 }

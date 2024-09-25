@@ -1,8 +1,8 @@
 import { createServerClient } from "@/lib/supabase/server";
 import * as Sentry from "@sentry/nextjs";
-import { setupAnalytics } from "@v1/analytics/server";
-import { ratelimit } from "@v1/kv/ratelimit";
-import { logger } from "@v1/logger";
+import { setupAnalytics } from "@toolkit/analytics/server";
+import { ratelimit } from "@toolkit/kv/ratelimit";
+import { logger } from "@toolkit/logger";
 
 import {
   DEFAULT_SERVER_ERROR_MESSAGE,

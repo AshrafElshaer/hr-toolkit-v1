@@ -3,7 +3,7 @@
 import { actionClient } from "@/actions/safe-action";
 import { resend } from "@/lib/resend";
 import { createServerClient } from "@/lib/supabase/server";
-import { OtpEmail } from "@v1/email/otp-email";
+import { OtpEmail } from "@toolkit/email/otp-email";
 
 import { z } from "zod";
 
