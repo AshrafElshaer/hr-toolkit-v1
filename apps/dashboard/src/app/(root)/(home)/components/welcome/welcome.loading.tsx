@@ -1,4 +1,4 @@
-import { Skeleton } from "@v1/ui/skeleton";
+import { Skeleton } from "@toolkit/ui/skeleton";
 
 export function WelcomeMessageLoading() {
   return (

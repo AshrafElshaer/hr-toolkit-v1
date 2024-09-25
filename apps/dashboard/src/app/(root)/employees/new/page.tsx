@@ -1,6 +1,6 @@
 import Main from "@/components/main";
-import { buttonVariants } from "@v1/ui/button";
-import {  ChevronLeft } from "lucide-react";
+import { buttonVariants } from "@toolkit/ui/button";
+import { ChevronLeft } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import React from "react";

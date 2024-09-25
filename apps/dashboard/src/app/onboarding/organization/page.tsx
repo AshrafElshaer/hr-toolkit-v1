@@ -2,7 +2,7 @@
 
 import { organizationInsertSchema } from "@v1/supabase/validations";
 import { TextGenerateEffect } from "@/components/text-generate-effect";
-import { Button } from "@v1/ui/button";
+import { Button } from "@toolkit/ui/button";
 import {
   Form,
   FormControl,
@@ -10,8 +10,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@v1/ui/form";
-import { Input } from "@v1/ui/input";
+} from "@toolkit/ui/form";
+import { Input } from "@toolkit/ui/input";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 import { toast } from "sonner";
@@ -77,7 +77,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@v1/ui/select";
+} from "@toolkit/ui/select";
 
 import { createOrganizationAction } from "@/actions/organization";
 import { Loader } from "lucide-react";

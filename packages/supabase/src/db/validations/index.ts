@@ -90,11 +90,7 @@ export const noteInsertSchema = createInsertSchema(NotesTable).omit({
 });
 export const noteUpdateSchema = createInsertSchema(NotesTable).partial();
 
-
-
 // FORMS VALIDATIONS
 export const createEmployeeSchema = userInsertSchema
   .merge(emergencyContactInsertSchema.omit({ user_id: true }))
   .merge(addressInsertSchema.omit({ user_id: true }));
-
-

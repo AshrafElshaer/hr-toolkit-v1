@@ -1,7 +1,7 @@
 "use client";
 
 import { TextGenerateEffect } from "@/components/text-generate-effect";
-import { Button } from "@v1/ui/button";
+import { Button } from "@toolkit/ui/button";
 import {
   Form,
   FormControl,
@@ -9,8 +9,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@v1/ui/form";
-import { Input } from "@v1/ui/input";
+} from "@toolkit/ui/form";
+import { Input } from "@toolkit/ui/input";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -28,19 +28,19 @@ import {
   addressInsertSchema,
   userInsertSchema,
 } from "@v1/supabase/validations";
-import { DateOfBirthPicker } from "@v1/ui/date-of-birth-picker";
+import { DateOfBirthPicker } from "@toolkit/ui/date-of-birth-picker";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@v1/ui/select";
+} from "@toolkit/ui/select";
 import { subYears } from "date-fns";
 
 import { createOrganizationOwnerAction } from "@/actions/user";
 import { CountrySelector } from "@/components/selectors/country-selector";
-import { ToggleGroup, ToggleGroupItem } from "@v1/ui/toggle-group";
+import { ToggleGroup, ToggleGroupItem } from "@toolkit/ui/toggle-group";
 import { CircleDollarSign, Clock, Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";

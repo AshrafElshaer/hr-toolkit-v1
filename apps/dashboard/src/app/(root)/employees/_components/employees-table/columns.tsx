@@ -5,7 +5,7 @@ import type { GetOrganizationMembersQuery } from "@v1/supabase/types";
 
 import { MoreHorizontal } from "lucide-react";
 
-import { Button } from "@v1/ui/button";
+import { Button } from "@toolkit/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +13,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@v1/ui/dropdown-menu";
+} from "@toolkit/ui/dropdown-menu";
 
 export const columns: ColumnDef<GetOrganizationMembersQuery>[] = [
   {
@@ -42,7 +42,7 @@ export const columns: ColumnDef<GetOrganizationMembersQuery>[] = [
     accessorFn: (row) => row.user?.employment_type,
     header: " Type",
   },
-  
+
   // {
   //   id: "actions",
   //   cell: ({ row }) => {

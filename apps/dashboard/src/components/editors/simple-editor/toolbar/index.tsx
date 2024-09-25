@@ -1,7 +1,7 @@
 import type { Range } from "@tiptap/core";
-import { Button } from "@v1/ui/button";
-import { Separator } from "@v1/ui/separator";
-import { TooltipProvider } from "@v1/ui/tooltip";
+import { Button } from "@toolkit/ui/button";
+import { Separator } from "@toolkit/ui/separator";
+import { TooltipProvider } from "@toolkit/ui/tooltip";
 import type { EditorInstance } from "novel";
 import {
   FaBold,

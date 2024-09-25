@@ -1,6 +1,6 @@
-import { Card, CardContent } from "@v1/ui/card";
-import { Separator } from "@v1/ui/separator";
-import { Skeleton } from "@v1/ui/skeleton";
+import { Card, CardContent } from "@toolkit/ui/card";
+import { Separator } from "@toolkit/ui/separator";
+import { Skeleton } from "@toolkit/ui/skeleton";
 import { CalendarCheck } from "lucide-react";
 import React, { Suspense } from "react";
 import DateSelector from "./date-selector";

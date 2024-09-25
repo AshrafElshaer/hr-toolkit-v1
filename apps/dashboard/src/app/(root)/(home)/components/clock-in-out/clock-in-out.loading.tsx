@@ -1,5 +1,5 @@
-import { Card } from "@v1/ui/card";
-import { Skeleton } from "@v1/ui/skeleton";
+import { Card } from "@toolkit/ui/card";
+import { Skeleton } from "@toolkit/ui/skeleton";
 
 export function ClockInOutSkeleton() {
   return (

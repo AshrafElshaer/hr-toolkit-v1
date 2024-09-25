@@ -1,11 +1,11 @@
 "use client";
 
-import { Button, buttonVariants } from "@v1/ui/button";
-import { Card, CardContent } from "@v1/ui/card";
-import { Separator } from "@v1/ui/separator";
+import { Button, buttonVariants } from "@toolkit/ui/button";
+import { Card, CardContent } from "@toolkit/ui/card";
+import { Separator } from "@toolkit/ui/separator";
 import { Zap } from "lucide-react";
 import React from "react";
-import { Skeleton } from "@v1/ui/skeleton";
+import { Skeleton } from "@toolkit/ui/skeleton";
 
 export default function CurrentProjectLoading() {
   return (

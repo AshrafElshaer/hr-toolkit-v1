@@ -3,13 +3,13 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@v1/ui/command";
+} from "@toolkit/ui/command";
 import { Command as CommandPrimitive } from "cmdk";
 import { type KeyboardEvent, useCallback, useRef, useState } from "react";
 
-import { Skeleton } from "@v1/ui/skeleton";
+import { Skeleton } from "@toolkit/ui/skeleton";
 
-import { cn } from "@v1/ui/cn";
+import { cn } from "@toolkit/ui/cn";
 import { Check } from "lucide-react";
 
 export type Option = Record<"value" | "label", string> & Record<string, string>;

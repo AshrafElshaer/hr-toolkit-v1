@@ -1,10 +1,10 @@
 import React from "react";
-import { Card, CardContent } from "@v1/ui/card";
-import { Separator } from "@v1/ui/separator";
+import { Card, CardContent } from "@toolkit/ui/card";
+import { Separator } from "@toolkit/ui/separator";
 import { FaTasks } from "react-icons/fa";
-import { ScrollArea } from "@v1/ui/scroll-area";
-import { Skeleton } from "@v1/ui/skeleton";
-import { Button } from "@v1/ui/button";
+import { ScrollArea } from "@toolkit/ui/scroll-area";
+import { Skeleton } from "@toolkit/ui/skeleton";
+import { Button } from "@toolkit/ui/button";
 
 export default function TasksLoading() {
   return (

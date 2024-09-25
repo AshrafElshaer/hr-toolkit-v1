@@ -1,13 +1,13 @@
 "use client";
 
-import { Avatar } from "@v1/ui/avatar";
-import { Badge } from "@v1/ui/badge";
-import { Button, buttonVariants } from "@v1/ui/button";
-import { Card, CardContent } from "@v1/ui/card";
-import { Progress } from "@v1/ui/progress";
+import { Avatar } from "@toolkit/ui/avatar";
+import { Badge } from "@toolkit/ui/badge";
+import { Button, buttonVariants } from "@toolkit/ui/button";
+import { Card, CardContent } from "@toolkit/ui/card";
+import { Progress } from "@toolkit/ui/progress";
 import Link from "next/link";
 
-import { Separator } from "@v1/ui/separator";
+import { Separator } from "@toolkit/ui/separator";
 import { Calendar, Pencil, Zap } from "lucide-react";
 import React from "react";
 

@@ -1,5 +1,5 @@
 import Main from "@/components/main";
-import { Badge } from "@v1/ui/badge";
+import { Badge } from "@toolkit/ui/badge";
 
 export default function ProjectsPage() {
   return (

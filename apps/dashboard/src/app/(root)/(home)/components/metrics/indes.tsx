@@ -1,12 +1,12 @@
-import { Badge } from "@v1/ui/badge";
-import { Card, CardContent } from "@v1/ui/card";
+import { Badge } from "@toolkit/ui/badge";
+import { Card, CardContent } from "@toolkit/ui/card";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@v1/ui/hover-card";
-import { Progress } from "@v1/ui/progress";
-import { Separator } from "@v1/ui/separator";
+} from "@toolkit/ui/hover-card";
+import { Progress } from "@toolkit/ui/progress";
+import { Separator } from "@toolkit/ui/separator";
 import React from "react";
 import { IoStatsChart } from "react-icons/io5";
 

@@ -1,7 +1,7 @@
 "use client";
 import { createClient } from "@/lib/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-import { Avatar } from "@v1/ui/avatar";
+import { Avatar } from "@toolkit/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,8 +9,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@v1/ui/dropdown-menu";
-import { Skeleton } from "@v1/ui/skeleton";
+} from "@toolkit/ui/dropdown-menu";
+import { Skeleton } from "@toolkit/ui/skeleton";
 import React from "react";
 
 import { ThemeToggle } from "@/components/theme-toggle";

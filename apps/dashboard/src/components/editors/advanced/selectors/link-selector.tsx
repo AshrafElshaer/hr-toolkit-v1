@@ -1,4 +1,4 @@
-import { cn } from "@v1/ui/cn";
+import { cn } from "@toolkit/ui/cn";
 import { useEditor } from "novel";
 import { Check, Trash } from "lucide-react";
 import {
@@ -8,8 +8,8 @@ import {
   useEffect,
   useRef,
 } from "react";
-import { Button } from "@v1/ui/button";
-import { PopoverContent, Popover, PopoverTrigger } from "@v1/ui/popover";
+import { Button } from "@toolkit/ui/button";
+import { PopoverContent, Popover, PopoverTrigger } from "@toolkit/ui/popover";
 
 export function isValidUrl(url: string) {
   try {

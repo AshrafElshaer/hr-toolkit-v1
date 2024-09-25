@@ -7,7 +7,7 @@ import * as RPNInputSimple from "react-phone-number-input/input";
 
 import flags from "react-phone-number-input/flags";
 
-import { Button } from "@v1/ui/button";
+import { Button } from "@toolkit/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -15,11 +15,11 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@v1/ui/command";
-import { Input, type InputProps } from "@v1/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@v1/ui/popover";
+} from "@toolkit/ui/command";
+import { Input, type InputProps } from "@toolkit/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@toolkit/ui/popover";
 
-import { cn } from "@v1/ui/cn";
+import { cn } from "@toolkit/ui/cn";
 
 export type PhoneInputValue = RPNInput.Value;
 

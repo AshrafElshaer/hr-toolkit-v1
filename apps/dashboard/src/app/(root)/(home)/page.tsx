@@ -1,10 +1,10 @@
 import Main from "@/components/main";
-import { ScrollArea } from "@v1/ui/scroll-area";
+import { ScrollArea } from "@toolkit/ui/scroll-area";
 import { Suspense } from "react";
 
-import { Badge } from "@v1/ui/badge";
-import { Button } from "@v1/ui/button";
-import { Card } from "@v1/ui/card";
+import { Badge } from "@toolkit/ui/badge";
+import { Button } from "@toolkit/ui/button";
+import { Card } from "@toolkit/ui/card";
 
 import { toast } from "sonner";
 import ClockInOut from "./components/clock-in-out";

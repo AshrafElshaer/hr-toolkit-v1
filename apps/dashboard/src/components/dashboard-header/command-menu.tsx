@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-import { Button } from "@v1/ui/button";
+import { Button } from "@toolkit/ui/button";
 import {
   CommandDialog,
   CommandEmpty,
@@ -18,7 +18,7 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from "@v1/ui/command";
+} from "@toolkit/ui/command";
 import {
   CalendarPlus,
   ChevronDown,
@@ -27,8 +27,6 @@ import {
   Search,
   Settings,
 } from "lucide-react";
-
-
 
 import NoteSheet from "@/app/(root)/(home)/components/notes/note-sheet";
 

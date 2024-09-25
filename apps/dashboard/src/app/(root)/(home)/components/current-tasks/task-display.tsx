@@ -1,4 +1,4 @@
-import { cn } from "@v1/ui/cn";
+import { cn } from "@toolkit/ui/cn";
 import moment from "moment";
 import React from "react";
 // import { capitalize } from "lodash";
@@ -6,12 +6,12 @@ import React from "react";
 // import type { TaskSelect } from "@v1/supabase/types";
 
 import { IconName, Icons } from "@/components/icons";
-import { Badge } from "@v1/ui/badge";
+import { Badge } from "@toolkit/ui/badge";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@v1/ui/hover-card";
+} from "@toolkit/ui/hover-card";
 
 type Props = {
   task: {

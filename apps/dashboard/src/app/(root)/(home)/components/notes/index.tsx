@@ -1,8 +1,8 @@
 import { getUserNotesAction } from "@/actions/notes";
 import type { Note } from "@v1/supabase/types";
-import { Button } from "@v1/ui/button";
-import { Card, CardContent } from "@v1/ui/card";
-import { Separator } from "@v1/ui/separator";
+import { Button } from "@toolkit/ui/button";
+import { Card, CardContent } from "@toolkit/ui/card";
+import { Separator } from "@toolkit/ui/separator";
 import { CalendarArrowDown, NotebookPen, PlusIcon } from "lucide-react";
 import moment from "moment";
 import React from "react";

@@ -1,14 +1,14 @@
 "use client";
 import { roleBasedNavigation } from "@/constants/sidebar-navigations";
-import { cn } from "@v1/ui/cn";
+import { cn } from "@toolkit/ui/cn";
 import { usePathname } from "next/navigation";
 import React, { useMemo } from "react";
 
 import type { ReactSetState } from "@/types";
 import type { User } from "@v1/supabase/types";
 
-import { buttonVariants } from "@v1/ui/button";
-import { Separator } from "@v1/ui/separator";
+import { buttonVariants } from "@toolkit/ui/button";
+import { Separator } from "@toolkit/ui/separator";
 import Link from "next/link";
 import LogoSVG from "../logo-svg";
 

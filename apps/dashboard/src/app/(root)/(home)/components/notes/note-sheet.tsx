@@ -16,9 +16,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@v1/ui/alert-dialog";
-import { Button } from "@v1/ui/button";
-import { ScrollArea } from "@v1/ui/scroll-area";
+} from "@toolkit/ui/alert-dialog";
+import { Button } from "@toolkit/ui/button";
+import { ScrollArea } from "@toolkit/ui/scroll-area";
 import {
   Sheet,
   SheetClose,
@@ -28,7 +28,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@v1/ui/sheet";
+} from "@toolkit/ui/sheet";
 import { Loader, NotebookIcon, X } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import type { EditorInstance, JSONContent } from "novel";

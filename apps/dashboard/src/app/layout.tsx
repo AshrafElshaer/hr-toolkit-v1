@@ -1,6 +1,6 @@
-import "@v1/ui/globals.css";
+import "@toolkit/ui/globals.css";
 
-import { cn } from "@v1/ui/cn";
+import { cn } from "@toolkit/ui/cn";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEditor } from "@tiptap/react";
-import { Button } from "@v1/ui/button";
-import { ScrollArea } from "@v1/ui/scroll-area";
+import { Button } from "@toolkit/ui/button";
+import { ScrollArea } from "@toolkit/ui/scroll-area";
 import {
   EditorBubble,
   EditorBubbleItem,

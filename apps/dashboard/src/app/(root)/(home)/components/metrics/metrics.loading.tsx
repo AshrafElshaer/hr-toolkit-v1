@@ -1,7 +1,7 @@
-import { Card, CardContent } from "@v1/ui/card";
-import { Progress } from "@v1/ui/progress";
-import { Separator } from "@v1/ui/separator";
-import { Skeleton } from "@v1/ui/skeleton";
+import { Card, CardContent } from "@toolkit/ui/card";
+import { Progress } from "@toolkit/ui/progress";
+import { Separator } from "@toolkit/ui/separator";
+import { Skeleton } from "@toolkit/ui/skeleton";
 import React from "react";
 import { IoStatsChart } from "react-icons/io5";
 

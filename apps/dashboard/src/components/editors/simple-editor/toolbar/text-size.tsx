@@ -1,14 +1,14 @@
 "use client";
 import { useCurrentEditor } from "@tiptap/react";
-import { Button } from "@v1/ui/button";
-import { cn } from "@v1/ui/cn";
+import { Button } from "@toolkit/ui/button";
+import { cn } from "@toolkit/ui/cn";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@v1/ui/dropdown-menu";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@v1/ui/tooltip";
+} from "@toolkit/ui/dropdown-menu";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@toolkit/ui/tooltip";
 import { ChevronDown, LetterText, Pilcrow } from "lucide-react";
 import { type EditorInstance, useEditor } from "novel";
 import React from "react";

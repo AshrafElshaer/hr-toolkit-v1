@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "@v1/ui/cn";
+import { cn } from "@toolkit/ui/cn";
 import { motion, stagger, useAnimate } from "framer-motion";
 import { useEffect } from "react";
 

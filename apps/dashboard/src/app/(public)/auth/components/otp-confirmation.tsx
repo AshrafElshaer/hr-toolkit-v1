@@ -2,7 +2,7 @@ import { sendOtpAction } from "@/actions/auth/send-otp-action";
 import { verifyOtpAction } from "@/actions/auth/verify-otp-action";
 
 import type { ReactSetState } from "@/types";
-import { Button } from "@v1/ui/button";
+import { Button } from "@toolkit/ui/button";
 import {
   Card,
   CardContent,
@@ -10,14 +10,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@v1/ui/card";
-import { cn } from "@v1/ui/cn";
+} from "@toolkit/ui/card";
+import { cn } from "@toolkit/ui/cn";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSeparator,
   InputOTPSlot,
-} from "@v1/ui/input-otp";
+} from "@toolkit/ui/input-otp";
 import { AnimatePresence, motion } from "framer-motion";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { Loader } from "lucide-react";

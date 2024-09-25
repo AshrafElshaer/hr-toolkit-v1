@@ -2,10 +2,10 @@ import React from "react";
 
 // import type { TaskSelect } from "@hr-toolkit/supabase/types";
 
-import { Button, buttonVariants } from "@v1/ui/button";
-import { Card, CardContent } from "@v1/ui/card";
-import { ScrollArea } from "@v1/ui/scroll-area";
-import { Separator } from "@v1/ui/separator";
+import { Button, buttonVariants } from "@toolkit/ui/button";
+import { Card, CardContent } from "@toolkit/ui/card";
+import { ScrollArea } from "@toolkit/ui/scroll-area";
+import { Separator } from "@toolkit/ui/separator";
 import Link from "next/link";
 import { BiTaskX } from "react-icons/bi";
 import { FaTasks } from "react-icons/fa";

@@ -6,7 +6,7 @@ import { useTheme } from "next-themes";
 import { Toaster as ToasterPrimitive, type ToasterProps } from "sonner";
 import { twJoin } from "tailwind-merge";
 
-import { buttonVariants } from "@v1/ui/button";
+import { buttonVariants } from "@toolkit/ui/button";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { MdOutlineError } from "react-icons/md";
 

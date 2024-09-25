@@ -20,8 +20,8 @@ import { ColorSelector } from "./selectors/color-selector";
 import { LinkSelector } from "./selectors/link-selector";
 import { NodeSelector } from "./selectors/node-selector";
 
-import { ScrollArea } from "@v1/ui/scroll-area";
-import { Separator } from "@v1/ui/separator";
+import { ScrollArea } from "@toolkit/ui/scroll-area";
+import { Separator } from "@toolkit/ui/separator";
 import { handleImageDrop, handleImagePaste } from "novel/plugins";
 import { uploadFn } from "./image-upload";
 import { TextButtons } from "./selectors/text-buttons";

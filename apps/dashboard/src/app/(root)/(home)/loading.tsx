@@ -1,5 +1,5 @@
 import Main from "@/components/main";
-import { Card, CardContent } from "@v1/ui/card";
+import { Card, CardContent } from "@toolkit/ui/card";
 import { CalendarCheck } from "lucide-react";
 import React from "react";
 import { ClockInOutSkeleton } from "./components/clock-in-out/clock-in-out.loading";

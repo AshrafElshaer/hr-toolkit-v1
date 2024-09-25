@@ -1,7 +1,7 @@
 import { createServerClient } from "@/lib/supabase/server";
 // import type { EventWithOrganizerAndDepartment } from "@v1/supabase/types";
-import { ScrollArea } from "@v1/ui/scroll-area";
-import { Separator } from "@v1/ui/separator";
+import { ScrollArea } from "@toolkit/ui/scroll-area";
+import { Separator } from "@toolkit/ui/separator";
 import { differenceInCalendarDays } from "date-fns";
 import moment from "moment";
 import React from "react";

@@ -1,6 +1,6 @@
 import type { ComponentProps, HTMLAttributes, ReactNode } from "react";
 
-import { cn } from "@v1/ui/cn";
+import { cn } from "@toolkit/ui/cn";
 
 type IconSVG = ComponentProps<"svg"> & {
   width?: number | string;

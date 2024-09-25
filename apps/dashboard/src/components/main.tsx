@@ -1,4 +1,4 @@
-import { cn } from "@v1/ui/cn";
+import { cn } from "@toolkit/ui/cn";
 import type React from "react";
 
 export default function Main({

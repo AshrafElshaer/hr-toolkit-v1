@@ -6,7 +6,7 @@ import {
   PopoverContent,
   PopoverContentWithoutPortal,
   PopoverTrigger,
-} from "@v1/ui/popover";
+} from "@toolkit/ui/popover";
 import { CheckIcon, ChevronsUpDown } from "lucide-react";
 import {
   Command,
@@ -18,9 +18,9 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from "@v1/ui/command";
-import { Button } from "@v1/ui/button";
-import { cn } from "@v1/ui/cn";
+} from "@toolkit/ui/command";
+import { Button } from "@toolkit/ui/button";
+import { cn } from "@toolkit/ui/cn";
 import flags from "react-phone-number-input/flags";
 
 export const CountrySelector = ({

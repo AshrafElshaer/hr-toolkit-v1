@@ -8,7 +8,7 @@ import {
   SheetTitle,
   SheetDescription,
   SheetClose,
-} from "@v1/ui/sheet";
+} from "@toolkit/ui/sheet";
 import { PanelLeftOpen, X } from "lucide-react";
 import LogoSVG from "../logo-svg";
 
@@ -16,8 +16,8 @@ import type { User } from "@v1/supabase/types";
 import { roleBasedNavigation } from "@/constants/sidebar-navigations";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { cn } from "@v1/ui/cn";
-import { buttonVariants } from "@v1/ui/button";
+import { cn } from "@toolkit/ui/cn";
+import { buttonVariants } from "@toolkit/ui/button";
 
 export default function MobileSidebar({ currentUser }: { currentUser: User }) {
   const [isOpen, setIsOpen] = React.useState(false);

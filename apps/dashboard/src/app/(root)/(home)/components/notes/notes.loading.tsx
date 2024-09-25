@@ -1,8 +1,8 @@
-import { Button } from "@v1/ui/button";
-import { Card, CardContent } from "@v1/ui/card";
-import { cn } from "@v1/ui/cn";
-import { Separator } from "@v1/ui/separator";
-import { Skeleton } from "@v1/ui/skeleton";
+import { Button } from "@toolkit/ui/button";
+import { Card, CardContent } from "@toolkit/ui/card";
+import { cn } from "@toolkit/ui/cn";
+import { Separator } from "@toolkit/ui/separator";
+import { Skeleton } from "@toolkit/ui/skeleton";
 import { PlusIcon } from "lucide-react";
 import { FaRegNoteSticky } from "react-icons/fa6";
 

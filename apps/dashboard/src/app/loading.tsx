@@ -1,8 +1,8 @@
 import LogoSVG from "@/components/logo-svg";
-import { Button } from "@v1/ui/button";
-import { ResizablePanel, ResizablePanelGroup } from "@v1/ui/resizable";
-import { Skeleton } from "@v1/ui/skeleton";
-import { cn } from "@v1/ui/cn";
+import { Button } from "@toolkit/ui/button";
+import { ResizablePanel, ResizablePanelGroup } from "@toolkit/ui/resizable";
+import { Skeleton } from "@toolkit/ui/skeleton";
+import { cn } from "@toolkit/ui/cn";
 import { PanelLeftOpen, Search } from "lucide-react";
 import React from "react";
 

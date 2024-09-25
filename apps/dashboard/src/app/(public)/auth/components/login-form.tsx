@@ -3,7 +3,7 @@ import { sendOtpAction } from "@/actions/auth/send-otp-action";
 import LogoSVG from "@/components/logo-svg";
 import type { ReactSetState } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@v1/ui/button";
+import { Button } from "@toolkit/ui/button";
 import {
   Card,
   CardContent,
@@ -11,15 +11,15 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@v1/ui/card";
+} from "@toolkit/ui/card";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@v1/ui/form";
-import { Input } from "@v1/ui/input";
+} from "@toolkit/ui/form";
+import { Input } from "@toolkit/ui/input";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader, Mail } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
