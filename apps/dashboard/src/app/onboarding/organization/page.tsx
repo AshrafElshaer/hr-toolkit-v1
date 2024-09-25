@@ -1,7 +1,7 @@
 "use client";
 
-import { organizationInsertSchema } from "@v1/supabase/validations";
 import { TextGenerateEffect } from "@/components/text-generate-effect";
+import { organizationInsertSchema } from "@toolkit/supabase/validations";
 import { Button } from "@toolkit/ui/button";
 import {
   Form,
@@ -69,7 +69,7 @@ import { CountrySelector } from "@/components/selectors/country-selector";
 import { TimezoneSelector } from "@/components/selectors/timezone-selector";
 import { COUNTRIES } from "@/constants/countries";
 import { currentTimezone } from "@/lib/date";
-import { OrganizationTypeEnum } from "@v1/supabase/types";
+import { OrganizationTypeEnum } from "@toolkit/supabase/types";
 
 import {
   Select,

@@ -1,5 +1,5 @@
 import { createServerClient } from "@/lib/supabase/server";
-import { getCurrentUser } from "@v1/supabase/queries";
+import { getCurrentUser } from "@toolkit/supabase/queries";
 import { redirect } from "next/navigation";
 
 import type { ReactNode } from "react";

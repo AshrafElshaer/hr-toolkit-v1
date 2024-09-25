@@ -1,10 +1,13 @@
 "use server";
-import notesMutations from "@v1/supabase/note-mutations";
-import { getUserNotes } from "@v1/supabase/queries";
-import { noteInsertSchema, noteUpdateSchema } from "@v1/supabase/validations";
+import notesMutations from "@toolkit/supabase/note-mutations";
+import { getUserNotes } from "@toolkit/supabase/queries";
+import {
+  noteInsertSchema,
+  noteUpdateSchema,
+} from "@toolkit/supabase/validations";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { authActionClient } from "../safe-action";
 import { z } from "zod";
+import { authActionClient } from "../safe-action";
 
 export const getUserNotesAction = authActionClient
   .metadata({

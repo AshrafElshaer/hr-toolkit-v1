@@ -1,6 +1,6 @@
 "use client";
 
-import type { Note } from "@v1/supabase/types";
+import type { Note } from "@toolkit/supabase/types";
 import moment from "moment";
 import React, { useState } from "react";
 import NoteSheet from "./note-sheet";

@@ -1,4 +1,4 @@
-import type { TimeSheetBreak } from "@v1/supabase/types";
+import type { TimeSheetBreak } from "@toolkit/supabase/types";
 
 import moment from "moment";
 

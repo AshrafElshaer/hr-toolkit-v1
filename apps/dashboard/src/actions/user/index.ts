@@ -1,7 +1,7 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import addressMutations from "@v1/supabase/address-mutations";
+import addressMutations from "@toolkit/supabase/address-mutations";
 import {
   getCurrentUser,
   getDepartmentMembers,
@@ -9,13 +9,13 @@ import {
   getOrganizationMembers,
   getUserById,
   getUserDepartment,
-} from "@v1/supabase/queries";
-import { UserRolesEnum } from "@v1/supabase/types";
-import userMutations from "@v1/supabase/user-mutations";
+} from "@toolkit/supabase/queries";
+import { UserRolesEnum } from "@toolkit/supabase/types";
+import userMutations from "@toolkit/supabase/user-mutations";
 import {
   addressInsertSchema,
   userInsertSchema,
-} from "@v1/supabase/validations";
+} from "@toolkit/supabase/validations";
 
 const createOrganizationOwnerSchema =
   userInsertSchema.merge(addressInsertSchema);

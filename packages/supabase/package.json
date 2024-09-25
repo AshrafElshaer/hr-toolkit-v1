@@ -1,5 +1,5 @@
 {
-  "name": "@v1/supabase",
+  "name": "@toolkit/supabase",
   "version": "1.0.0",
   "private": true,
   "scripts": {

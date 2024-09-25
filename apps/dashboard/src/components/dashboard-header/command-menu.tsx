@@ -3,7 +3,7 @@
 import { roleBasedNavigation } from "@/constants/sidebar-navigations";
 import { createClient } from "@/lib/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-import { getCurrentUser } from "@v1/supabase/queries";
+import { getCurrentUser } from "@toolkit/supabase/queries";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useHotkeys } from "react-hotkeys-hook";

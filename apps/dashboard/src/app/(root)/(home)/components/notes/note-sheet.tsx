@@ -6,7 +6,7 @@ import {
 } from "@/actions/notes";
 import AdvancedEditor from "@/components/editors/advanced";
 import SimpleEditor from "@/components/editors/simple-editor";
-import type { Note } from "@v1/supabase/types";
+import type { Note } from "@toolkit/supabase/types";
 import {
   AlertDialog,
   AlertDialogAction,

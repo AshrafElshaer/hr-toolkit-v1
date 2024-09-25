@@ -27,7 +27,7 @@ import { useSession } from "@/hooks/use-session";
 import {
   addressInsertSchema,
   userInsertSchema,
-} from "@v1/supabase/validations";
+} from "@toolkit/supabase/validations";
 import { DateOfBirthPicker } from "@toolkit/ui/date-of-birth-picker";
 import {
   Select,

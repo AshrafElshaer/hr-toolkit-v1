@@ -3,7 +3,7 @@ import {
   getCurrentBreaks,
   getCurrentTimeSheet,
   getCurrentUser,
-} from "@v1/supabase/queries";
+} from "@toolkit/supabase/queries";
 import React from "react";
 import ClockInOutClient from "./clock-in-out.client";
 export default async function ClockInOut() {

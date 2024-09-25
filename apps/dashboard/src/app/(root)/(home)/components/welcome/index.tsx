@@ -1,5 +1,5 @@
 import { createServerClient } from "@/lib/supabase/server";
-import { getCurrentUser } from "@v1/supabase/queries";
+import { getCurrentUser } from "@toolkit/supabase/queries";
 export default async function WelcomeMessage() {
   // const today = moment().format("YYYY-MM-DD");
   const supabase = createServerClient();

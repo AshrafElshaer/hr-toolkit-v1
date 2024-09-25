@@ -3,7 +3,7 @@ import moment from "moment";
 import React from "react";
 // import { capitalize } from "lodash";
 
-// import type { TaskSelect } from "@v1/supabase/types";
+// import type { TaskSelect } from "@toolkit/supabase/types";
 
 import { IconName, Icons } from "@/components/icons";
 import { Badge } from "@toolkit/ui/badge";

@@ -11,7 +11,7 @@ import {
   type TimeSheet,
   type TimeSheetBreak,
   TimeSheetStatusEnum,
-} from "@v1/supabase/types";
+} from "@toolkit/supabase/types";
 import { Button } from "@toolkit/ui/button";
 import { Card } from "@toolkit/ui/card";
 import { Loader } from "lucide-react";

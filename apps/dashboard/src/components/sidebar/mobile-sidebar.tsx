@@ -1,23 +1,23 @@
 "use client";
-import React from "react";
 import {
   Sheet,
-  SheetTrigger,
+  SheetClose,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetDescription,
-  SheetClose,
+  SheetTrigger,
 } from "@toolkit/ui/sheet";
 import { PanelLeftOpen, X } from "lucide-react";
+import React from "react";
 import LogoSVG from "../logo-svg";
 
-import type { User } from "@v1/supabase/types";
 import { roleBasedNavigation } from "@/constants/sidebar-navigations";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
-import { cn } from "@toolkit/ui/cn";
+import type { User } from "@toolkit/supabase/types";
 import { buttonVariants } from "@toolkit/ui/button";
+import { cn } from "@toolkit/ui/cn";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function MobileSidebar({ currentUser }: { currentUser: User }) {
   const [isOpen, setIsOpen] = React.useState(false);

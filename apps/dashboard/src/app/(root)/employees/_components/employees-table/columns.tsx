@@ -1,7 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import type { GetOrganizationMembersQuery } from "@v1/supabase/types";
+import type { GetOrganizationMembersQuery } from "@toolkit/supabase/types";
 
 import { MoreHorizontal } from "lucide-react";
 

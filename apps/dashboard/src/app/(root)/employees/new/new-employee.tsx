@@ -1,6 +1,6 @@
 "use client";
 
-import { createEmployeeSchema } from "@v1/supabase/validations";
+import { createEmployeeSchema } from "@toolkit/supabase/validations";
 import React from "react";
 
 export default function NewEmployee() {

@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import React, { useMemo } from "react";
 
 import type { ReactSetState } from "@/types";
-import type { User } from "@v1/supabase/types";
+import type { User } from "@toolkit/supabase/types";
 
 import { buttonVariants } from "@toolkit/ui/button";
 import { Separator } from "@toolkit/ui/separator";

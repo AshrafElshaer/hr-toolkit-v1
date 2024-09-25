@@ -1,5 +1,5 @@
 import { createServerClient } from "@/lib/supabase/server";
-// import type { EventWithOrganizerAndDepartment } from "@v1/supabase/types";
+// import type { EventWithOrganizerAndDepartment } from "@toolkit/supabase/types";
 import { ScrollArea } from "@toolkit/ui/scroll-area";
 import { Separator } from "@toolkit/ui/separator";
 import { differenceInCalendarDays } from "date-fns";
@@ -7,7 +7,7 @@ import moment from "moment";
 import React from "react";
 import { LuCalendarX } from "react-icons/lu";
 import { eventsSearchParamsCache } from "./events-search-params";
-// import { getEventsByDateRange } from "@v1/supabase/events-queries";
+// import { getEventsByDateRange } from "@toolkit/supabase/events-queries";
 // import EventCard from "./event-card";
 
 export default async function EventsList() {

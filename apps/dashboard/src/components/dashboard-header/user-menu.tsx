@@ -14,7 +14,7 @@ import { Skeleton } from "@toolkit/ui/skeleton";
 import React from "react";
 
 import { ThemeToggle } from "@/components/theme-toggle";
-import type { User } from "@v1/supabase/types";
+import type { User } from "@toolkit/supabase/types";
 import { LogOutIcon, MessageSquarePlus, Settings } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
