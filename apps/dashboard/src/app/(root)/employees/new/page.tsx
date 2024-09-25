@@ -4,6 +4,7 @@ import {  ChevronLeft } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
+import NewEmployee from "./new-employee";
 
 export const metadata: Metadata = {
   title: "New Employee",
@@ -23,6 +24,7 @@ export default function NewEmployeePage() {
         <ChevronLeft className="size-4" />
         <span>Back</span>
       </Link>
+      <NewEmployee />
     </Main>
   );
 }
