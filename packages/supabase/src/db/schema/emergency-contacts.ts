@@ -16,10 +16,10 @@ export const EmergencyContactTable = pgTable("emergency_contacts", {
   user_id: uuid("user_id")
     .references(() => UserTable.id, { onDelete: "cascade" })
     .notNull(),
-  name: text("name").notNull(),
-  email: text("email").notNull(),
-  phone_number: text("phone_number").notNull(),
-  relation: text("relation").notNull(),
+  contact_name: text("contact_name").notNull(),
+  contact_email: text("contact_email").notNull(),
+  contact_number: text("contact_number").notNull(),
+  contact_relation: text("contact_relation").notNull(),
   created_at: timestamp("created_at", { withTimezone: true }).defaultNow(),
   updated_at: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });

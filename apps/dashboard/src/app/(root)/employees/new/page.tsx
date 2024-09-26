@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function NewEmployeePage() {
   return (
-    <Main className="flex flex-col gap-4">
+    <Main className="flex flex-col gap-4 h-auto">
       <Link
         href="/employees"
         className={buttonVariants({

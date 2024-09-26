@@ -15,6 +15,13 @@
       "when": 1726963694460,
       "tag": "20240922000814_brainy_sabretooth",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1727368254243,
+      "tag": "20240926163054_typical_arclight",
+      "breakpoints": true
     }
   ]
 }

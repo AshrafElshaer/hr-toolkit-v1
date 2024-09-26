@@ -18,6 +18,9 @@
 
 Everything you need to build a production ready SaaS, it's a opinionated stack based on learnings from building Midday using the latest Next.js framework, it's a monorepo with a focus on code reuse and best practices that will grow with your business.
 
+
+
+
 ## What's included
 
 [Next.js](https://nextjs.org/) - Framework<br>
