@@ -127,4 +127,5 @@ export const noteUpdateSchema = createInsertSchema(NotesTable).partial();
 export const createEmployeeSchema = userInsertSchema
   .setKey("avatar_url", z.string().url())
   .merge(emergencyContactInsertSchema.omit({ user_id: true }))
-  .merge(addressInsertSchema.omit({ user_id: true }));
+  .merge(addressInsertSchema.omit({ user_id: true }))
+  .merge(departmentMemberInsertSchema.omit({ user_id: true }));

@@ -74,6 +74,15 @@ export default function NewEmployee() {
       contact_email: "",
       contact_number: "",
       contact_relation: "",
+      department_id: "",
+      job_title: "",
+      employment_type: "full_time",
+      hire_date: "",
+      role: "staff",
+      work_hours_per_week: 40,
+      salary_per_hour: 0,
+      working_days_per_week: [],
+      leave_date: null,
     },
   });
   console.log(form.getValues());
@@ -372,7 +381,6 @@ export default function NewEmployee() {
                             }}
                             value={field.value as RPNInput.Country}
                             options={COUNTRIES}
-
                           />
                         </FormControl>
                         <FormMessage />
