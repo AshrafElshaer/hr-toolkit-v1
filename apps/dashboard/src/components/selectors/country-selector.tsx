@@ -1,13 +1,5 @@
-import type * as RPNInput from "react-phone-number-input";
-import type { CountrySelectProps } from "../phone-input";
-import React from "react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverContentWithoutPortal,
-  PopoverTrigger,
-} from "@toolkit/ui/popover";
-import { CheckIcon, ChevronsUpDown } from "lucide-react";
+import { Button } from "@toolkit/ui/button";
+import { cn } from "@toolkit/ui/cn";
 import {
   Command,
   CommandDialog,
@@ -19,9 +11,17 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@toolkit/ui/command";
-import { Button } from "@toolkit/ui/button";
-import { cn } from "@toolkit/ui/cn";
+import {
+  Popover,
+  PopoverContent,
+  PopoverContentWithoutPortal,
+  PopoverTrigger,
+} from "@toolkit/ui/popover";
+import { CheckIcon, ChevronsUpDown } from "lucide-react";
+import React from "react";
+import type * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
+import type { CountrySelectProps } from "../phone-input";
 
 export const CountrySelector = ({
   disabled,
@@ -56,17 +56,17 @@ export const CountrySelector = ({
           <ChevronsUpDown className={`h-4 w-4 ${disabled ? "hidden" : ""}`} />
         </Button>
       </PopoverTrigger>
-      <PopoverContentWithoutPortal className="p-0" align="end" sideOffset={12}>
+      <PopoverContentWithoutPortal className="p-0 w-[250px]" align="end" sideOffset={0}>
         <Command>
-          <CommandInput placeholder="Search country..." />
-          <CommandList>
+          <CommandInput placeholder="Search country..." className="p-3" />
+          <CommandList className="h-[300px]">
             <CommandEmpty>No country found.</CommandEmpty>
             <CommandGroup>
               {options
                 .filter((x) => x.value)
                 .map((option) => (
                   <CommandItem
-                    className={"text-sm gap-2"}
+                    className={"text-sm gap-2 p-2"}
                     key={option.value}
                     onSelect={() => {
                       handleSelect(option.value);

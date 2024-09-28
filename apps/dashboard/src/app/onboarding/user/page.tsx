@@ -40,6 +40,7 @@ import { subYears } from "date-fns";
 
 import { createOrganizationOwnerAction } from "@/actions/user";
 import { CountrySelector } from "@/components/selectors/country-selector";
+import { DateField } from "@toolkit/ui/date-field";
 import { ToggleGroup, ToggleGroupItem } from "@toolkit/ui/toggle-group";
 import { CircleDollarSign, Clock, Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
@@ -258,17 +259,11 @@ function OwnerForm() {
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormLabel>Date of Birth</FormLabel>
-                <DateOfBirthPicker
-                  date={
-                    field.value
-                      ? new Date(field.value)
-                      : new Date(subYears(new Date(), 18))
-                  }
-                  onSelect={(value) => {
-                    field.onChange(value?.toISOString() ?? "");
+                <DateField
+                  value={field.value ? new Date(field.value) : undefined}
+                  onChange={(date) => {
+                    field.onChange(date?.toISOString());
                   }}
-                  className="w-full"
-                  toDate={new Date(subYears(new Date(), 18))}
                 />
                 <FormMessage />
               </FormItem>

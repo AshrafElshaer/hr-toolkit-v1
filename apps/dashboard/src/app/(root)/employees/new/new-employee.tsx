@@ -2,16 +2,28 @@
 
 import UploadZone from "@/components/upload-zone";
 import { createEmployeeSchema } from "@toolkit/supabase/validations";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@toolkit/ui/select";
 import { ImagePlus, X } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 import type { DropzoneOptions } from "react-dropzone";
+import type * as RPNInput from "react-phone-number-input";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 
+import { PhoneInputSimple } from "@/components/phone-input";
+import { CountrySelector } from "@/components/selectors/country-selector";
+import { COUNTRIES } from "@/constants/countries";
 import { formatBytes } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@toolkit/ui/button";
+import { DateField } from "@toolkit/ui/date-field";
 import {
   Form,
   FormControl,
@@ -51,7 +63,7 @@ export default function NewEmployee() {
       email: "",
       phone_number: "",
       date_of_birth: "",
-      gender: "",
+      gender: "male",
       address_1: "",
       address_2: "",
       city: "",
@@ -203,8 +215,17 @@ export default function NewEmployee() {
                   <FormItem className="flex-1 min-w-[calc(50%-0.25rem)]">
                     <FormLabel>Phone Number</FormLabel>
                     <FormControl>
-                      {/* @ts-ignore */}
-                      <Input placeholder="1234567890" {...field} />
+                      <PhoneInputSimple
+                        onChange={(value: RPNInput.Value) => {
+                          field.onChange(value);
+                        }}
+                        value={field.value as RPNInput.Value}
+                        defaultCountry={
+                          form.watch("country") as RPNInput.Country
+                        }
+                        country={form.watch("country") as RPNInput.Country}
+                        disabled={!form.getValues().country}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -217,8 +238,12 @@ export default function NewEmployee() {
                   <FormItem className="flex-1 min-w-[calc(50%-0.25rem)]">
                     <FormLabel>Date of Birth</FormLabel>
                     <FormControl>
-                      {/* @ts-ignore */}
-                      <Input placeholder="1990-01-01" {...field} />
+                      <DateField
+                        value={field.value ? new Date(field.value) : undefined}
+                        onChange={(date) => {
+                          field.onChange(date?.toISOString());
+                        }}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -231,8 +256,18 @@ export default function NewEmployee() {
                   <FormItem className="flex-1 min-w-[calc(50%-0.25rem)]">
                     <FormLabel>Gender</FormLabel>
                     <FormControl>
-                      {/* @ts-ignore */}
-                      <Input placeholder="Male" {...field} />
+                      <Select
+                        value={field.value ?? undefined}
+                        onValueChange={field.onChange}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a gender" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="male">Male</SelectItem>
+                          <SelectItem value="female">Female</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -274,7 +309,7 @@ export default function NewEmployee() {
                       </FormLabel>
                       <FormControl>
                         {/* @ts-ignore */}
-                        <Input placeholder="1234 Main St" {...field} />
+                        <Input placeholder="Suite, Floor, etc." {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -290,7 +325,7 @@ export default function NewEmployee() {
                       <FormItem className="w-full">
                         <FormLabel>City</FormLabel>
                         <FormControl>
-                          <Input placeholder="1234 Main St" {...field} />
+                          <Input placeholder="London" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -303,7 +338,7 @@ export default function NewEmployee() {
                       <FormItem className="w-full">
                         <FormLabel>State</FormLabel>
                         <FormControl>
-                          <Input placeholder="1234 Main St" {...field} />
+                          <Input placeholder="London" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -318,7 +353,7 @@ export default function NewEmployee() {
                       <FormItem className="w-full">
                         <FormLabel>Zip Code</FormLabel>
                         <FormControl>
-                          <Input placeholder="1234 Main St" {...field} />
+                          <Input placeholder="12345" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -331,7 +366,14 @@ export default function NewEmployee() {
                       <FormItem className="w-full">
                         <FormLabel>Country</FormLabel>
                         <FormControl>
-                          <Input placeholder="1234 Main St" {...field} />
+                          <CountrySelector
+                            onChange={(value: string) => {
+                              field.onChange(value);
+                            }}
+                            value={field.value as RPNInput.Country}
+                            options={COUNTRIES}
+
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -352,7 +394,7 @@ export default function NewEmployee() {
                   name="contact_name"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Contact Name</FormLabel>
+                      <FormLabel>Name</FormLabel>
                       <FormControl>
                         <Input placeholder="John Doe" {...field} />
                       </FormControl>
@@ -365,7 +407,7 @@ export default function NewEmployee() {
                   name="contact_email"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Contact Email</FormLabel>
+                      <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input placeholder="john.doe@example.com" {...field} />
                       </FormControl>
@@ -378,9 +420,19 @@ export default function NewEmployee() {
                   name="contact_number"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Contact Number</FormLabel>
+                      <FormLabel>Number</FormLabel>
                       <FormControl>
-                        <Input placeholder="1234567890" {...field} />
+                        <PhoneInputSimple
+                          onChange={(value: RPNInput.Value) => {
+                            field.onChange(value);
+                          }}
+                          value={field.value as RPNInput.Value}
+                          defaultCountry={
+                            form.watch("country") as RPNInput.Country
+                          }
+                          country={form.watch("country") as RPNInput.Country}
+                          disabled={!form.getValues().country}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -391,9 +443,9 @@ export default function NewEmployee() {
                   name="contact_relation"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Contact Relation</FormLabel>
+                      <FormLabel>Relation</FormLabel>
                       <FormControl>
-                        <Input placeholder="John Doe" {...field} />
+                        <Input placeholder="Brother" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -411,6 +463,9 @@ export default function NewEmployee() {
           </h3>
         </div>
       </form>
+      <Button type="button" onClick={() => console.log(form.getValues())}>
+        Submit
+      </Button>
     </Form>
   );
 }

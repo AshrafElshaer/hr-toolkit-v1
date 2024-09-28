@@ -74,7 +74,8 @@
     "./tailwind.config": "./tailwind.config.ts",
     "./postcss": "./postcss.config.js",
     "./toggle-group": "./src/components/ui/toggle-group.tsx",
-    "./toggle": "./src/components/ui/toggle.tsx"
+    "./toggle": "./src/components/ui/toggle.tsx",
+    "./date-field": "./src/components/ui/date-field.tsx"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -106,14 +107,16 @@
     "@radix-ui/react-toggle": "^1.1.0",
     "@radix-ui/react-toggle-group": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.0.7",
+    "@react-stately/overlays": "^3.6.10",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.0",
+    "clsx": "^2.1.1",
     "cmdk": "0.2.1",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.0.4",
     "input-otp": "^1.2.4",
     "jsonfile": "^6.1.0",
+    "justd-icons": "^1.4.45",
     "lucide-react": "^0.437.0",
     "next-themes": "^0.3.0",
     "postcss": "^8.4.41",
@@ -125,10 +128,11 @@
     "react-resizable-panels": "^2.0.19",
     "recharts": "^2.12.7",
     "sonner": "^1.5.0",
-    "tailwind-merge": "2.0.0",
+    "tailwind-merge": "^2.5.2",
     "tailwind-variants": "^0.2.1",
     "tailwindcss": "^3.4.10",
     "tailwindcss-animate": "^1.0.7",
+    "tailwindcss-react-aria-components": "^1.1.5",
     "vaul": "^0.9.1",
     "zod": "^3.23.8"
   }

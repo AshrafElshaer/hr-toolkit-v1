@@ -1,4 +1,9 @@
+"use client";
+
 import Main from "@/components/main";
+import { PhoneInputSimple } from "@/components/phone-input";
+import { CountrySelector } from "@/components/selectors/country-selector";
+import { COUNTRIES } from "@/constants/countries";
 import { Badge } from "@toolkit/ui/badge";
 
 export default function ProjectsPage() {
@@ -19,6 +24,13 @@ export default function ProjectsPage() {
         <Badge variant="warning">warning</Badge>
         <Badge variant="success">success</Badge>
       </div>
+      <CountrySelector
+        onChange={(value: string) => {
+          console.log(value);
+        }}
+        value={"US"}
+        options={COUNTRIES}
+      />
     </Main>
   );
 }
