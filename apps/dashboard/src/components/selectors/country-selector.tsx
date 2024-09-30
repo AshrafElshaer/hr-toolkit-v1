@@ -56,7 +56,7 @@ export const CountrySelector = ({
           <ChevronsUpDown className={`h-4 w-4 ${disabled ? "hidden" : ""}`} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-0 w-[250px]" align="end" sideOffset={0}>
+      <PopoverContent className="p-0 w-[250px]" align="end" >
         <Command>
           <CommandInput placeholder="Search country..." className="p-3" />
           <CommandList className="h-[300px]">

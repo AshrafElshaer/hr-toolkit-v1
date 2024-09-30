@@ -3,6 +3,21 @@ import { unstable_cache } from "next/cache";
 import { DepartmentMemberTable, DepartmentTable, db } from "../db";
 import { safeAsync } from "../utils";
 
+export const getDepartments = async (organizationId: string) => {
+  return unstable_cache(
+    async () => {
+      const result = await safeAsync(async () => {
+        return await db.query.DepartmentTable.findMany({
+          where: eq(DepartmentTable.organization_id, organizationId),
+        });
+      });
+      return result;
+    },
+    [organizationId],
+    { revalidate: 180, tags: [`departments-${organizationId}`] },
+  )();
+};
+
 export const getUserDepartment = async (userId: string) => {
   return unstable_cache(
     async () => {

@@ -13,7 +13,7 @@ import { Button } from "./button";
 import { Calendar, type CalendarProps } from "./calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 type DatePickerProps = {
-  date: Date;
+  date: Date | undefined;
   onSelect: SelectSingleEventHandler;
   className?: string;
 } & DayPickerSingleProps;

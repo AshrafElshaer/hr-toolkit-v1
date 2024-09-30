@@ -1,7 +1,9 @@
 "use client";
 
 import UploadZone from "@/components/upload-zone";
+import { EmploymentTypeEnum, UserRolesEnum } from "@toolkit/supabase/types";
 import { createEmployeeSchema } from "@toolkit/supabase/validations";
+import { DatePicker } from "@toolkit/ui/date-picker";
 import {
   Select,
   SelectContent,
@@ -9,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@toolkit/ui/select";
-import { ImagePlus, X } from "lucide-react";
+import { CircleDollarSign, Clock, FilePlus, ImagePlus, X } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 import type { DropzoneOptions } from "react-dropzone";
@@ -19,6 +21,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { PhoneInputSimple } from "@/components/phone-input";
 import { CountrySelector } from "@/components/selectors/country-selector";
+import { DepartmentSelector } from "@/components/selectors/department-selector";
 import { COUNTRIES } from "@/constants/countries";
 import { formatBytes } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -56,7 +59,7 @@ export default function NewEmployee() {
   const form = useForm<z.infer<typeof createEmployeeSchema>>({
     resolver: zodResolver(createEmployeeSchema),
     defaultValues: {
-      id: uuidv4(),
+      id: "",
       avatar_url: "",
       first_name: "",
       last_name: "",
@@ -77,7 +80,7 @@ export default function NewEmployee() {
       department_id: "",
       job_title: "",
       employment_type: "full_time",
-      hire_date: "",
+      hire_date: new Date().toISOString(),
       role: "staff",
       work_hours_per_week: 40,
       salary_per_hour: 0,
@@ -85,7 +88,6 @@ export default function NewEmployee() {
       leave_date: null,
     },
   });
-  console.log(form.getValues());
 
   function onSubmit(values: z.infer<typeof createEmployeeSchema>) {
     // Do something with the form values.
@@ -93,7 +95,7 @@ export default function NewEmployee() {
     console.log(values);
   }
 
-  const handleOnDrop: DropzoneOptions["onDrop"] = (acceptedFiles) => {
+  const handleImageDrop: DropzoneOptions["onDrop"] = (acceptedFiles) => {
     if (acceptedFiles[0]) {
       setImage(acceptedFiles[0]);
       const imageUrl = URL.createObjectURL(acceptedFiles[0]);
@@ -101,7 +103,7 @@ export default function NewEmployee() {
     }
   };
 
-  const handleOnDropRejected: DropzoneOptions["onDropRejected"] = (
+  const handleImageDropRejected: DropzoneOptions["onDropRejected"] = (
     rejectedFiles,
   ) => {
     console.log(rejectedFiles);
@@ -122,12 +124,12 @@ export default function NewEmployee() {
         <div className="flex flex-col gap-4 md:flex-row">
           {/* Left Side */}
 
-          <div className="flex flex-col justify-start items-start gap-4 basis-1/3">
+          <section className="flex flex-col justify-start items-start gap-4 basis-1/3">
             <div className="flex items-start gap-2">
               <UploadZone
                 options={createUploadZoneOptions(
-                  handleOnDrop,
-                  handleOnDropRejected,
+                  handleImageDrop,
+                  handleImageDropRejected,
                 )}
                 className=" size-16 rounded-md  flex items-center justify-center text-secondary-foreground"
               >
@@ -283,7 +285,7 @@ export default function NewEmployee() {
                 )}
               />
             </div>
-          </div>
+          </section>
           {/* Right Side */}
           <div className="flex flex-col gap-4 basis-2/3">
             {/* Address */}
@@ -291,7 +293,7 @@ export default function NewEmployee() {
               <h3 className="text-lg font-medium text-secondary-foreground">
                 Main Address
               </h3>
-              <div className="flex  flex-col md:flex-row  gap-2">
+              <section className="flex  flex-col md:flex-row  gap-2">
                 <FormField
                   control={form.control}
                   name="address_1"
@@ -324,8 +326,8 @@ export default function NewEmployee() {
                     </FormItem>
                   )}
                 />
-              </div>
-              <div className="flex flex-col md:flex-row  gap-2">
+              </section>
+              <section className="flex flex-col md:flex-row  gap-2">
                 <div className="flex flex-col sm:flex-row  gap-2">
                   <FormField
                     control={form.control}
@@ -388,7 +390,7 @@ export default function NewEmployee() {
                     )}
                   />
                 </div>
-              </div>
+              </section>
             </div>
 
             {/* Emergency Contacts */}
@@ -465,15 +467,229 @@ export default function NewEmployee() {
         </div>
 
         {/* Employment Details */}
-        <div className=" gap-4  rounded-md  col-span-3 col-start-1 row-start-3">
-          <h3 className="text-lg font-medium text-secondary-foreground">
+        <section className=" rounded-md  ">
+          <h3 className="text-lg font-medium text-secondary-foreground mb-2 text-center">
             Employment Details
           </h3>
-        </div>
+          <div className="flex flex-col md:flex-row  gap-2 mb-4">
+            <FormField
+              control={form.control}
+              name="department_id"
+              render={({ field }) => (
+                <FormItem className="min-w-fit w-full">
+                  <FormLabel>Department</FormLabel>
+                  <FormControl>
+                    <DepartmentSelector
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="job_title"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Job Title</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Software Engineer"
+                      {...field}
+                      value={field.value ?? ""}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Role</FormLabel>
+                  <FormControl>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="capitalize">
+                        <SelectValue placeholder="Select a role" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Object.values(UserRolesEnum).map((role) => (
+                          <SelectItem
+                            key={role}
+                            value={role}
+                            className="capitalize"
+                          >
+                            {role.replace("_", " ")}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="employment_type"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Employment Type</FormLabel>
+                  <FormControl>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="capitalize">
+                        <SelectValue placeholder="Select an employment type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Object.values(EmploymentTypeEnum).map((type) => (
+                          <SelectItem
+                            key={type}
+                            value={type}
+                            className="capitalize"
+                          >
+                            {type.replace("_", " ")}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex flex-col md:flex-row md:items-center  gap-2">
+            <FormField
+              control={form.control}
+              name="hire_date"
+              render={({ field }) => (
+                <FormItem className="w-full flex flex-col gap-2">
+                  <FormLabel>Hire Date</FormLabel>
+                  <FormControl>
+                    <DatePicker
+                      date={field.value ? new Date(field.value) : undefined}
+                      onSelect={(date) => {
+                        field.onChange(date?.toISOString());
+                      }}
+                      mode="single"
+                      fromDate={new Date()}
+                      className="w-full mt-0"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="work_hours_per_week"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Work Hours / Week</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="40"
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                      value={
+                        Number.isNaN(field.value)
+                          ? ""
+                          : field?.value?.toString() ?? ""
+                      }
+                      startIcon={Clock}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="salary_per_hour"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Salary / Hour</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="100"
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                      value={
+                        field.value && Number.isNaN(field.value)
+                          ? ""
+                          : field?.value?.toString() ?? ""
+                      }
+                      startIcon={CircleDollarSign}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="leave_date"
+              render={({ field }) => (
+                <FormItem className="w-full flex flex-col gap-2">
+                  <FormLabel>
+                    Leave Date
+                    <span className="text-xs text-secondary-foreground ml-1">
+                      (Optional)
+                    </span>
+                  </FormLabel>
+                  <FormControl>
+                    <DatePicker
+                      date={field.value ? new Date(field.value) : undefined}
+                      onSelect={(date) => {
+                        field.onChange(date?.toISOString());
+                      }}
+                      mode="single"
+                      fromDate={
+                        form.watch("hire_date") && form.getValues().hire_date
+                          ? new Date(form.getValues().hire_date ?? "")
+                          : new Date()
+                      }
+                      className="w-full mt-0"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </section>
+        <h3 className="text-lg font-medium text-secondary-foreground mb-2 text-center">
+          Upload Documents{" "}
+          <span className=" text-sm text-secondary-foreground ml-1">
+            (Optional)
+          </span>
+        </h3>
+        <UploadZone
+          className="w-full h-72 flex flex-col  items-center justify-center gap-2"
+          options={createUploadZoneOptions(
+            handleImageDrop,
+            handleImageDropRejected,
+          )}
+        >
+          <FilePlus className="size-10 text-secondary-foreground" />
+          <p className="text-sm text-secondary-foreground">
+            Click to upload or drag and drop
+          </p>
+        </UploadZone>
       </form>
-      <Button type="button" onClick={() => console.log(form.getValues())}>
+      {/* <Button
+        type="button"
+        className="w-fit"
+        variant="outline"
+        onClick={() => console.log(form.getValues())}
+      >
         Submit
-      </Button>
+      </Button> */}
     </Form>
   );
 }
