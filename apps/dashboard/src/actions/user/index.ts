@@ -15,6 +15,7 @@ import userMutations from "@toolkit/supabase/user-mutations";
 import {
   addressInsertSchema,
   userInsertSchema,
+  userUpdateSchema,
 } from "@toolkit/supabase/validations";
 
 const createOrganizationOwnerSchema =
@@ -93,6 +94,7 @@ export const getEmployeesAction = authActionClient
       if (employeesError) {
         throw new Error(employeesError.message);
       }
+    
       return employees;
     }
 
@@ -108,4 +110,18 @@ export const getEmployeesAction = authActionClient
     }
 
     return employees;
+  });
+
+export const updateUserByIdAction = authActionClient
+  .metadata({
+    name: "update-user-by-id",
+  })
+  .schema(userUpdateSchema)
+  .action(async ({ parsedInput, ctx }) => {
+    const { user } = ctx;
+    const { data, error } = await userMutations.update(parsedInput);
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
   });

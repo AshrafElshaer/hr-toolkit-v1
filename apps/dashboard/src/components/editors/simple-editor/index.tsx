@@ -75,9 +75,7 @@ export default function SimpleEditor() {
       </ScrollArea>
       <Button
         variant="outline"
-        onClick={() => {
-          console.log(content);
-        }}
+      
       >
         Save
       </Button>

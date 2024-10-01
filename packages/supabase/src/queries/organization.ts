@@ -27,10 +27,10 @@ export const getOrganizationById = async (organizationId: string) =>
         const query = await db.query.OrganizationTable.findFirst({
           where: eq(OrganizationTable.id, organizationId),
         });
-        console.log({ query });
+
         return query;
       });
-      console.log({ result });
+
       return result;
     },
     [organizationId],

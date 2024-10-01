@@ -1,5 +1,6 @@
 "use client";
 
+import { createEmployeeAction } from "@/actions/employees";
 import UploadZone from "@/components/upload-zone";
 import { EmploymentTypeEnum, UserRolesEnum } from "@toolkit/supabase/types";
 import { createEmployeeSchema } from "@toolkit/supabase/validations";
@@ -11,18 +12,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@toolkit/ui/select";
-import { CircleDollarSign, Clock, FilePlus, ImagePlus, X } from "lucide-react";
+import { ToggleGroup, ToggleGroupItem } from "@toolkit/ui/toggle-group";
+import {
+  CircleDollarSign,
+  Clock,
+  FilePlus,
+  ImagePlus,
+  Loader,
+  X,
+} from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
 import Image from "next/image";
 import React, { useState } from "react";
 import type { DropzoneOptions } from "react-dropzone";
 import type * as RPNInput from "react-phone-number-input";
 import { toast } from "sonner";
-import { v4 as uuidv4 } from "uuid";
 
+import { updateUserByIdAction } from "@/actions/user";
 import { PhoneInputSimple } from "@/components/phone-input";
 import { CountrySelector } from "@/components/selectors/country-selector";
 import { DepartmentSelector } from "@/components/selectors/department-selector";
 import { COUNTRIES } from "@/constants/countries";
+import { createClient } from "@/lib/supabase/client";
 import { formatBytes } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@toolkit/ui/button";
@@ -39,6 +50,36 @@ import {
 import { Input } from "@toolkit/ui/input";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
+const DAYS_OF_WEEK = [
+  {
+    label: "Monday",
+    value: "1",
+  },
+  {
+    label: "Tuesday",
+    value: "2",
+  },
+  {
+    label: "Wednesday",
+    value: "3",
+  },
+  {
+    label: "Thursday",
+    value: "4",
+  },
+  {
+    label: "Friday",
+    value: "5",
+  },
+  {
+    label: "Saturday",
+    value: "6",
+  },
+  {
+    label: "Sunday",
+    value: "7",
+  },
+];
 
 function createUploadZoneOptions(
   onDrop: DropzoneOptions["onDrop"],
@@ -55,12 +96,28 @@ function createUploadZoneOptions(
 
 export default function NewEmployee() {
   const [image, setImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  const form = useForm<z.infer<typeof createEmployeeSchema>>({
-    resolver: zodResolver(createEmployeeSchema),
+  const { executeAsync, status, isExecuting } = useAction(
+    createEmployeeAction,
+    {
+      onError: ({ error }) => {
+        toast.error(error?.serverError ?? "Something went wrong");
+        console.log(error);
+      },
+      onSuccess: ({ data }) => {
+        toast.success(
+          "Employee created successfully and email has been sent to the employee",
+        );
+      },
+    },
+  );
+
+  const formSchema = createEmployeeSchema.omit({ id: true, avatar_url: true });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      id: "",
-      avatar_url: "",
       first_name: "",
       last_name: "",
       email: "",
@@ -89,24 +146,69 @@ export default function NewEmployee() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof createEmployeeSchema>) {
+  // console.log({ errors: form.formState.errors });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    const result = await executeAsync({ employee: values });
+    const supabase = createClient();
+    const userId = result?.data?.user?.id;
+    const organizationId = result?.data?.user?.user_metadata?.organization_id;
+    if (image) {
+      toast.promise(
+        async () => {
+          const { data, error } = await supabase.storage
+            .from("avatars")
+            .upload(`${organizationId}/${userId}`, image, {
+              contentType: image.type,
+              upsert: true,
+            });
+          console.log({ data, error });
+          if (error || !data) {
+            throw new Error(error?.message ?? "Error uploading image");
+          }
+
+          const {
+            data: { publicUrl },
+          } = supabase.storage.from("avatars").getPublicUrl(data.path);
+
+          const result = await updateUserByIdAction({
+            id: userId,
+            avatar_url: publicUrl,
+          });
+
+          if (result?.serverError) {
+            throw new Error(result?.serverError);
+          }
+
+          return result?.data;
+        },
+        // updateUserByIdAction({
+        //   id: userId,
+        //   avatar_url: publicUrl,
+        // }),
+        {
+          loading: "Uploading avatar",
+          success: "Avatar uploaded successfully",
+          error: ({ error }) => error?.serverError ?? "Error uploading avatar",
+        },
+      );
+    }
   }
 
   const handleImageDrop: DropzoneOptions["onDrop"] = (acceptedFiles) => {
     if (acceptedFiles[0]) {
       setImage(acceptedFiles[0]);
       const imageUrl = URL.createObjectURL(acceptedFiles[0]);
-      form.setValue("avatar_url", imageUrl);
+      setImagePreview(imageUrl);
     }
   };
 
   const handleImageDropRejected: DropzoneOptions["onDropRejected"] = (
     rejectedFiles,
   ) => {
-    console.log(rejectedFiles);
+
     for (const file of rejectedFiles) {
       for (const error of file.errors) {
         toast.error(error.message);
@@ -125,7 +227,7 @@ export default function NewEmployee() {
           {/* Left Side */}
 
           <section className="flex flex-col justify-start items-start gap-4 basis-1/3">
-            <div className="flex items-start gap-2">
+            {/* <div className="flex items-start gap-2">
               <UploadZone
                 options={createUploadZoneOptions(
                   handleImageDrop,
@@ -133,9 +235,9 @@ export default function NewEmployee() {
                 )}
                 className=" size-16 rounded-md  flex items-center justify-center text-secondary-foreground"
               >
-                {form.watch("avatar_url") ? (
+                {imagePreview ? (
                   <Image
-                    src={form.watch("avatar_url")}
+                    src={imagePreview}
                     alt="employee"
                     className="size-full rounded-md"
                     layout="fill"
@@ -145,7 +247,7 @@ export default function NewEmployee() {
                 )}
               </UploadZone>
 
-              {!form.watch("avatar_url") ? (
+              {!imagePreview ? (
                 <div className="flex flex-col  text-secondary-foreground">
                   <p className="text-sm font-medium text-foreground">
                     Profile Picture
@@ -168,15 +270,23 @@ export default function NewEmployee() {
                     className="w-fit"
                     onClick={() => {
                       setImage(null);
-                      URL.revokeObjectURL(form.getValues("avatar_url"));
-                      form.setValue("avatar_url", "");
+
+                      setImagePreview((url) => {
+                        if (url) {
+                          URL.revokeObjectURL(url);
+                        }
+                        return null;
+                      });
                     }}
                   >
                     Remove
                   </Button>
                 </div>
               )}
-            </div>
+            </div> */}
+            <h3 className="text-lg font-medium text-secondary-foreground">
+              Personal Information
+            </h3>
 
             <div className="flex flex-col md:flex-row flex-wrap w-full gap-2">
               <FormField
@@ -468,7 +578,7 @@ export default function NewEmployee() {
 
         {/* Employment Details */}
         <section className=" rounded-md  ">
-          <h3 className="text-lg font-medium text-secondary-foreground mb-2 text-center">
+          <h3 className="text-lg font-medium text-secondary-foreground mb-2">
             Employment Details
           </h3>
           <div className="flex flex-col md:flex-row  gap-2 mb-4">
@@ -662,14 +772,39 @@ export default function NewEmployee() {
               )}
             />
           </div>
+            <FormField
+              control={form.control}
+              name="working_days_per_week"
+              render={({ field }) => (
+                <FormItem className="w-full mt-2">
+                  <FormLabel>Working Days / Week</FormLabel>
+                  <FormControl>
+                    <ToggleGroup
+                      type="multiple"
+                      variant="outline"
+                      value={field.value ?? []}
+                      onValueChange={(value: string[]) => field.onChange(value)}
+                      className="flex-wrap gap-2 justify-start"
+                    >
+                      {DAYS_OF_WEEK.map((day) => (
+                        <ToggleGroupItem key={day.value} value={day.value} className="h-8">
+                          {day.label}
+                        </ToggleGroupItem>
+                      ))}
+                    </ToggleGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
         </section>
-        <h3 className="text-lg font-medium text-secondary-foreground mb-2 text-center">
+        {/* <h3 className="text-lg font-medium text-secondary-foreground mb-2 text-center">
           Upload Documents{" "}
           <span className=" text-sm text-secondary-foreground ml-1">
             (Optional)
           </span>
-        </h3>
-        <UploadZone
+        </h3> */}
+        {/* <UploadZone
           className="w-full h-72 flex flex-col  items-center justify-center gap-2"
           options={createUploadZoneOptions(
             handleImageDrop,
@@ -680,16 +815,12 @@ export default function NewEmployee() {
           <p className="text-sm text-secondary-foreground">
             Click to upload or drag and drop
           </p>
-        </UploadZone>
+        </UploadZone> */}
+        <Button type="submit" className="w-fit ml-auto" disabled={isExecuting}>
+          {isExecuting ? <Loader className="size-4 animate-spin mr-2" /> : null}
+          Submit
+        </Button>
       </form>
-      {/* <Button
-        type="button"
-        className="w-fit"
-        variant="outline"
-        onClick={() => console.log(form.getValues())}
-      >
-        Submit
-      </Button> */}
     </Form>
   );
 }

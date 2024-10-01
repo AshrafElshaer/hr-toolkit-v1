@@ -6,6 +6,7 @@ import type { GetOrganizationMembersQuery } from "@toolkit/supabase/types";
 import { MoreHorizontal } from "lucide-react";
 
 import { Button } from "@toolkit/ui/button";
+import { Badge } from "@toolkit/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,10 +38,35 @@ export const columns: ColumnDef<GetOrganizationMembersQuery>[] = [
   {
     accessorFn: (row) => row.user?.employment_status,
     header: "Status",
+    cell: ({ row }) => {
+      const employee = row.original;
+      const status = employee.user?.employment_status;
+
+      return (
+        <Badge
+          variant={
+            status === "active"
+              ? "success"
+              : status === "inactive"
+                ? "destructive"
+                : "secondary"
+          }
+          className="capitalize"
+        >
+          {status?.replace("_", " ")}
+        </Badge>
+      );
+    },
   },
   {
     accessorFn: (row) => row.user?.employment_type,
     header: " Type",
+    cell: ({ row }) => {
+      const employee = row.original;
+      const employmentType = employee.user?.employment_type;
+
+      return employmentType?.replace("_", " ");
+    },
   },
 
   // {

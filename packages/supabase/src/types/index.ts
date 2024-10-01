@@ -3,6 +3,7 @@ import type {
   AddressTable,
   DepartmentMemberTable,
   DepartmentTable,
+  EmergencyContactTable,
   NotesTable,
   OrganizationMemberTable,
   OrganizationTable,
@@ -21,7 +22,11 @@ export type UpdateUser = Partial<InsertUser>;
 export type Organization = typeof OrganizationTable.$inferSelect;
 export type InsertOrganization = typeof OrganizationTable.$inferInsert;
 export type UpdateOrganization = Partial<InsertOrganization>;
+
 export type OrganizationMember = typeof OrganizationMemberTable.$inferSelect;
+export type InsertOrganizationMember =
+  typeof OrganizationMemberTable.$inferInsert;
+export type UpdateOrganizationMember = Partial<InsertOrganizationMember>;
 
 export type TimeSheet = typeof TimeSheetTable.$inferSelect;
 export type InsertTimeSheet = typeof TimeSheetTable.$inferInsert;
@@ -42,6 +47,10 @@ export type UpdateDepartmentMember = Partial<InsertDepartmentMember>;
 export type Address = typeof AddressTable.$inferSelect;
 export type InsertAddress = typeof AddressTable.$inferInsert;
 export type UpdateAddress = Partial<InsertAddress>;
+
+export type EmergencyContact = typeof EmergencyContactTable.$inferSelect;
+export type InsertEmergencyContact = typeof EmergencyContactTable.$inferInsert;
+export type UpdateEmergencyContact = Partial<InsertEmergencyContact>;
 
 export type Note = typeof NotesTable.$inferSelect;
 export type InsertNote = typeof NotesTable.$inferInsert;
