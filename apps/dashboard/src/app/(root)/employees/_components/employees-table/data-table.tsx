@@ -6,6 +6,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import type { GetOrganizationMembersQuery } from "@toolkit/supabase/types";
 
 import {
   Table,
@@ -16,6 +17,7 @@ import {
   TableRow,
 } from "@toolkit/ui/table";
 import { UserSearch } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -26,6 +28,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const router = useRouter();
   const table = useReactTable({
     data,
     columns,
@@ -63,6 +66,11 @@ export function DataTable<TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                   className="cursor-pointer"
+                  onClick={() => {
+                    const employee = row.original as GetOrganizationMembersQuery;
+                    console.log(employee);
+                    router.push(`/employees/${employee.user?.id}`);
+                  }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}

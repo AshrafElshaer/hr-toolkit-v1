@@ -5,8 +5,8 @@ import type { GetOrganizationMembersQuery } from "@toolkit/supabase/types";
 
 import { MoreHorizontal } from "lucide-react";
 
-import { Button } from "@toolkit/ui/button";
 import { Badge } from "@toolkit/ui/badge";
+import { Button } from "@toolkit/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,29 +15,49 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@toolkit/ui/dropdown-menu";
-
 export const columns: ColumnDef<GetOrganizationMembersQuery>[] = [
   {
+    id: "name",
     accessorFn: (row) => `${row.user?.first_name} ${row.user?.last_name}`,
-    header: "Name",
+    header: () => <div className="min-w-24">Name</div>,
   },
-
   {
+    id: "email",
+    accessorFn: (row) => row.user?.email,
+    header: () => <div className="min-w-40">Email</div>,
+  },
+  {
+    id: "department",
     accessorFn: (row) =>
       `${row.department?.name} - ${row.department?.description}`,
-    header: "Department",
+    header: () => <div className="min-w-40">Department</div>,
   },
   {
+    id: "job_title",
     accessorFn: (row) => row.user?.job_title,
-    header: "Job Title",
+    header: () => <div className="min-w-32">Job Title</div>,
+    // cell: ({ row }) => {
+    //   const employee = row.original;
+    //   const jobTitle = employee.user?.job_title;
+
+    //   return <div className="">{jobTitle}</div>;
+    // },
   },
   {
+    id: "role",
     accessorFn: (row) => row.user?.role,
-    header: "Role",
+    header: () => <div className="min-w-14">Role</div>,
+    cell: ({ row }) => {
+      const employee = row.original;
+      const role = employee.user?.role;
+
+      return <div className=" capitalize">{role?.replace("_", " ")}</div>;
+    },
   },
   {
+    id: "status",
     accessorFn: (row) => row.user?.employment_status,
-    header: "Status",
+    header: () => <div className="min-w-14">Status</div>,
     cell: ({ row }) => {
       const employee = row.original;
       const status = employee.user?.employment_status;
@@ -48,8 +68,8 @@ export const columns: ColumnDef<GetOrganizationMembersQuery>[] = [
             status === "active"
               ? "success"
               : status === "inactive"
-                ? "destructive"
-                : "secondary"
+                ? "warning"
+                : "destructive"
           }
           className="capitalize"
         >
@@ -59,13 +79,18 @@ export const columns: ColumnDef<GetOrganizationMembersQuery>[] = [
     },
   },
   {
+    id: "type",
     accessorFn: (row) => row.user?.employment_type,
-    header: " Type",
+    header: () => <div className="min-w-24 text-center">Type</div>,
     cell: ({ row }) => {
       const employee = row.original;
       const employmentType = employee.user?.employment_type;
 
-      return employmentType?.replace("_", " ");
+      return (
+        <div className="text-center capitalize">
+          {employmentType?.replace("_", " ")}
+        </div>
+      );
     },
   },
 
