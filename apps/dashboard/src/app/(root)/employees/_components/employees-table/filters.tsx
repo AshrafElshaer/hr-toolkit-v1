@@ -37,7 +37,7 @@ export const roles = Object.values(UserRolesEnum).map((role) => ({
 export const employmentTypes = Object.values(EmploymentTypeEnum).map(
   (type) => ({
     value: type,
-    label: type.charAt(0).toUpperCase() + type.slice(1),
+    label: type.split("_").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" "),
   }),
 );
 
