@@ -27,6 +27,7 @@ import {
   Search,
   Settings,
 } from "lucide-react";
+import { FiCommand } from "react-icons/fi";
 
 import NoteSheet from "@/app/(root)/(home)/components/notes/note-sheet";
 
@@ -82,8 +83,10 @@ export function CommandMenu() {
         className="text-muted-foreground w-72 flex items-center gap-2 px-2"
         onClick={() => setOpen(true)}
       >
-        <Search className="size-4" />
-        <span>Quick Search</span>
+        <FiCommand className="size-4" />
+        <span>
+          Command Menu
+        </span>
         <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 ">
           <span className="text-xs">⌘</span>K
         </kbd>

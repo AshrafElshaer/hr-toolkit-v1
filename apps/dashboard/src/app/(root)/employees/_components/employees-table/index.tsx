@@ -1,8 +1,8 @@
 import { getEmployeesAction } from "@/actions/user";
+import type { GetOrganizationMembersQuery } from "@toolkit/supabase/types";
 import React from "react";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
-import type { GetOrganizationMembersQuery } from "@toolkit/supabase/types";
 
 export default async function EmployeesTable() {
   const employeesAction = await getEmployeesAction();
@@ -10,11 +10,9 @@ export default async function EmployeesTable() {
   const employees = employeesAction?.data ?? [];
 
   return (
-    <section className="flex-grow flex flex-col">
-      <DataTable
-        columns={columns}
-        data={employees as GetOrganizationMembersQuery[]}
-      />
-    </section>
+    <DataTable
+      columns={columns}
+      data={employees as GetOrganizationMembersQuery[]}
+    />
   );
 }

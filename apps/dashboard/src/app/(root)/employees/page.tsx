@@ -1,7 +1,7 @@
 import Main from "@/components/main";
-import NewEmployee from "./_components/page-header";
-import EmployeesTable from "./_components/employees-table";
 import type { Metadata } from "next";
+import EmployeesTable from "./_components/employees-table";
+import NewEmployee from "./_components/employees-table/employees-filters";
 
 export const metadata: Metadata = {
   title: "Employees",
@@ -11,7 +11,6 @@ export const metadata: Metadata = {
 export default function Employees() {
   return (
     <Main className="flex flex-col gap-4" isMaxHeight>
-      <NewEmployee />
       <EmployeesTable />
     </Main>
   );
