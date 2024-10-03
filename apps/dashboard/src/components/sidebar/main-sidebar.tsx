@@ -54,7 +54,8 @@ function MainSidebar({
                   setIsMobileOpen?.(false);
                 }}
               >
-                {route.icon}
+                {isActivePath ? route?.active : route?.icon}
+
                 <div className="min-w-20 opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity delay-[25ms] absolute left-8">
                   {route.title}
                 </div>

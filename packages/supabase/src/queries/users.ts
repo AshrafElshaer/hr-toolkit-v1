@@ -1,13 +1,15 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { eq, or } from "drizzle-orm";
+import { and, eq, or } from "drizzle-orm";
 import { revalidateTag, unstable_cache } from "next/cache";
 import {
   DepartmentMemberTable,
   DepartmentTable,
   OrganizationMemberTable,
+  OrganizationOwnerTable,
   UserTable,
   db,
 } from "../db";
+import { UserRolesEnum } from "../types";
 import { safeAsync } from "../utils";
 
 export async function getCurrentUser(supabase: SupabaseClient) {
@@ -36,24 +38,6 @@ export const getUserById = async (id: string) => {
   });
   return result;
 };
-
-// export function getUserById(id: string) {
-//   return unstable_cache(
-//     async () => {
-//       const result = await safeAsync(async () => {
-//         return await db.query.UserTable.findFirst({
-//           where: eq(UserTable.id, id),
-//         });
-//       });
-//       return result;
-//     },
-//     [id],
-//     {
-//       revalidate: 180,
-//       tags: [`user-${id}`],
-//     }
-//   );
-// }
 
 export function getEmployees(orgId: string, deptId?: string) {
   return unstable_cache(
@@ -101,4 +85,46 @@ export function getEmployees(orgId: string, deptId?: string) {
       tags: [`org-${orgId}-dept-${deptId ?? ""}`],
     },
   );
+}
+
+export function getManagers(organizationId: string) {
+  return unstable_cache(
+    async () => {
+      return await safeAsync(async () => {
+        const result = await db
+          .select({
+            user: UserTable,
+          })
+          .from(UserTable)
+          .leftJoin(
+            OrganizationMemberTable,
+            eq(OrganizationMemberTable.user_id, UserTable.id),
+          )
+          .leftJoin(
+            OrganizationOwnerTable,
+            eq(OrganizationOwnerTable.user_id, UserTable.id),
+          )
+          .where(
+            and(
+              or(
+                eq(OrganizationMemberTable.organization_id, organizationId),
+                eq(OrganizationOwnerTable.organization_id, organizationId),
+              ),
+              or(
+                eq(UserTable.role, UserRolesEnum.manager),
+                eq(UserTable.role, UserRolesEnum.admin),
+                eq(OrganizationOwnerTable.organization_id, organizationId),
+              ),
+            ),
+          );
+
+        return result;
+      });
+    },
+    [organizationId],
+    {
+      revalidate: 180,
+      tags: [`managers-${organizationId}`],
+    },
+  )();
 }

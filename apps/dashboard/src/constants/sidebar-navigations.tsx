@@ -1,54 +1,66 @@
+import { Icon } from "@iconify/react";
 import { Box, Clock, Home, Layers, Users } from "lucide-react";
-import { TbCalendarPause } from "react-icons/tb";
-import { HiOutlineBanknotes } from "react-icons/hi2";
-import { LuLayoutGrid } from "react-icons/lu";
+import { FiUsers } from "react-icons/fi";
+import { GoHome, GoHomeFill } from "react-icons/go";
+import { HiMiniBanknotes, HiOutlineBanknotes } from "react-icons/hi2";
 import { IoChatbubblesOutline } from "react-icons/io5";
+import { LuLayoutGrid } from "react-icons/lu";
+import { TbCalendarPause } from "react-icons/tb";
 
 export const sidebarNavigation = [
   {
     title: "Dashboard",
     path: "/",
-    icon: <Home size={18} />,
+    icon: <GoHome size={18} />,
+    active: <GoHomeFill size={18} />,
   },
   {
     title: "Employees",
     path: "/employees",
-    icon: <Users size={18} />,
+    icon: <Icon icon="ph:users" className="text-[18px]" />,
+    active: <Icon icon="ph:users-fill" className="text-[18px]" />,
   },
   {
     title: "Departments",
     path: "/departments",
-    icon: <LuLayoutGrid size={18} />,
+    icon: <Icon icon="ion:grid-outline" className="text-[18px]" />,
+    active: <Icon icon="ion:grid" className="text-[18px]" />,
   },
   {
     title: "Attendance",
     path: "/attendance",
-    icon: <Clock size={18} />,
+    icon: <Icon icon="ion:time-outline" className="text-[18px]" />,
+    active: <Icon icon="ion:time" className="text-[18px]" />,
   },
   {
     title: "Time Off",
     path: "/time-off",
-    icon: <TbCalendarPause size={18} />,
+    icon: <Icon icon="ion:calendar-outline" className="text-[18px]" />,
+    active: <Icon icon="ion:calendar" className="text-[18px]" />,
   },
   {
     title: "Payroll",
     path: "/payroll",
     icon: <HiOutlineBanknotes size={18} />,
+    active: <HiMiniBanknotes size={18} />,
   },
   {
     title: "Projects",
     path: "/projects",
-    icon: <Box size={18} />,
+    icon: <Icon icon="mingcute:box-3-line" className="text-[18px]" />,
+    active: <Icon icon="mingcute:box-3-fill" className="text-[18px]" />,
   },
   {
     title: "Teams",
     path: "/teams",
-    icon: <Layers size={18} />,
+    icon: <Icon icon="carbon:layers" className="text-[18px]" />,
+    active: <Icon icon="ion:layers" className="text-[18px]" />,
   },
   {
     title: "Chats",
     path: "/chats",
-    icon: <IoChatbubblesOutline size={18} />,
+    icon: <Icon icon="fluent:chat-multiple-32-regular" className="text-[18px]"/>,
+    active: <Icon icon="fluent:chat-multiple-32-filled" className="text-[18px]"/>,
   },
 ];
 

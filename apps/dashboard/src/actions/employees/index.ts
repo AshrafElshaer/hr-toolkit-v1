@@ -2,12 +2,13 @@
 
 import { createServerClient } from "@/lib/supabase/server";
 import OrganizationMutations from "@toolkit/supabase/organization-mutations";
+import { getManagers } from "@toolkit/supabase/queries";
 import { createEmployeeSchema } from "@toolkit/supabase/validations";
+import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { authActionClient } from "../safe-action";
-import { revalidateTag } from "next/cache";
 
 export const createEmployeeAction = authActionClient
   .metadata({
@@ -71,9 +72,29 @@ export const createEmployeeAction = authActionClient
     if (error) {
       throw new Error(error.message);
     }
-    revalidateTag(`organization-members-${ctx.user.user_metadata.organization_id}`);
+    revalidateTag(
+      `organization-members-${ctx.user.user_metadata.organization_id}`,
+    );
     redirect("/employees");
     return {
       user: auth.user,
     };
+  });
+
+export const getManagersAction = authActionClient
+  .metadata({
+    name: "get-managers",
+    track: {
+      event: "get-managers",
+      channel: "employees",
+    },
+  })
+  .action(async ({ ctx }) => {
+    const { data, error } = await getManagers(
+      ctx.user.user_metadata.organization_id,
+    );
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
   });

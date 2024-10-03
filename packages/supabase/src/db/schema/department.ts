@@ -40,9 +40,16 @@ export const DepartmentMemberTable = pgTable(
   }),
 );
 
-export const DepartmentRelations = relations(DepartmentTable, ({ many }) => ({
-  members: many(DepartmentMemberTable),
-}));
+export const DepartmentRelations = relations(
+  DepartmentTable,
+  ({ many, one }) => ({
+    members: many(DepartmentMemberTable),
+    manager: one(UserTable, {
+      fields: [DepartmentTable.manager_id],
+      references: [UserTable.id],
+    }),
+  }),
+);
 
 export const DepartmentMemberRelations = relations(
   DepartmentMemberTable,

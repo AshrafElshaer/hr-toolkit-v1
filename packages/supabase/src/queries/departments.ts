@@ -9,6 +9,10 @@ export const getDepartments = async (organizationId: string) => {
       const result = await safeAsync(async () => {
         return await db.query.DepartmentTable.findMany({
           where: eq(DepartmentTable.organization_id, organizationId),
+          with: {
+            manager: true,
+            members: true,
+          },
         });
       });
       return result;
