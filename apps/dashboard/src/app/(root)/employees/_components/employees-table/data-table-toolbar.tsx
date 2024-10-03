@@ -23,7 +23,7 @@ interface DataTableToolbarProps<TData> {
 export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
-  const { data: departments, isLoading } = useQuery({
+  const { data: departments } = useQuery({
     queryKey: ["departments"],
     queryFn: async () => {
       const result = await getDepartmentsAction();

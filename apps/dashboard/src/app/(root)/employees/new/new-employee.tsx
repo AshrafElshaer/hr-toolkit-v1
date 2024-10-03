@@ -14,6 +14,7 @@ import {
 } from "@toolkit/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@toolkit/ui/toggle-group";
 import {
+  ChevronLeft,
   CircleDollarSign,
   Clock,
   FilePlus,
@@ -50,6 +51,7 @@ import {
 import { Input } from "@toolkit/ui/input";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
+import { useRouter } from "next/navigation";
 const DAYS_OF_WEEK = [
   {
     label: "Monday",
@@ -95,6 +97,7 @@ function createUploadZoneOptions(
 }
 
 export default function NewEmployee() {
+  const router = useRouter();
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -208,7 +211,6 @@ export default function NewEmployee() {
   const handleImageDropRejected: DropzoneOptions["onDropRejected"] = (
     rejectedFiles,
   ) => {
-
     for (const file of rejectedFiles) {
       for (const error of file.errors) {
         toast.error(error.message);
@@ -217,17 +219,27 @@ export default function NewEmployee() {
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex-grow flex flex-col  gap-4"
+    <>
+      <Button
+        variant="secondary"
+        className="items-center gap-1 w-fit font-medium"
+        onClick={() => router.back()}
       >
-        {/* Wrapper */}
-        <div className="flex flex-col gap-4 md:flex-row">
-          {/* Left Side */}
+        <ChevronLeft className="size-4" />
+        <span>Back</span>
+      </Button>
 
-          <section className="flex flex-col justify-start items-start gap-4 basis-1/3">
-            {/* <div className="flex items-start gap-2">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex-grow flex flex-col  gap-4"
+        >
+          {/* Wrapper */}
+          <div className="flex flex-col gap-4 md:flex-row">
+            {/* Left Side */}
+
+            <section className="flex flex-col justify-start items-start gap-4 basis-1/3">
+              {/* <div className="flex items-start gap-2">
               <UploadZone
                 options={createUploadZoneOptions(
                   handleImageDrop,
@@ -284,239 +296,19 @@ export default function NewEmployee() {
                 </div>
               )}
             </div> */}
-            <h3 className="text-lg font-medium text-secondary-foreground">
-              Personal Information
-            </h3>
-
-            <div className="flex flex-col md:flex-row flex-wrap w-full gap-2">
-              <FormField
-                control={form.control}
-                name="first_name"
-                render={({ field }) => (
-                  <FormItem className="flex-1 min-w-[calc(50%-0.25rem)]">
-                    <FormLabel>First Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="John" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="last_name"
-                render={({ field }) => (
-                  <FormItem className="flex-1 min-w-[calc(50%-0.25rem)]">
-                    <FormLabel>Last Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Doe" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem className="flex-1 min-w-[calc(50%-0.25rem)]">
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="john.doe@example.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="phone_number"
-                render={({ field }) => (
-                  <FormItem className="flex-1 min-w-[calc(50%-0.25rem)]">
-                    <FormLabel>Phone Number</FormLabel>
-                    <FormControl>
-                      <PhoneInputSimple
-                        onChange={(value: RPNInput.Value) => {
-                          field.onChange(value);
-                        }}
-                        value={field.value as RPNInput.Value}
-                        defaultCountry={
-                          form.watch("country") as RPNInput.Country
-                        }
-                        country={form.watch("country") as RPNInput.Country}
-                        disabled={!form.getValues().country}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="date_of_birth"
-                render={({ field }) => (
-                  <FormItem className="flex-1 min-w-[calc(50%-0.25rem)]">
-                    <FormLabel>Date of Birth</FormLabel>
-                    <FormControl>
-                      <DateField
-                        value={field.value ? new Date(field.value) : undefined}
-                        onChange={(date) => {
-                          field.onChange(date?.toISOString());
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="gender"
-                render={({ field }) => (
-                  <FormItem className="flex-1 min-w-[calc(50%-0.25rem)]">
-                    <FormLabel>Gender</FormLabel>
-                    <FormControl>
-                      <Select
-                        value={field.value ?? undefined}
-                        onValueChange={field.onChange}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a gender" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="male">Male</SelectItem>
-                          <SelectItem value="female">Female</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </section>
-          {/* Right Side */}
-          <div className="flex flex-col gap-4 basis-2/3">
-            {/* Address */}
-            <div className=" space-y-2  rounded-md col-span-2">
               <h3 className="text-lg font-medium text-secondary-foreground">
-                Main Address
+                Personal Information
               </h3>
-              <section className="flex  flex-col md:flex-row  gap-2">
-                <FormField
-                  control={form.control}
-                  name="address_1"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Address 1</FormLabel>
-                      <FormControl>
-                        <Input placeholder="1234 Main St" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="address_2"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>
-                        Address 2
-                        <span className="text-xs text-secondary-foreground ml-1">
-                          (Optional)
-                        </span>
-                      </FormLabel>
-                      <FormControl>
-                        {/* @ts-ignore */}
-                        <Input placeholder="Suite, Floor, etc." {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </section>
-              <section className="flex flex-col md:flex-row  gap-2">
-                <div className="flex flex-col sm:flex-row  gap-2">
-                  <FormField
-                    control={form.control}
-                    name="city"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel>City</FormLabel>
-                        <FormControl>
-                          <Input placeholder="London" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="state"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel>State</FormLabel>
-                        <FormControl>
-                          <Input placeholder="London" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="flex flex-col sm:flex-row  gap-2">
-                  <FormField
-                    control={form.control}
-                    name="zip_code"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel>Zip Code</FormLabel>
-                        <FormControl>
-                          <Input placeholder="12345" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="country"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel>Country</FormLabel>
-                        <FormControl>
-                          <CountrySelector
-                            onChange={(value: string) => {
-                              field.onChange(value);
-                            }}
-                            value={field.value as RPNInput.Country}
-                            options={COUNTRIES}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </section>
-            </div>
 
-            {/* Emergency Contacts */}
-            <div className="   space-y-2  ">
-              <h3 className="text-lg font-medium text-secondary-foreground">
-                Emergency Contacts
-              </h3>
-              <div className="flex flex-col md:flex-row  gap-2">
+              <div className="flex flex-col md:flex-row flex-wrap w-full gap-2">
                 <FormField
                   control={form.control}
-                  name="contact_name"
+                  name="first_name"
                   render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Name</FormLabel>
+                    <FormItem className="flex-1 min-w-[calc(50%-0.25rem)]">
+                      <FormLabel>First Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="John Doe" {...field} />
+                        <Input placeholder="John" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -524,9 +316,22 @@ export default function NewEmployee() {
                 />
                 <FormField
                   control={form.control}
-                  name="contact_email"
+                  name="last_name"
                   render={({ field }) => (
-                    <FormItem className="w-full">
+                    <FormItem className="flex-1 min-w-[calc(50%-0.25rem)]">
+                      <FormLabel>Last Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Doe" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem className="flex-1 min-w-[calc(50%-0.25rem)]">
                       <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input placeholder="john.doe@example.com" {...field} />
@@ -535,12 +340,13 @@ export default function NewEmployee() {
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={form.control}
-                  name="contact_number"
+                  name="phone_number"
                   render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Number</FormLabel>
+                    <FormItem className="flex-1 min-w-[calc(50%-0.25rem)]">
+                      <FormLabel>Phone Number</FormLabel>
                       <FormControl>
                         <PhoneInputSimple
                           onChange={(value: RPNInput.Value) => {
@@ -560,218 +366,435 @@ export default function NewEmployee() {
                 />
                 <FormField
                   control={form.control}
-                  name="contact_relation"
+                  name="date_of_birth"
                   render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Relation</FormLabel>
+                    <FormItem className="flex-1 min-w-[calc(50%-0.25rem)]">
+                      <FormLabel>Date of Birth</FormLabel>
                       <FormControl>
-                        <Input placeholder="Brother" {...field} />
+                        <DateField
+                          value={
+                            field.value ? new Date(field.value) : undefined
+                          }
+                          onChange={(date) => {
+                            field.onChange(date?.toISOString());
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="gender"
+                  render={({ field }) => (
+                    <FormItem className="flex-1 min-w-[calc(50%-0.25rem)]">
+                      <FormLabel>Gender</FormLabel>
+                      <FormControl>
+                        <Select
+                          value={field.value ?? undefined}
+                          onValueChange={field.onChange}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a gender" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="male">Male</SelectItem>
+                            <SelectItem value="female">Female</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
+            </section>
+            {/* Right Side */}
+            <div className="flex flex-col gap-4 basis-2/3">
+              {/* Address */}
+              <div className=" space-y-2  rounded-md col-span-2">
+                <h3 className="text-lg font-medium text-secondary-foreground">
+                  Main Address
+                </h3>
+                <section className="flex  flex-col md:flex-row  gap-2">
+                  <FormField
+                    control={form.control}
+                    name="address_1"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Address 1</FormLabel>
+                        <FormControl>
+                          <Input placeholder="1234 Main St" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="address_2"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>
+                          Address 2
+                          <span className="text-xs text-secondary-foreground ml-1">
+                            (Optional)
+                          </span>
+                        </FormLabel>
+                        <FormControl>
+                          {/* @ts-ignore */}
+                          <Input placeholder="Suite, Floor, etc." {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </section>
+                <section className="flex flex-col md:flex-row  gap-2">
+                  <div className="flex flex-col sm:flex-row  gap-2">
+                    <FormField
+                      control={form.control}
+                      name="city"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel>City</FormLabel>
+                          <FormControl>
+                            <Input placeholder="London" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="state"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel>State</FormLabel>
+                          <FormControl>
+                            <Input placeholder="London" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="flex flex-col sm:flex-row  gap-2">
+                    <FormField
+                      control={form.control}
+                      name="zip_code"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel>Zip Code</FormLabel>
+                          <FormControl>
+                            <Input placeholder="12345" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="country"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel>Country</FormLabel>
+                          <FormControl>
+                            <CountrySelector
+                              onChange={(value: string) => {
+                                field.onChange(value);
+                              }}
+                              value={field.value as RPNInput.Country}
+                              options={COUNTRIES}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </section>
+              </div>
+
+              {/* Emergency Contacts */}
+              <div className="   space-y-2  ">
+                <h3 className="text-lg font-medium text-secondary-foreground">
+                  Emergency Contacts
+                </h3>
+                <div className="flex flex-col md:flex-row  gap-2">
+                  <FormField
+                    control={form.control}
+                    name="contact_name"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="John Doe" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="contact_email"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="john.doe@example.com"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="contact_number"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Number</FormLabel>
+                        <FormControl>
+                          <PhoneInputSimple
+                            onChange={(value: RPNInput.Value) => {
+                              field.onChange(value);
+                            }}
+                            value={field.value as RPNInput.Value}
+                            defaultCountry={
+                              form.watch("country") as RPNInput.Country
+                            }
+                            country={form.watch("country") as RPNInput.Country}
+                            disabled={!form.getValues().country}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="contact_relation"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Relation</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Brother" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Employment Details */}
-        <section className=" rounded-md  ">
-          <h3 className="text-lg font-medium text-secondary-foreground mb-2">
-            Employment Details
-          </h3>
-          <div className="flex flex-col md:flex-row  gap-2 mb-4">
-            <FormField
-              control={form.control}
-              name="department_id"
-              render={({ field }) => (
-                <FormItem className="min-w-fit w-full">
-                  <FormLabel>Department</FormLabel>
-                  <FormControl>
-                    <DepartmentSelector
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="job_title"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Job Title</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Software Engineer"
-                      {...field}
-                      value={field.value ?? ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="role"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Role</FormLabel>
-                  <FormControl>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="capitalize">
-                        <SelectValue placeholder="Select a role" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {Object.values(UserRolesEnum).map((role) => (
-                          <SelectItem
-                            key={role}
-                            value={role}
-                            className="capitalize"
-                          >
-                            {role.replace("_", " ")}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="employment_type"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Employment Type</FormLabel>
-                  <FormControl>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="capitalize">
-                        <SelectValue placeholder="Select an employment type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {Object.values(EmploymentTypeEnum).map((type) => (
-                          <SelectItem
-                            key={type}
-                            value={type}
-                            className="capitalize"
-                          >
-                            {type.replace("_", " ")}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex flex-col md:flex-row md:items-center  gap-2">
-            <FormField
-              control={form.control}
-              name="hire_date"
-              render={({ field }) => (
-                <FormItem className="w-full flex flex-col gap-2">
-                  <FormLabel>Hire Date</FormLabel>
-                  <FormControl>
-                    <DatePicker
-                      date={field.value ? new Date(field.value) : undefined}
-                      onSelect={(date) => {
-                        field.onChange(date?.toISOString());
-                      }}
-                      mode="single"
-                      fromDate={new Date()}
-                      className="w-full mt-0"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* Employment Details */}
+          <section className=" rounded-md  ">
+            <h3 className="text-lg font-medium text-secondary-foreground mb-2">
+              Employment Details
+            </h3>
+            <div className="flex flex-col md:flex-row  gap-2 mb-4">
+              <FormField
+                control={form.control}
+                name="department_id"
+                render={({ field }) => (
+                  <FormItem className="min-w-fit w-full">
+                    <FormLabel>Department</FormLabel>
+                    <FormControl>
+                      <DepartmentSelector
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="job_title"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Job Title</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Software Engineer"
+                        {...field}
+                        value={field.value ?? ""}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Role</FormLabel>
+                    <FormControl>
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      >
+                        <SelectTrigger className="capitalize">
+                          <SelectValue placeholder="Select a role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {Object.values(UserRolesEnum).map((role) => (
+                            <SelectItem
+                              key={role}
+                              value={role}
+                              className="capitalize"
+                            >
+                              {role.replace("_", " ")}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="employment_type"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Employment Type</FormLabel>
+                    <FormControl>
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      >
+                        <SelectTrigger className="capitalize">
+                          <SelectValue placeholder="Select an employment type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {Object.values(EmploymentTypeEnum).map((type) => (
+                            <SelectItem
+                              key={type}
+                              value={type}
+                              className="capitalize"
+                            >
+                              {type.replace("_", " ")}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex flex-col md:flex-row md:items-center  gap-2">
+              <FormField
+                control={form.control}
+                name="hire_date"
+                render={({ field }) => (
+                  <FormItem className="w-full flex flex-col gap-2">
+                    <FormLabel>Hire Date</FormLabel>
+                    <FormControl>
+                      <DatePicker
+                        date={field.value ? new Date(field.value) : undefined}
+                        onSelect={(date) => {
+                          field.onChange(date?.toISOString());
+                        }}
+                        mode="single"
+                        fromDate={new Date()}
+                        className="w-full mt-0"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="work_hours_per_week"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Work Hours / Week</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="40"
-                      {...field}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
-                      value={
-                        Number.isNaN(field.value)
-                          ? ""
-                          : field?.value?.toString() ?? ""
-                      }
-                      startIcon={Clock}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="salary_per_hour"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Salary / Hour</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="100"
-                      {...field}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
-                      value={
-                        field.value && Number.isNaN(field.value)
-                          ? ""
-                          : field?.value?.toString() ?? ""
-                      }
-                      startIcon={CircleDollarSign}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="leave_date"
-              render={({ field }) => (
-                <FormItem className="w-full flex flex-col gap-2">
-                  <FormLabel>
-                    Leave Date
-                    <span className="text-xs text-secondary-foreground ml-1">
-                      (Optional)
-                    </span>
-                  </FormLabel>
-                  <FormControl>
-                    <DatePicker
-                      date={field.value ? new Date(field.value) : undefined}
-                      onSelect={(date) => {
-                        field.onChange(date?.toISOString());
-                      }}
-                      mode="single"
-                      fromDate={
-                        form.watch("hire_date") && form.getValues().hire_date
-                          ? new Date(form.getValues().hire_date ?? "")
-                          : new Date()
-                      }
-                      className="w-full mt-0"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+              <FormField
+                control={form.control}
+                name="work_hours_per_week"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Work Hours / Week</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="40"
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        value={
+                          Number.isNaN(field.value)
+                            ? ""
+                            : field?.value?.toString() ?? ""
+                        }
+                        startIcon={Clock}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="salary_per_hour"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Salary / Hour</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="100"
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        value={
+                          field.value && Number.isNaN(field.value)
+                            ? ""
+                            : field?.value?.toString() ?? ""
+                        }
+                        startIcon={CircleDollarSign}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="leave_date"
+                render={({ field }) => (
+                  <FormItem className="w-full flex flex-col gap-2">
+                    <FormLabel>
+                      Leave Date
+                      <span className="text-xs text-secondary-foreground ml-1">
+                        (Optional)
+                      </span>
+                    </FormLabel>
+                    <FormControl>
+                      <DatePicker
+                        date={field.value ? new Date(field.value) : undefined}
+                        onSelect={(date) => {
+                          field.onChange(date?.toISOString());
+                        }}
+                        mode="single"
+                        fromDate={
+                          form.watch("hire_date") && form.getValues().hire_date
+                            ? new Date(form.getValues().hire_date ?? "")
+                            : new Date()
+                        }
+                        className="w-full mt-0"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
               name="working_days_per_week"
@@ -787,7 +810,11 @@ export default function NewEmployee() {
                       className="flex-wrap gap-2 justify-start"
                     >
                       {DAYS_OF_WEEK.map((day) => (
-                        <ToggleGroupItem key={day.value} value={day.value} className="h-8">
+                        <ToggleGroupItem
+                          key={day.value}
+                          value={day.value}
+                          className="h-8"
+                        >
                           {day.label}
                         </ToggleGroupItem>
                       ))}
@@ -797,14 +824,14 @@ export default function NewEmployee() {
                 </FormItem>
               )}
             />
-        </section>
-        {/* <h3 className="text-lg font-medium text-secondary-foreground mb-2 text-center">
+          </section>
+          {/* <h3 className="text-lg font-medium text-secondary-foreground mb-2 text-center">
           Upload Documents{" "}
           <span className=" text-sm text-secondary-foreground ml-1">
             (Optional)
           </span>
         </h3> */}
-        {/* <UploadZone
+          {/* <UploadZone
           className="w-full h-72 flex flex-col  items-center justify-center gap-2"
           options={createUploadZoneOptions(
             handleImageDrop,
@@ -816,11 +843,18 @@ export default function NewEmployee() {
             Click to upload or drag and drop
           </p>
         </UploadZone> */}
-        <Button type="submit" className="w-fit ml-auto" disabled={isExecuting}>
-          {isExecuting ? <Loader className="size-4 animate-spin mr-2" /> : null}
-          Submit
-        </Button>
-      </form>
-    </Form>
+          <Button
+            type="submit"
+            className="w-fit ml-auto"
+            disabled={isExecuting}
+          >
+            {isExecuting ? (
+              <Loader className="size-4 animate-spin mr-2" />
+            ) : null}
+            Submit
+          </Button>
+        </form>
+      </Form>
+    </>
   );
 }

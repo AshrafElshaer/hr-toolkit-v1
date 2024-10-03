@@ -20,8 +20,8 @@ import {
 } from "@toolkit/ui/table";
 import { UserSearch } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import NewEmployee from "./employees-filters";
+import { parseAsJson, useQueryState } from "nuqs";
+
 import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
@@ -34,7 +34,10 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnFilters, setColumnFilters] = useQueryState(
+    "filters",
+    parseAsJson().withDefault([]),
+  );
   const table = useReactTable({
     data,
     columns,
@@ -42,13 +45,13 @@ export function DataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     state: {
-      columnFilters,
+      columnFilters: columnFilters as ColumnFiltersState,
     },
   });
 
+
   return (
     <>
-      {/* <NewEmployee table={table} /> */}
       <DataTableToolbar table={table} />
       <div className="rounded-md border flex-grow overflow-x-scroll flex flex-col min-h-40">
         <Table isEmpty={table.getRowModel().rows.length === 0}>

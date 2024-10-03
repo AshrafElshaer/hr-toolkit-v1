@@ -50,7 +50,7 @@ export function DataTableFacetedFilter<TData, TValue>({
       const filterValues = Array.from(updatedValues);
       column?.setFilterValue(filterValues.length ? filterValues : undefined);
     } else {
-      column?.setFilterValue(value === column.getFilterValue() ? undefined : [value]);
+      column?.setFilterValue(value === column?.getFilterValue() ? undefined : [value]);
     }
   }
 
