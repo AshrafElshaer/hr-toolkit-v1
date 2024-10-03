@@ -8,7 +8,10 @@ import {
 } from "..";
 
 export const getOrganizationMembersQuery = db
-  .select()
+  .select({
+    user: UserTable,
+    department: DepartmentTable,
+  })
   .from(OrganizationMemberTable)
   .where(
     eq(

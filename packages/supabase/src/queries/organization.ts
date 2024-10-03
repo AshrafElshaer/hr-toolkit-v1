@@ -11,14 +11,7 @@ import {
 import { getOrganizationMembersQuery } from "../db/statements/employees";
 import { safeAsync } from "../utils";
 
-// export const getOrganizationMembers = async (organizationId: string) =>
-//   unstable_cache(async () => {
-//     const result = await safeAsync(async () => {
-//       return await db.query.OrganizationMemberTable.findMany({
-//         where: eq(OrganizationMemberTable.organization_id, organizationId),
-//       });
-//     });
-//   });
+
 
 export const getOrganizationById = async (organizationId: string) =>
   unstable_cache(
