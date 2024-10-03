@@ -11,8 +11,6 @@ import {
 import { getOrganizationMembersQuery } from "../db/statements/employees";
 import { safeAsync } from "../utils";
 
-
-
 export const getOrganizationById = async (organizationId: string) =>
   unstable_cache(
     async () => {
