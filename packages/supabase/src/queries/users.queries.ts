@@ -82,7 +82,7 @@ export function getEmployees(orgId: string, deptId?: string) {
     [orgId, deptId ?? ""],
     {
       revalidate: 180,
-      tags: [`org-${orgId}-dept-${deptId ?? ""}`],
+      tags: [`employees-${orgId}`],
     },
   );
 }

@@ -1,6 +1,7 @@
 import Main from "@/components/main";
 import type { Metadata } from "next";
 import EmployeesTable from "./_components/employees-table";
+import { Suspense } from "react";
 
 
 export const metadata: Metadata = {
@@ -11,7 +12,9 @@ export const metadata: Metadata = {
 export default function Employees() {
   return (
     <Main className="flex flex-col gap-4" isMaxHeight>
-      <EmployeesTable />
+      <Suspense fallback={<div>Loading employees...</div>}>
+        <EmployeesTable />
+      </Suspense>
     </Main>
   );
 }

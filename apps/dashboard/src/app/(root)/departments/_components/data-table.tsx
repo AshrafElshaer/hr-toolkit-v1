@@ -2,14 +2,12 @@
 
 import {
   type ColumnDef,
-  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import type { GetOrganizationMembersQuery } from "@toolkit/supabase/types";
 
+import { cn } from "@toolkit/ui/cn";
 import {
   Table,
   TableBody,
@@ -18,12 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@toolkit/ui/table";
-import { UserSearch } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { parseAsJson, useQueryState } from "nuqs";
-
 import { DataTableToolbar } from "./data-table-toolbar";
-import { cn } from "@toolkit/ui/cn";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -34,22 +27,11 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const router = useRouter();
-  const [columnFilters, setColumnFilters] = useQueryState(
-    "filters",
-    parseAsJson().withDefault([]),
-  );
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    state: {
-      columnFilters: columnFilters as ColumnFiltersState,
-    },
   });
-
 
   return (
     <>
@@ -60,6 +42,7 @@ export function DataTable<TData, TValue>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
+                  console.log(header.id);
                   return (
                     <TableHead
                       key={header.id}
@@ -87,12 +70,12 @@ export function DataTable<TData, TValue>({
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                     className="cursor-pointer"
-                    onClick={() => {
-                      const employee =
-                        row.original as GetOrganizationMembersQuery;
-                      console.log(employee);
-                      router.push(`/employees/${employee.user?.id}`);
-                    }}
+                    // onClick={() => {
+                    //   const employee =
+                    //     row.original as GetOrganizationMembersQuery;
+                    //   console.log(employee);
+                    //   router.push(`/employees/${employee.user?.id}`);
+                    // }}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id} className="py-2">
@@ -107,12 +90,12 @@ export function DataTable<TData, TValue>({
               : null}
           </TableBody>
         </Table>
-        {table.getRowModel().rows.length === 0 && (
+        {/* {table.getRowModel().rows.length === 0 && (
           <div className="flex flex-col justify-center items-center flex-grow p-4 text-sm text-secondary-foreground">
             <UserSearch className="size-16 mb-2" />
             <p className="font-semibold">No employees found</p>
           </div>
-        )}
+        )} */}
       </div>
     </>
   );

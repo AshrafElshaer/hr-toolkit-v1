@@ -35,6 +35,8 @@
     "./note-mutations": "./src/mutations/notes.mutations.ts",
     "./queries": "./src/queries/index.ts",
     "./storage": "./src/utils/storage.ts",
+    "./department-member-mutations": "./src/mutations/department-members.mutations.ts",
+    "./department-mutations": "./src/mutations/departments.mutations.ts",
     "./types": "./src/types/index.ts",
     "./validations": "./src/db/validations/index.ts"
   }

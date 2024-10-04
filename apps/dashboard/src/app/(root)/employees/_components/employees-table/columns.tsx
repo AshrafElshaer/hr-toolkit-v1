@@ -3,7 +3,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { GetOrganizationMembersQuery } from "@toolkit/supabase/types";
 
-import { MoreHorizontal } from "lucide-react";
+import { ChevronRight, MoreHorizontal } from "lucide-react";
 
 import { Badge } from "@toolkit/ui/badge";
 import { Button } from "@toolkit/ui/button";
@@ -94,30 +94,15 @@ export const columns: ColumnDef<GetOrganizationMembersQuery>[] = [
     },
   },
 
-  // {
-  //   id: "actions",
-  //   cell: ({ row }) => {
-  //     const employee = row.original;
-
-  //     return (
-  //       <DropdownMenu>
-  //         <DropdownMenuTrigger asChild>
-  //           <Button variant="ghost" className="h-8 w-8 p-0">
-  //             <span className="sr-only">Open menu</span>
-  //             <MoreHorizontal className="h-4 w-4" />
-  //           </Button>
-  //         </DropdownMenuTrigger>
-  //         <DropdownMenuContent align="end">
-  //           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-  //           <DropdownMenuItem onClick={() => console.log({ employee })}>
-  //             Copy payment ID
-  //           </DropdownMenuItem>
-  //           <DropdownMenuSeparator />
-  //           <DropdownMenuItem>View customer</DropdownMenuItem>
-  //           <DropdownMenuItem>View payment details</DropdownMenuItem>
-  //         </DropdownMenuContent>
-  //       </DropdownMenu>
-  //     );
-  //   },
-  // },
+  {
+    id: "actions",
+    header: () => <div className="w-8" />,
+    cell: () => {
+      return (
+        <div className="grid place-items-center h-full w-full">
+          <ChevronRight className="h-4 w-4" />
+        </div>
+      );
+    },
+  },
 ];

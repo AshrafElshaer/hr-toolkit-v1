@@ -36,6 +36,7 @@ import { departmentInsertSchema } from "@toolkit/supabase/validations";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
+import { createDepartmentAction } from "@/actions/departments.actions";
 import { getManagersAction } from "@/actions/employees.actions";
 import { useSession } from "@/hooks/use-session";
 import { useQuery } from "@tanstack/react-query";
@@ -60,7 +61,9 @@ import {
   SelectValue,
 } from "@toolkit/ui/select";
 import { Skeleton } from "@toolkit/ui/skeleton";
-import { PlusIcon } from "lucide-react";
+import { Loader, PlusIcon } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
+import { toast } from "sonner";
 
 const formSchema = departmentInsertSchema.omit({
   organization_id: true,
@@ -68,6 +71,17 @@ const formSchema = departmentInsertSchema.omit({
 
 function DepartmentForm() {
   const session = useSession();
+  const { execute: createDepartment, isExecuting: isCreating } = useAction(
+    createDepartmentAction,
+    {
+      onError: ({ error }) => {
+        toast.error(error?.serverError);
+      },
+      onSuccess: () => {
+        toast.success("Department created successfully");
+      },
+    },
+  );
   const { data: managers, isLoading } = useQuery({
     queryKey: ["managers"],
     queryFn: async () => {
@@ -92,9 +106,7 @@ function DepartmentForm() {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    createDepartment(values);
   }
 
   return (
@@ -189,7 +201,10 @@ function DepartmentForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isCreating}>
+          {isCreating ? <Loader className="w-4 h-4 animate-spin" /> : null}
+          Submit
+        </Button>
       </form>
     </Form>
   );

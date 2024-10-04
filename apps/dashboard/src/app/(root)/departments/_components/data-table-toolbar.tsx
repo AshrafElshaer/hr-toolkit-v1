@@ -17,13 +17,11 @@ import DepartmentDialog from "./department-form";
 // import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 // import { employmentTypes, roles, statuses } from "./filters";
 
-// interface DataTableToolbarProps<TData> {
-//   table: Table<TData>;
-// }
+interface DataTableToolbarProps<TData> {
+  table: Table<TData>;
+}
 
-export function DataTableToolbar(
-// : DataTableToolbarProps<TData>
-) {
+export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
   //   const { data: departments } = useQuery({
   //     queryKey: ["departments"],
   //     queryFn: async () => {
