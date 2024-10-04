@@ -6,7 +6,7 @@ import type { Table } from "@tanstack/react-table";
 import { Button, buttonVariants } from "@toolkit/ui/button";
 import { Input } from "@toolkit/ui/input";
 
-import { getDepartmentsAction } from "@/actions/departments";
+import { getDepartmentsAction } from "@/actions/departments.actions";
 import { useQuery } from "@tanstack/react-query";
 import { PlusIcon, Search } from "lucide-react";
 import Link from "next/link";

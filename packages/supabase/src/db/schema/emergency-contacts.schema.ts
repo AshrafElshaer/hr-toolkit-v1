@@ -8,7 +8,7 @@ import {
   timestamp,
   uuid,
 } from "drizzle-orm/pg-core";
-import { UserTable } from "./users";
+import { UserTable } from "./users.schema";
 
 export const EmergencyContactTable = pgTable("emergency_contacts", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),

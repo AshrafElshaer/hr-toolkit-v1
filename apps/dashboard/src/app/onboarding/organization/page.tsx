@@ -79,7 +79,7 @@ import {
   SelectValue,
 } from "@toolkit/ui/select";
 
-import { createOrganizationAction } from "@/actions/organization";
+import { createOrganizationAction } from "@/actions/organization.actions";
 import { Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";

@@ -1,6 +1,6 @@
 "use client";
 
-import { createEmployeeAction } from "@/actions/employees";
+import { createEmployeeAction } from "@/actions/employees.actions";
 import UploadZone from "@/components/upload-zone";
 import { EmploymentTypeEnum, UserRolesEnum } from "@toolkit/supabase/types";
 import { createEmployeeSchema } from "@toolkit/supabase/validations";
@@ -29,7 +29,7 @@ import type { DropzoneOptions } from "react-dropzone";
 import type * as RPNInput from "react-phone-number-input";
 import { toast } from "sonner";
 
-import { updateUserByIdAction } from "@/actions/user";
+import { updateUserByIdAction } from "@/actions/users.actions";
 import { PhoneInputSimple } from "@/components/phone-input";
 import { CountrySelector } from "@/components/selectors/country-selector";
 import { DepartmentSelector } from "@/components/selectors/department-selector";
@@ -49,9 +49,9 @@ import {
   FormMessage,
 } from "@toolkit/ui/form";
 import { Input } from "@toolkit/ui/input";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { useRouter } from "next/navigation";
 const DAYS_OF_WEEK = [
   {
     label: "Monday",

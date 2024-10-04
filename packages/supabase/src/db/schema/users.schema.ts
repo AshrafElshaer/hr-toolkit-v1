@@ -9,11 +9,11 @@ import {
   timestamp,
   uuid,
 } from "drizzle-orm/pg-core";
-import { AddressTable } from "./addresses";
-import { EmergencyContactTable } from "./emergency-contacts";
-import { NotesTable } from "./notes";
-import { OrganizationMemberTable } from "./organizations";
-import { TimeSheetTable } from "./timesheet";
+import { AddressTable } from "./addresses.schema";
+import { EmergencyContactTable } from "./emergency-contacts.schema";
+import { NotesTable } from "./notes.schema";
+import { OrganizationMemberTable } from "./organizations.schema";
+import { TimeSheetTable } from "./timesheet.schema";
 
 const UserRolesEnum = pgEnum("user_roles", [
   "admin",

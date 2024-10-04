@@ -1,7 +1,7 @@
 "use server";
 import { getDepartments } from "@toolkit/supabase/queries";
 import { z } from "zod";
-import { authActionClient } from "../safe-action";
+import { authActionClient } from "./safe-action";
 
 export const getDepartmentsAction = authActionClient
   .metadata({

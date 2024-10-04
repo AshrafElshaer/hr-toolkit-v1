@@ -14,7 +14,7 @@ import {
 import moment from "moment";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { authActionClient } from "../safe-action";
+import { authActionClient } from "./safe-action";
 
 export const clockInAction = authActionClient
   .metadata({

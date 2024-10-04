@@ -38,7 +38,7 @@ import {
 } from "@toolkit/ui/select";
 import { subYears } from "date-fns";
 
-import { createOrganizationOwnerAction } from "@/actions/user";
+import { createOrganizationOwnerAction } from "@/actions/users.actions";
 import { CountrySelector } from "@/components/selectors/country-selector";
 import { DateField } from "@toolkit/ui/date-field";
 import { ToggleGroup, ToggleGroupItem } from "@toolkit/ui/toggle-group";

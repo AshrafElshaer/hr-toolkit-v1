@@ -2,8 +2,8 @@ import { relations, sql } from "drizzle-orm";
 import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 import { primaryKey } from "drizzle-orm/pg-core";
-import { OrganizationTable } from "./organizations";
-import { UserTable } from "./users";
+import { OrganizationTable } from "./organizations.schema";
+import { UserTable } from "./users.schema";
 
 export const DepartmentTable = pgTable("department", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),

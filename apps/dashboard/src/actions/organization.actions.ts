@@ -2,7 +2,7 @@
 import { createServerClient } from "@/lib/supabase/server";
 import OrganizationMutations from "@toolkit/supabase/organization-mutations";
 import { organizationInsertSchema } from "@toolkit/supabase/validations";
-import { authActionClient } from "../safe-action";
+import { authActionClient } from "./safe-action";
 
 export const createOrganizationAction = authActionClient
   .schema(organizationInsertSchema)

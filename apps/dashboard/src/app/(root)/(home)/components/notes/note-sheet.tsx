@@ -3,7 +3,7 @@ import {
   createNoteAction,
   deleteNoteAction,
   updateNoteAction,
-} from "@/actions/notes";
+} from "@/actions/notes.actions";
 import AdvancedEditor from "@/components/editors/advanced";
 import SimpleEditor from "@/components/editors/simple-editor";
 import type { Note } from "@toolkit/supabase/types";

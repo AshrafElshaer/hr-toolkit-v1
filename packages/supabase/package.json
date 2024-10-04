@@ -6,7 +6,8 @@
     "clean": "rm -rf .turbo node_modules",
     "lint": "biome check .",
     "format": "biome format --write .",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.1",
@@ -27,13 +28,12 @@
     "typescript": "^5.5.4"
   },
   "exports": {
-    "./user-mutations": "./src/mutations/users.ts",
-    "./address-mutations": "./src/mutations/addresses.ts",
-    "./organization-mutations": "./src/mutations/organization.ts",
-    "./timesheet-mutations": "./src/mutations/timesheet.ts",
-    "./note-mutations": "./src/mutations/notes.ts",
+    "./user-mutations": "./src/mutations/users.mutations.ts",
+    "./address-mutations": "./src/mutations/addresses.mutations.ts",
+    "./organization-mutations": "./src/mutations/organization.mutations.ts",
+    "./timesheet-mutations": "./src/mutations/timesheet.mutations.ts",
+    "./note-mutations": "./src/mutations/notes.mutations.ts",
     "./queries": "./src/queries/index.ts",
-    "./cached-queries": "./src/queries/cached-queries.ts",
     "./storage": "./src/utils/storage.ts",
     "./types": "./src/types/index.ts",
     "./validations": "./src/db/validations/index.ts"

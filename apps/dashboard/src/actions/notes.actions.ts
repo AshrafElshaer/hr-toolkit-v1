@@ -7,7 +7,7 @@ import {
 } from "@toolkit/supabase/validations";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
-import { authActionClient } from "../safe-action";
+import { authActionClient } from "./safe-action";
 
 export const getUserNotesAction = authActionClient
   .metadata({

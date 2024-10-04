@@ -6,7 +6,7 @@ import {
   uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
-import { UserTable } from "./users";
+import { UserTable } from "./users.schema";
 
 export const AddressTable = pgTable("addresses", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),

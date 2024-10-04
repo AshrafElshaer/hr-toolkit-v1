@@ -23,12 +23,8 @@ export default function DepartmentDialog({
       {trigger ? <DialogTrigger asChild>{trigger}</DialogTrigger> : null}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            {department ? "Edit" : "Add"} Department
-          </DialogTitle>
-          <DialogDescription>
-            Manage your department details.
-          </DialogDescription>
+          <DialogTitle>{department ? "Edit" : "Add"} Department</DialogTitle>
+          <DialogDescription>Manage your department details.</DialogDescription>
         </DialogHeader>
         <DepartmentForm />
       </DialogContent>
@@ -40,7 +36,7 @@ import { departmentInsertSchema } from "@toolkit/supabase/validations";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
-import { getManagersAction } from "@/actions/employees";
+import { getManagersAction } from "@/actions/employees.actions";
 import { useSession } from "@/hooks/use-session";
 import { useQuery } from "@tanstack/react-query";
 import type { Department } from "@toolkit/supabase/types";

@@ -1,4 +1,4 @@
-import { getDepartmentsAction } from "@/actions/departments";
+import { getDepartmentsAction } from "@/actions/departments.actions";
 import { DataTableToolbar } from "./data-table-toolbar";
 
 export default async function Departments() {

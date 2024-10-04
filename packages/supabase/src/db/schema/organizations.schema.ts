@@ -10,7 +10,7 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 
-import { UserTable } from "./users";
+import { UserTable } from "./users.schema";
 
 const OrganizationTypeEnum = pgEnum("organization_type", [
   "for-profit",

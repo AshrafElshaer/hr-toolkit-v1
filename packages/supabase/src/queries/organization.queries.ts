@@ -8,7 +8,7 @@ import {
   UserTable,
   db,
 } from "../db";
-import { getOrganizationMembersQuery } from "../db/statements/employees";
+import { getOrganizationMembersQuery } from "../db/statements/employees.statements";
 import { safeAsync } from "../utils";
 
 export const getOrganizationById = async (organizationId: string) =>

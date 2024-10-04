@@ -10,7 +10,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 import { real } from "drizzle-orm/pg-core";
-import { UserTable } from "./users";
+import { UserTable } from "./users.schema";
 
 const TimeSheetStatusEnum = pgEnum("time_sheet_status", [
   "pending",

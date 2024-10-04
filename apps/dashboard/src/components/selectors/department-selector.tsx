@@ -1,6 +1,6 @@
 "use client";
 
-import { getDepartmentsAction } from "@/actions/departments";
+import { getDepartmentsAction } from "@/actions/departments.actions";
 import { useQuery } from "@tanstack/react-query";
 
 import {

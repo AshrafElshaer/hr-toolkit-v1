@@ -1,6 +1,5 @@
-import { getCurrentUserAction } from "@/actions/user";
+import { getCurrentUserAction } from "@/actions/users.actions";
 import { createClient } from "@/lib/supabase/client";
-import { getCurrentUser } from "@toolkit/supabase/queries";
 
 import { useQuery } from "@tanstack/react-query";
 

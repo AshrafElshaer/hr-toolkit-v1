@@ -1,4 +1,4 @@
-import { getEmployeesAction } from "@/actions/user";
+import { getEmployeesAction } from "@/actions/users.actions";
 import type { GetOrganizationMembersQuery } from "@toolkit/supabase/types";
 import React from "react";
 import { columns } from "./columns";

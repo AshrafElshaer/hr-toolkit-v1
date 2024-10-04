@@ -8,7 +8,7 @@ import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { authActionClient } from "../safe-action";
+import { authActionClient } from "./safe-action";
 
 export const createEmployeeAction = authActionClient
   .metadata({

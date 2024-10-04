@@ -1,4 +1,4 @@
-import { getUserNotesAction } from "@/actions/notes";
+import { getUserNotesAction } from "@/actions/notes.actions";
 import type { Note } from "@toolkit/supabase/types";
 import { Button } from "@toolkit/ui/button";
 import { Card, CardContent } from "@toolkit/ui/card";
