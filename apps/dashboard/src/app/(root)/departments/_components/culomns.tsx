@@ -13,6 +13,7 @@ import { ChevronRight, MoreHorizontal } from "lucide-react";
 import { Avatar, AvatarGroup } from "@toolkit/ui/avatar";
 import { Badge } from "@toolkit/ui/badge";
 import { Button } from "@toolkit/ui/button";
+import { GoDash } from "react-icons/go";
 
 interface DepartmentQuery extends Department {
   manager: User | null;
@@ -29,6 +30,14 @@ export const columns: ColumnDef<DepartmentQuery>[] = [
     id: "description",
     accessorFn: (row) => row.description,
     header: () => <div className="min-w-24">Description</div>,
+    cell: ({ row }) => {
+      const department = row.original;
+      const description = department.description;
+
+      if (!description) return <GoDash />;
+
+      return <div>{description}</div>;
+    },
   },
   {
     id: "manager",
@@ -37,6 +46,8 @@ export const columns: ColumnDef<DepartmentQuery>[] = [
     cell: ({ row }) => {
       const department = row.original;
       const manager = department.manager;
+
+      if (!manager) return <GoDash />;
 
       return (
         <div className=" flex items-center gap-2">
