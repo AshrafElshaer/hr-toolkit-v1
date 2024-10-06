@@ -14,6 +14,7 @@ import { Avatar, AvatarGroup } from "@toolkit/ui/avatar";
 import { Badge } from "@toolkit/ui/badge";
 import { Button } from "@toolkit/ui/button";
 import { GoDash } from "react-icons/go";
+import { DataTableColumnHeader } from "@/components/tables/data-table-column-header";
 
 interface DepartmentQuery extends Department {
   manager: User | null;
@@ -29,7 +30,7 @@ export const columns: ColumnDef<DepartmentQuery>[] = [
   {
     id: "description",
     accessorFn: (row) => row.description,
-    header: () => <div className="min-w-24">Description</div>,
+    header: () => <div className="min-w-44">Description</div>,
     cell: ({ row }) => {
       const department = row.original;
       const description = department.description;
@@ -42,7 +43,7 @@ export const columns: ColumnDef<DepartmentQuery>[] = [
   {
     id: "manager",
     accessorFn: (row) => `${row.manager?.first_name} ${row.manager?.last_name}`,
-    header: () => <div className="min-w-24">Manager</div>,
+    header: () => <div className="min-w-44">Manager</div>,
     cell: ({ row }) => {
       const department = row.original;
       const manager = department.manager;
@@ -65,11 +66,13 @@ export const columns: ColumnDef<DepartmentQuery>[] = [
   {
     id: "members",
     accessorFn: (row) => row.members.length,
-    header: () => <div className="min-w-24 text-center">Members</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Members" className="justify-center" />
+    ),
     cell: ({ row }) => {
       const department = row.original;
       const members = department.members;
-
+      
       return (
         <div className="text-base font-semibold text-center">
           {members.length}

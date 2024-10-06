@@ -13,7 +13,7 @@ import Link from "next/link";
 import { IoGrid } from "react-icons/io5";
 import { IoKeySharp } from "react-icons/io5";
 import { MdSignalWifiStatusbarConnectedNoInternet2 } from "react-icons/md";
-import { DataTableFacetedFilter } from "./data-table-faceted-filter";
+import { DataTableFacetedFilter } from "../../../../../components/tables/data-table-faceted-filter";
 import { employmentTypes, roles, statuses } from "./filters";
 
 interface DataTableToolbarProps<TData> {

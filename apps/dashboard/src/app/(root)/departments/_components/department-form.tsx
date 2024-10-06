@@ -201,7 +201,7 @@ function DepartmentForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isCreating}>
+        <Button type="submit" disabled={isCreating} className="ml-auto">
           {isCreating ? <Loader className="w-4 h-4 animate-spin" /> : null}
           Submit
         </Button>
