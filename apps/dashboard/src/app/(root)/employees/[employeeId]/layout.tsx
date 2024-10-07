@@ -22,20 +22,23 @@ export default function EmployeeLayout({
 
   return (
     <Main className="flex flex-col gap-4">
-      <nav className="flex items-center justify-start gap-2">
+      <nav className="flex items-center justify-start gap-2 w-full overflow-x-scroll scrollbar-hide">
         <Button variant="secondary" onClick={() => router.back()}>
           <ChevronLeft className="w-4 h-4 mr-2" />
           <span className="text-sm font-medium">Back </span>
         </Button>
         {employeeNavigation.map((item) => {
-          const itemPath = `/employees/${params.employeeId}${item.href.split('[employeeId]')[1] || ''}`;
+          const itemPath = `/employees/${params.employeeId}${item.href.split("[employeeId]")[1] || ""}`;
           const isActive = pathname === itemPath;
           return (
             <Link
               key={item.name}
               href={itemPath}
               className={cn(
-                buttonVariants({ variant: isActive ? "secondary" : "ghost" }),
+                buttonVariants({
+                  variant: isActive ? "secondary" : "ghost",
+                  className: "min-w-fit",
+                }),
               )}
             >
               <item.icon className="w-4 h-4 mr-2" />
