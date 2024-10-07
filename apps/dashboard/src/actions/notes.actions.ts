@@ -8,6 +8,7 @@ import {
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
+import { cacheKeys } from "@toolkit/supabase/cache-keys";
 
 export const getUserNotesAction = authActionClient
   .metadata({
@@ -38,7 +39,7 @@ export const createNoteAction = authActionClient
     if (error) {
       throw new Error(error.message);
     }
-    revalidateTag(`user-notes-${ctx.user.id}`);
+    revalidateTag(`${cacheKeys.user.notes}-${ctx.user.id}`);
 
     return note;
   });
@@ -57,7 +58,7 @@ export const updateNoteAction = authActionClient
     if (error) {
       throw new Error(error.message);
     }
-    revalidateTag(`user-notes-${ctx.user.id}`);
+    revalidateTag(`${cacheKeys.user.notes}-${ctx.user.id}`);
 
     return note;
   });
@@ -76,7 +77,7 @@ export const deleteNoteAction = authActionClient
     if (error) {
       throw new Error(error.message);
     }
-    revalidateTag(`user-notes-${ctx.user.id}`);
+    revalidateTag(`${cacheKeys.user.notes}-${ctx.user.id}`);
 
     return note;
   });

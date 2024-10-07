@@ -12,6 +12,7 @@ import { departmentInsertSchema } from "@toolkit/supabase/validations";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
+import { cacheKeys } from "@toolkit/supabase/cache-keys";
 
 export const getDepartmentsAction = authActionClient
   .metadata({
@@ -101,7 +102,9 @@ export const createDepartmentAction = authActionClient
       throw new Error(departmentMemberError.message);
     }
 
-    revalidateTag(`organization-members-${user.user_metadata.organization_id}`);
+    revalidateTag(
+      `${cacheKeys.organization.departments}-${user.user_metadata.organization_id}`,
+    );
     revalidatePath("/departments");
     return departmentMemberData;
   });

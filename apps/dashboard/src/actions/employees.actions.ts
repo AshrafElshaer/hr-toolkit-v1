@@ -15,6 +15,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { authActionClient } from "./safe-action";
+import { cacheKeys } from "@toolkit/supabase/cache-keys";
 
 export const createEmployeeAction = authActionClient
   .metadata({
@@ -79,7 +80,7 @@ export const createEmployeeAction = authActionClient
       throw new Error(error.message);
     }
     revalidateTag(
-      `organization-members-${ctx.user.user_metadata.organization_id}`,
+      `${cacheKeys.organization.members}-${ctx.user.user_metadata.organization_id}`,
     );
     redirect("/employees");
     return {

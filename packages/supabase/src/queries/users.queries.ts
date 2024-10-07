@@ -11,6 +11,7 @@ import {
 } from "../db";
 import { UserRolesEnum } from "../types";
 import { safeAsync } from "../utils";
+import { cacheKeys } from "./cache-keys";
 
 export async function getCurrentUser(supabase: SupabaseClient) {
   const { data, error } = await supabase.auth.getUser();
@@ -79,10 +80,12 @@ export function getEmployees(orgId: string, deptId?: string) {
       }
       return data;
     },
-    [orgId, deptId ?? ""],
+    [orgId],
     {
       revalidate: 180,
-      tags: [`employees-${orgId}`],
+      tags: [
+        deptId ? cacheKeys.department.members : cacheKeys.organization.users,
+      ],
     },
   );
 }
@@ -124,7 +127,7 @@ export function getManagers(organizationId: string) {
     [organizationId],
     {
       revalidate: 180,
-      tags: [`managers-${organizationId}`],
+      tags: [cacheKeys.organization.managers],
     },
   )();
 }

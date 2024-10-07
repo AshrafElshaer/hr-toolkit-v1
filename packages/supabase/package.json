@@ -38,6 +38,7 @@
     "./department-member-mutations": "./src/mutations/department-members.mutations.ts",
     "./department-mutations": "./src/mutations/departments.mutations.ts",
     "./types": "./src/types/index.ts",
-    "./validations": "./src/db/validations/index.ts"
+    "./validations": "./src/db/validations/index.ts",
+    "./cache-keys": "./src/queries/cache-keys.ts"
   }
 }

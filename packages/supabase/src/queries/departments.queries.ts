@@ -2,6 +2,7 @@ import { eq } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
 import { DepartmentMemberTable, DepartmentTable, UserTable, db } from "../db";
 import { safeAsync } from "../utils";
+import { cacheKeys } from "./cache-keys";
 
 export const getDepartments = async (organizationId: string) => {
   return unstable_cache(
@@ -17,8 +18,11 @@ export const getDepartments = async (organizationId: string) => {
       });
       return result;
     },
-    [organizationId],
-    { revalidate: 180, tags: [`departments-${organizationId}`] },
+    [cacheKeys.organization.departments, organizationId],
+    {
+      revalidate: 180,
+      tags: [`${cacheKeys.organization.departments}-${organizationId}`],
+    },
   )();
 };
 
@@ -37,8 +41,8 @@ export const getUserDepartment = async (userId: string) => {
       console.dir(result, { depth: Number.POSITIVE_INFINITY });
       return result;
     },
-    [userId],
-    { revalidate: 180, tags: [`user-departments-${userId}`] },
+    [cacheKeys.user.department, userId],
+    { revalidate: 180, tags: [`${cacheKeys.user.department}-${userId}`] },
   )();
 };
 
@@ -52,8 +56,8 @@ export const getDepartmentById = async (id: string) => {
       });
       return result;
     },
-    [id],
-    { revalidate: 180, tags: [`department-${id}`] },
+    [cacheKeys.department.info, id],
+    { revalidate: 180, tags: [`${cacheKeys.department.info}-${id}`] },
   )();
 };
 
@@ -81,7 +85,10 @@ export const getDepartmentMembers = async (departmentId: string) => {
       console.dir(result, { depth: Number.POSITIVE_INFINITY });
       return result;
     },
-    [departmentId],
-    { revalidate: 180, tags: [`department-members-${departmentId}`] },
+    [cacheKeys.department.members, departmentId],
+    {
+      revalidate: 180,
+      tags: [`${cacheKeys.department.members}-${departmentId}`],
+    },
   )();
 };

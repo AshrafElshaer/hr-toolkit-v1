@@ -10,6 +10,7 @@ import {
 } from "../db";
 import { getOrganizationMembersQuery } from "../db/statements/employees.statements";
 import { safeAsync } from "../utils";
+import { cacheKeys } from "./cache-keys";
 
 export const getOrganizationById = async (organizationId: string) =>
   unstable_cache(
@@ -24,8 +25,11 @@ export const getOrganizationById = async (organizationId: string) =>
 
       return result;
     },
-    [organizationId],
-    { revalidate: 180, tags: [`user-organization-${organizationId}`] },
+    [cacheKeys.organization.info, organizationId],
+    {
+      revalidate: 180,
+      tags: [`${cacheKeys.organization.info}-${organizationId}`],
+    },
   )();
 
 export const getOrganizationMembers = async (organizationId: string) =>
@@ -38,6 +42,9 @@ export const getOrganizationMembers = async (organizationId: string) =>
       });
       return result;
     },
-    [organizationId],
-    { revalidate: 180, tags: [`organization-members-${organizationId}`] },
+    [cacheKeys.organization.members, organizationId],
+    {
+      revalidate: 180,
+      tags: [`${cacheKeys.organization.members}-${organizationId}`],
+    },
   )();
