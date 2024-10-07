@@ -31,13 +31,19 @@ export const statuses = Object.values(EmploymentStatusEnum).map((status) => ({
 
 export const roles = Object.values(UserRolesEnum).map((role) => ({
   value: role,
-  label: role.charAt(0).toUpperCase() + role.slice(1),
+  label: role
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" "),
 }));
 
 export const employmentTypes = Object.values(EmploymentTypeEnum).map(
   (type) => ({
     value: type,
-    label: type.split("_").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" "),
+    label: type
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" "),
   }),
 );
 

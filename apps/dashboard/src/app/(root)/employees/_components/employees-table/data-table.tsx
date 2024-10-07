@@ -22,8 +22,8 @@ import { UserSearch } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { parseAsJson, useQueryState } from "nuqs";
 
-import { DataTableToolbar } from "./data-table-toolbar";
 import { cn } from "@toolkit/ui/cn";
+import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -49,7 +49,6 @@ export function DataTable<TData, TValue>({
       columnFilters: columnFilters as ColumnFiltersState,
     },
   });
-
 
   return (
     <>
@@ -90,7 +89,6 @@ export function DataTable<TData, TValue>({
                     onClick={() => {
                       const employee =
                         row.original as GetOrganizationMembersQuery;
-                      console.log(employee);
                       router.push(`/employees/${employee.user?.id}`);
                     }}
                   >
