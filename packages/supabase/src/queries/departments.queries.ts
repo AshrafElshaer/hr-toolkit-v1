@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
-import { DepartmentMemberTable, DepartmentTable, db } from "../db";
+import { DepartmentMemberTable, DepartmentTable, UserTable, db } from "../db";
 import { safeAsync } from "../utils";
 
 export const getDepartments = async (organizationId: string) => {
@@ -33,6 +33,8 @@ export const getUserDepartment = async (userId: string) => {
           },
         });
       });
+      console.log("department");
+      console.dir(result, { depth: Number.POSITIVE_INFINITY });
       return result;
     },
     [userId],
@@ -59,13 +61,24 @@ export const getDepartmentMembers = async (departmentId: string) => {
   return unstable_cache(
     async () => {
       const result = await safeAsync(async () => {
-        return await db.query.DepartmentMemberTable.findMany({
-          where: eq(DepartmentMemberTable.department_id, departmentId),
-          with: {
-            user: true,
-          },
-        });
+        return await db
+          .select({
+            user: UserTable,
+            department: DepartmentTable,
+          })
+          .from(UserTable)
+          .innerJoin(
+            DepartmentMemberTable,
+            eq(DepartmentMemberTable.user_id, UserTable.id),
+          )
+          .innerJoin(
+            DepartmentTable,
+            eq(DepartmentTable.id, DepartmentMemberTable.department_id),
+          )
+          .where(eq(DepartmentMemberTable.department_id, departmentId));
       });
+      console.log("department members");
+      console.dir(result, { depth: Number.POSITIVE_INFINITY });
       return result;
     },
     [departmentId],

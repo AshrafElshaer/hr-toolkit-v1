@@ -22,6 +22,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useCountdown } from "usehooks-ts";
@@ -35,6 +36,7 @@ export function OtpConfirmation({
   userEmail,
   setUserEmail,
 }: OtpConfirmationProps) {
+  const searchParams = useSearchParams();
   const [isError, setIsError] = useState(false);
   const [
     resendTimer,

@@ -36,12 +36,6 @@ export const columns: ColumnDef<GetOrganizationMembersQuery>[] = [
     id: "job_title",
     accessorFn: (row) => row.user?.job_title,
     header: () => <div className="min-w-32">Job Title</div>,
-    // cell: ({ row }) => {
-    //   const employee = row.original;
-    //   const jobTitle = employee.user?.job_title;
-
-    //   return <div className="">{jobTitle}</div>;
-    // },
   },
   {
     id: "role",

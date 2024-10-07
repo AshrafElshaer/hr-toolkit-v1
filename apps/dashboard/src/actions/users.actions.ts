@@ -80,37 +80,6 @@ export const createOrganizationOwnerAction = authActionClient
     };
   });
 
-export const getEmployeesAction = authActionClient
-  .metadata({
-    name: "get-employees",
-  })
-  .action(async ({ ctx }) => {
-    const { user } = ctx;
-
-    if (user.role === UserRolesEnum.admin) {
-      const { data: employees, error: employeesError } =
-        await getOrganizationMembers(user.user_metadata.organization_id);
-
-      if (employeesError) {
-        throw new Error(employeesError.message);
-      }
-    
-      return employees;
-    }
-
-    const { data, error: departmentError } = await getUserDepartment(user.id);
-    if (departmentError || !data) {
-      throw new Error(departmentError?.message ?? "Error getting department");
-    }
-
-    const { data: employees, error: employeesError } =
-      await getDepartmentMembers(data.department_id);
-    if (employeesError) {
-      throw new Error(employeesError.message);
-    }
-
-    return employees;
-  });
 
 export const updateUserByIdAction = authActionClient
   .metadata({

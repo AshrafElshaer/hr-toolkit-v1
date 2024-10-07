@@ -33,8 +33,8 @@ export function DataTableToolbar<TData>({
   const isFiltered = table.getState().columnFilters.length > 0;
 
   const departmentOptions = departments?.map((department) => ({
-    label: department.name,
-    value: department.name,
+    label: `${department.name} - ${department.description}`,
+    value: `${department.name} - ${department.description}`,
   }));
 
   return (

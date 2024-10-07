@@ -38,7 +38,9 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
   } = await supabase.auth.getSession();
 
   if (!session && !req.nextUrl.pathname.startsWith("/auth")) {
-    return NextResponse.redirect(new URL("/auth", req.url));
+    return NextResponse.redirect(
+      new URL(`/auth?redirected=${req.nextUrl.pathname}`, req.url),
+    );
   }
 
   return res;
