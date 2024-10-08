@@ -7,10 +7,12 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  useReactTable,
+  getPaginationRowModel,
   getSortedRowModel,
+  useReactTable,
 } from "@tanstack/react-table";
 
+import { DataTablePagination } from "@/components/tables/data-table-pagination";
 import { cn } from "@toolkit/ui/cn";
 import {
   Table,
@@ -40,6 +42,7 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     state: {
@@ -112,6 +115,7 @@ export function DataTable<TData, TValue>({
           </div>
         )} */}
       </div>
+      <DataTablePagination table={table} />
     </>
   );
 }

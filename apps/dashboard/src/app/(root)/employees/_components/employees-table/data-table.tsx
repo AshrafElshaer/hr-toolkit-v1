@@ -6,6 +6,7 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import type { GetOrganizationMembersQuery } from "@toolkit/supabase/types";
@@ -24,6 +25,7 @@ import { parseAsJson, useQueryState } from "nuqs";
 
 import { cn } from "@toolkit/ui/cn";
 import { DataTableToolbar } from "./data-table-toolbar";
+import { DataTablePagination } from "@/components/tables/data-table-pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -45,6 +47,7 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     state: {
       columnFilters: columnFilters as ColumnFiltersState,
     },
@@ -112,6 +115,7 @@ export function DataTable<TData, TValue>({
           </div>
         )}
       </div>
+      <DataTablePagination table={table}  />
     </>
   );
 }
