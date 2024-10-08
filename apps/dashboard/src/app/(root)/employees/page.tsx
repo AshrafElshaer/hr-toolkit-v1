@@ -1,8 +1,7 @@
 import Main from "@/components/main";
 import type { Metadata } from "next";
-import EmployeesTable from "./_components/employees-table";
 import { Suspense } from "react";
-
+import EmployeesTable from "./_components/employees-table";
 
 export const metadata: Metadata = {
   title: "Employees",
