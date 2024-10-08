@@ -35,7 +35,7 @@ export default function EmployeesLoading() {
         </Button>
       </section>
       <TableLoader />
-      <PaginationLoader />
+      {/* <PaginationLoader /> */}
     </Main>
   );
 }
