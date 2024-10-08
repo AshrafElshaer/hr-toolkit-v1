@@ -7,9 +7,15 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 export const verifyOtpAction = actionClient
-  .schema(z.object({ otpCode: z.string(), email: z.string() }))
+  .schema(
+    z.object({
+      otpCode: z.string(),
+      email: z.string(),
+      redirectTo: z.string().nullable(),
+    }),
+  )
   .action(async ({ parsedInput, ctx }) => {
-    const { email, otpCode } = parsedInput;
+    const { email, otpCode, redirectTo } = parsedInput;
     const supabase = createServerClient();
     const { data, error } = await supabase.auth.verifyOtp({
       email,
@@ -26,7 +32,7 @@ export const verifyOtpAction = actionClient
       redirect("/onboarding");
     }
     if (data.session && data.user) {
-      redirect("/");
+      redirect(redirectTo ?? "/");
     }
   });
 

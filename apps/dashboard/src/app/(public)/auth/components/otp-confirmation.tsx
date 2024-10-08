@@ -37,6 +37,7 @@ export function OtpConfirmation({
   setUserEmail,
 }: OtpConfirmationProps) {
   const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirected");
   const [isError, setIsError] = useState(false);
   const [
     resendTimer,
@@ -71,7 +72,7 @@ export function OtpConfirmation({
   }, [startResendTimer]);
 
   async function onComplete(otp: string) {
-    verifyOtp({ otpCode: otp, email: userEmail ?? "" });
+    verifyOtp({ otpCode: otp, email: userEmail ?? "", redirectTo });
   }
 
   async function resendOtp() {

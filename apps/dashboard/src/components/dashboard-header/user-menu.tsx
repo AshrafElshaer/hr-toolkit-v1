@@ -28,6 +28,7 @@ export default function UserMenu({ currentUser }: { currentUser: User }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
+        <span className="sr-only">User menu</span>
         <Avatar
           shape="circle"
           size="medium"
