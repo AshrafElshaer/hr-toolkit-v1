@@ -1,53 +1,35 @@
-"use client";
-
 import Main from "@/components/main";
-import { Button, buttonVariants } from "@toolkit/ui/button";
-import { cn } from "@toolkit/ui/cn";
+import { Button } from "@toolkit/ui/button";
+
 import { ChevronLeft, Files, User } from "lucide-react";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
 import { FaRegClock } from "react-icons/fa6";
 import { HiOutlineBanknotes } from "react-icons/hi2";
 import { TbCalendarPause } from "react-icons/tb";
 
-export default function EmployeeLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: { employeeId: string };
-}) {
-  const pathname = usePathname();
-  const router = useRouter();
-
+export default function EmployeePageLoading() {
   return (
     <Main className="flex flex-col gap-4">
       <nav className="flex items-center justify-start gap-2 w-full overflow-x-scroll scrollbar-hide">
-        <Button variant="secondary" onClick={() => router.back()}>
+        <Button variant="secondary" disabled>
           <ChevronLeft className="w-4 h-4 mr-2" />
           <span className="text-sm font-medium">Back </span>
         </Button>
         {employeeNavigation.map((item) => {
-          const itemPath = `/employees/${params.employeeId}${item.href.split("[employeeId]")[1] || ""}`;
-          const isActive = pathname === itemPath;
+          const isActive = "/employees/[employeeId]" === item.href;
           return (
-            <Link
+            <Button
               key={item.name}
-              href={itemPath}
-              className={cn(
-                buttonVariants({
-                  variant: isActive ? "secondary" : "ghost",
-                  className: "min-w-fit",
-                }),
-              )}
+              disabled
+              className="min-w-fit"
+              variant={isActive ? "secondary" : "ghost"}
             >
               <item.icon className="w-4 h-4 mr-2" />
               <span className=" font-medium">{item.name}</span>
-            </Link>
+            </Button>
           );
         })}
       </nav>
-      {children}
+      {/* {children} */}
     </Main>
   );
 }

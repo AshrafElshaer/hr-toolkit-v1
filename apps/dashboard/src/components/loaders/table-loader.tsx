@@ -12,7 +12,7 @@ export function TableLoader({ rows = 5, columns = 6 }: TableLoaderProps) {
       <Skeleton className="w-full h-12 rounded-none" />
       {[...Array(rows)].map((_, index) => (
         <div
-          className="flex items-center gap-6 w-full h-10 text-accent-foreground border-b"
+          className="flex items-center gap-6 px-4 w-full h-10 text-accent-foreground border-b"
           key={index.toString()}
         >
           {[...Array(columns)].map((_, colIndex) => (

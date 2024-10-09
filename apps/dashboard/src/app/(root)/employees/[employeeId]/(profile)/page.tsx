@@ -1,4 +1,3 @@
-import Main from "@/components/main";
 import Profile from "./components/profile";
 
 type EmployeePageProps = {
@@ -10,6 +9,7 @@ type EmployeePageProps = {
 
 export default function EmployeePage({ params }: EmployeePageProps) {
   const userId = params.employeeId;
+
   return (
     <section className="flex-grow">
       <Profile userId={userId} />
