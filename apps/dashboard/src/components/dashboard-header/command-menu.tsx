@@ -80,7 +80,7 @@ export function CommandMenu() {
     <>
       <Button
         variant={"outline"}
-        className="text-muted-foreground w-72 flex items-center gap-2 px-2"
+        className="text-secondary-foreground w-72 flex items-center gap-2 px-2"
         onClick={() => setOpen(true)}
       >
         <FiCommand className="size-4" />

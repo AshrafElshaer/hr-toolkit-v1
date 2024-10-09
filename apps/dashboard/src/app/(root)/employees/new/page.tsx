@@ -1,6 +1,7 @@
 import Main from "@/components/main";
 import type { Metadata } from "next";
 
+
 import React from "react";
 import NewEmployee from "./new-employee";
 
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default function NewEmployeePage() {
+
   return (
     <Main className="flex flex-col gap-4 h-auto">
       <NewEmployee />

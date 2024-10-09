@@ -1,4 +1,4 @@
-"use client";
+
 
 import { Avatar } from "@toolkit/ui/avatar";
 import { Badge } from "@toolkit/ui/badge";
