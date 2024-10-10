@@ -22,9 +22,9 @@ export const createOrganizationAction = authActionClient
     const newOrgId = await OrganizationMutations.create(user.id, parsedInput);
 
     await supabase.auth.admin.updateUserById(user.id, {
-      role: "admin",
       user_metadata: {
         organization_id: newOrgId.id,
+        role: "admin",
       },
     });
 

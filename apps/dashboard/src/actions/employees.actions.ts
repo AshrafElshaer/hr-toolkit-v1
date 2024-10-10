@@ -1,6 +1,7 @@
 "use server";
 
 import { createServerClient } from "@/lib/supabase/server";
+import { cacheKeys } from "@toolkit/supabase/cache-keys";
 import OrganizationMutations from "@toolkit/supabase/organization-mutations";
 import {
   getDepartmentMembers,
@@ -15,7 +16,6 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { authActionClient } from "./safe-action";
-import { cacheKeys } from "@toolkit/supabase/cache-keys";
 
 export const createEmployeeAction = authActionClient
   .metadata({
@@ -40,9 +40,9 @@ export const createEmployeeAction = authActionClient
       await supabase.auth.admin.createUser({
         email: employee.email,
         email_confirm: true,
-        role: employee.role,
         user_metadata: {
           organization_id: ctx.user.user_metadata.organization_id,
+          role: employee.role,
         },
       });
 

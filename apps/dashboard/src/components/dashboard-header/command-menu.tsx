@@ -44,8 +44,8 @@ export function CommandMenu() {
 
   const session = useSession();
   const allowedNavigation = React.useMemo(() => {
-    return roleBasedNavigation(session?.user?.role ?? "");
-  }, [session?.user?.role]);
+    return roleBasedNavigation(session?.user?.user_metadata?.role ?? "");
+  }, [session?.user?.user_metadata?.role]);
 
   useHotkeys("meta+k", () => setOpen((open) => !open), {
     enableOnFormTags: true,
