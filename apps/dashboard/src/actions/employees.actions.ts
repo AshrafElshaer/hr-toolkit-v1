@@ -16,6 +16,8 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { authActionClient } from "./safe-action";
+import { resend } from "@/lib/resend";
+import { NewEmployeeEmail } from "@toolkit/email/new-employee";
 
 export const createEmployeeAction = authActionClient
   .metadata({
@@ -50,39 +52,27 @@ export const createEmployeeAction = authActionClient
       throw new Error(authError?.message ?? "Unknown error creating user auth");
     }
 
-    // let avatarUrl = "";
-    // if (image.file) {
-    //   console.log(image.file);
-    //   const { data: avatar, error: avatarError } = await supabase.storage
-    //     .from("avatars")
-    //     .upload(
-    //       `${ctx.user.user_metadata.organization_id}/${auth.user.id}`,
-    //       image.file,
-    //     );
-
-    //   if (avatarError) {
-    //     throw new Error(avatarError.message);
-    //   }
-
-    //   const { data: url } = supabase.storage
-    //     .from("avatars")
-    //     .getPublicUrl(avatar.path);
-
-    //   avatarUrl = url.publicUrl;
-    // }
-
     const { data, error } = await OrganizationMutations.createEmployee(
       { ...employee, id: auth.user.id, avatar_url: "" },
       ctx.user.user_metadata.organization_id,
     );
 
-    if (error) {
-      throw new Error(error.message);
+    if (error || !data) {
+      throw new Error(error?.message ?? "Unknown error creating employee");
     }
     revalidateTag(
       `${cacheKeys.organization.members}-${ctx.user.user_metadata.organization_id}`,
     );
-    redirect("/employees");
+
+    await resend.emails.send({
+      from: "HR Toolkit Onboarding<onboarding@hrtoolkit.app>",
+      to: data.user.email,
+      subject: "Welcome to HR Toolkit",
+      react: NewEmployeeEmail({
+        name: `${data.user.first_name} ${data.user.last_name}`,
+        // organizationName: ctx.user.user_metadata.organization_name,
+      }),
+    });
     return {
       user: auth.user,
     };

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "main": "./index.ts",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
     "lint": "biome check .",

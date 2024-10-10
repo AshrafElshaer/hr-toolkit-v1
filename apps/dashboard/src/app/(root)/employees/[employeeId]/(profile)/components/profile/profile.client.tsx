@@ -1,39 +1,71 @@
 "use client";
+import { updateUserByIdAction } from "@/actions/users.actions";
 import UploadZone from "@/components/upload-zone";
 import { useSupabase } from "@/hooks/use-supabase";
+
+import { uploadUserAvatar } from "@/lib/supabase/storage/upload";
 import type { User } from "@toolkit/supabase/types";
+import type { Department, DepartmentMember } from "@toolkit/supabase/types";
 import { Avatar } from "@toolkit/ui/avatar";
 import { Badge } from "@toolkit/ui/badge";
 import { Card } from "@toolkit/ui/card";
 import { Separator } from "@toolkit/ui/separator";
-import { Cake, Calendar, KeyRound, Mail, Phone, Play } from "lucide-react";
+import {
+  Cake,
+  Calendar,
+  Clock,
+  KeyRound,
+  LayoutGrid,
+  Mail,
+  Phone,
+  Play,
+} from "lucide-react";
 import moment from "moment";
+import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { createClient } from "@/lib/supabase/client";
-
-export default function ProfileClient({ user }: { user: User }) {
-  const supabase = createClient({ isAdmin: true });
+type ProfileClientProps = {
+  user: User;
+  department: DepartmentMember & { department: Department };
+};
+export default function ProfileClient({
+  user,
+  department,
+}: ProfileClientProps) {
+  const supabase = useSupabase();
+  const router = useRouter();
 
   const onImageDrop = async (acceptedFiles: File[]) => {
-    toast.info("Uploading image...");
     const file = acceptedFiles[0];
-    const { error, data } = await supabase.storage.listBuckets();
-    //   .from("avatars")
-    //   .upload(user.id, file, {
-    //     cacheControl: "3600000000",
-    //     upsert: true,
-    //   });
-    console.log({ data, error });
-    if (error || !data) {
-      toast.error("Error uploading image");
-      return;
-    }
+    toast.promise(
+      async () => {
+        const { error, data } = await uploadUserAvatar(user.id, file);
+        if (error || !data) {
+          throw new Error("Error uploading image");
+        }
 
-    // const {
-    //   data: { publicUrl },
-    // } = supabase.storage.from("avatars").getPublicUrl(data.path);
-    // console.log({ publicUrl });
+        const {
+          data: { publicUrl },
+        } = supabase.storage.from("avatars").getPublicUrl(data.path);
+
+        const result = await updateUserByIdAction({
+          id: user.id,
+          avatar_url: publicUrl,
+        });
+
+        if (result?.serverError) {
+          throw new Error(result?.serverError);
+        }
+
+        router.refresh();
+      },
+      {
+        loading: "Uploading profile picture...",
+        success: "Profile picture uploaded successfully",
+        error: ({ error }) => error.message,
+      },
+    );
   };
   return (
     <Card className="flex flex-col gap-2 w-fit p-0 py-8">
@@ -71,10 +103,9 @@ export default function ProfileClient({ user }: { user: User }) {
           {user?.employment_status.replace("_", " ")}
         </Badge>
       </div>
-      <Separator className="w-full" />
 
-      <h3 className="font-bold px-2">Personal Information</h3>
-      <div className="space-y-2 text-sm px-4 text-accent-foreground">
+      <h3 className="font-bold text-lg px-4 mt-4">Personal Information</h3>
+      <div className="space-y-2  px-4 text-accent-foreground">
         <Link
           href={`mailto:${user?.email}`}
           className="flex items-center gap-2 hover:underline"
@@ -94,10 +125,26 @@ export default function ProfileClient({ user }: { user: User }) {
           <Play className="size-4" />
           <p>{moment(user?.hire_date).format("DD MMM YYYY")}</p>
         </div>
-        {/* <div className="flex items-center gap-2">
-        <KeyRound className="size-4" />
-        <p className="capitalize">{user?.role.replace("_", " ")}</p>
-      </div> */}
+
+        <div className="flex items-center gap-2">
+          <LayoutGrid className="size-4" />
+          <p>
+            {department?.department.name} - {department?.department.description}
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <KeyRound className="size-4" />
+          <p className="capitalize">{user?.role.replace("_", " ")}</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Clock className="size-4" />
+          <div className="capitalize flex items-center gap-2">
+            {user?.employment_type.replace("_", " ")}
+            <span className="text-secondary-foreground">|</span>
+            {user?.work_hours_per_week} hours/week
+          </div>
+        </div>
       </div>
     </Card>
   );

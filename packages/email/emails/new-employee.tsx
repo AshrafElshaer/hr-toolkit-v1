@@ -11,15 +11,15 @@ import {
   Text,
 } from "@react-email/components";
 import React from "react";
-import { colors } from "../components/colors.js";
-import Logo from "../components/logo.js";
+import { colors } from "../components/colors";
+import Logo from "../components/logo";
 
 const baseUrl = "https://dashboard.hrtoolkit.app";
 
 export function NewEmployeeEmail({
   name,
-  organizationName,
-}: { name: string; organizationName: string }) {
+  organizationName = "HR Toolkit",
+}: { name: string; organizationName?: string }) {
   return (
     <Html>
       <Tailwind>

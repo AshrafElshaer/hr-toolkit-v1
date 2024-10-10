@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@toolkit/ui/dialog";
-
+import { useState } from "react";
 type DepartmentDialogProps = {
   children?: React.ReactNode;
   department?: Department;
@@ -18,15 +18,16 @@ export default function DepartmentDialog({
   children: trigger,
   department,
 }: DepartmentDialogProps) {
+  const [open, setOpen] = useState(false);
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       {trigger ? <DialogTrigger asChild>{trigger}</DialogTrigger> : null}
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{department ? "Edit" : "Add"} Department</DialogTitle>
           <DialogDescription>Manage your department details.</DialogDescription>
         </DialogHeader>
-        <DepartmentForm />
+        <DepartmentForm setOpen={setOpen} />
       </DialogContent>
     </Dialog>
   );
@@ -69,7 +70,8 @@ const formSchema = departmentInsertSchema.omit({
   organization_id: true,
 });
 
-function DepartmentForm() {
+function DepartmentForm({ setOpen }: { setOpen: (open: boolean) => void }) {
+  
   const session = useSession();
   const { execute: createDepartment, isExecuting: isCreating } = useAction(
     createDepartmentAction,
@@ -79,6 +81,7 @@ function DepartmentForm() {
       },
       onSuccess: () => {
         toast.success("Department created successfully");
+        setOpen(false);
       },
     },
   );
@@ -176,7 +179,7 @@ function DepartmentForm() {
                         <div className="flex items-center gap-2 w-full">
                           <Avatar
                             size="small"
-                            src={manager?.avatar_url ?? ""}
+                            src={manager?.avatar_url}
                             alt={manager?.first_name ?? ""}
                             initials={
                               (manager?.first_name?.[0] ?? "") +

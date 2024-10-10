@@ -45,6 +45,8 @@ const Toast = ({ ...props }: ToasterProps) => {
           icon: "absolute top-[1rem] ",
           content:
             "[&:not(:has(+button))]:pr-10 [&:has(+button)]:pb-11 md:[&:has(+button)]:pb-9",
+          loading:
+            "bg-background ring-border text-foreground ring-inset shadow-md  [&>[data-close-button=true]>svg]:text-foreground [&>[data-close-button=true]:hover]:bg-transparent",
           error:
             "bg-destructive/75 ring-destructive text-white ring-inset shadow-md shadow-destructive/50 [&>[data-close-button=true]>svg]:text-white [&>[data-close-button=true]:hover]:bg-transparent",
           info: "bg-blue/80 !ring-blue text-white ring-inset shadow-md shadow-blue [&>[data-close-button=true]>svg]:text-white [&>[data-close-button=true]:hover]:bg-transparent",

@@ -37,8 +37,6 @@ export const getUserDepartment = async (userId: string) => {
           },
         });
       });
-      console.log("department");
-      console.dir(result, { depth: Number.POSITIVE_INFINITY });
       return result;
     },
     [cacheKeys.user.department, userId],
@@ -81,8 +79,7 @@ export const getDepartmentMembers = async (departmentId: string) => {
           )
           .where(eq(DepartmentMemberTable.department_id, departmentId));
       });
-      console.log("department members");
-      console.dir(result, { depth: Number.POSITIVE_INFINITY });
+
       return result;
     },
     [cacheKeys.department.members, departmentId],

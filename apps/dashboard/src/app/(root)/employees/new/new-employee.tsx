@@ -35,6 +35,7 @@ import { CountrySelector } from "@/components/selectors/country-selector";
 import { DepartmentSelector } from "@/components/selectors/department-selector";
 import { COUNTRIES } from "@/constants/countries";
 import { createClient } from "@/lib/supabase/client";
+import { uploadUserAvatar } from "@/lib/supabase/storage/upload";
 import { formatBytes } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@toolkit/ui/button";
@@ -149,25 +150,21 @@ export default function NewEmployee() {
     },
   });
 
-  // console.log({ errors: form.formState.errors });
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     const result = await executeAsync({ employee: values });
     const supabase = createClient();
     const userId = result?.data?.user?.id;
-    const organizationId = result?.data?.user?.user_metadata?.organization_id;
+    if (!userId) {
+      toast.error("User ID not found");
+      return;
+    }
     if (image) {
       toast.promise(
         async () => {
-          const { data, error } = await supabase.storage
-            .from("avatars")
-            .upload(`${organizationId}/${userId}`, image, {
-              contentType: image.type,
-              upsert: true,
-            });
-          console.log({ data, error });
+          const { data, error } = await uploadUserAvatar(userId, image);
+
           if (error || !data) {
             throw new Error(error?.message ?? "Error uploading image");
           }
@@ -187,10 +184,6 @@ export default function NewEmployee() {
 
           return result?.data;
         },
-        // updateUserByIdAction({
-        //   id: userId,
-        //   avatar_url: publicUrl,
-        // }),
         {
           loading: "Uploading avatar",
           success: "Avatar uploaded successfully",
@@ -198,6 +191,8 @@ export default function NewEmployee() {
         },
       );
     }
+
+    router.push(`/employees/${userId}`);
   }
 
   const handleImageDrop: DropzoneOptions["onDrop"] = (acceptedFiles) => {
@@ -239,63 +234,63 @@ export default function NewEmployee() {
             {/* Left Side */}
 
             <section className="flex flex-col justify-start items-start gap-4 basis-1/3">
-              {/* <div className="flex items-start gap-2">
-              <UploadZone
-                options={createUploadZoneOptions(
-                  handleImageDrop,
-                  handleImageDropRejected,
-                )}
-                className=" size-16 rounded-md  flex items-center justify-center text-secondary-foreground"
-              >
-                {imagePreview ? (
-                  <Image
-                    src={imagePreview}
-                    alt="employee"
-                    className="size-full rounded-md"
-                    layout="fill"
-                  />
+              <div className="flex items-start gap-2">
+                <UploadZone
+                  options={createUploadZoneOptions(
+                    handleImageDrop,
+                    handleImageDropRejected,
+                  )}
+                  className=" size-16 rounded-md  flex items-center justify-center text-secondary-foreground"
+                >
+                  {imagePreview ? (
+                    <Image
+                      src={imagePreview}
+                      alt="employee"
+                      className="size-full rounded-md"
+                      layout="fill"
+                    />
+                  ) : (
+                    <ImagePlus className="size-16 " />
+                  )}
+                </UploadZone>
+
+                {!imagePreview ? (
+                  <div className="flex flex-col  text-secondary-foreground">
+                    <p className="text-sm font-medium text-foreground">
+                      Profile Picture
+                    </p>
+
+                    <p className="text-xs">Accepts: .png, .jpg, .jpeg</p>
+                    <p className="text-xs">Max image size: 1MBs</p>
+                  </div>
                 ) : (
-                  <ImagePlus className="size-16 " />
+                  <div className="flex flex-col gap-2">
+                    <p className="text-sm text-secondary-foreground">
+                      <span className="font-medium text-foreground">
+                        {image?.name}
+                      </span>{" "}
+                      {formatBytes(image?.size ?? 0)}
+                    </p>
+                    <Button
+                      variant="destructive"
+                      size="xs"
+                      className="w-fit"
+                      onClick={() => {
+                        setImage(null);
+
+                        setImagePreview((url) => {
+                          if (url) {
+                            URL.revokeObjectURL(url);
+                          }
+                          return null;
+                        });
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </div>
                 )}
-              </UploadZone>
-
-              {!imagePreview ? (
-                <div className="flex flex-col  text-secondary-foreground">
-                  <p className="text-sm font-medium text-foreground">
-                    Profile Picture
-                  </p>
-
-                  <p className="text-xs">Accepts: .png, .jpg, .jpeg</p>
-                  <p className="text-xs">Max image size: 1MBs</p>
-                </div>
-              ) : (
-                <div className="flex flex-col gap-2">
-                  <p className="text-sm text-secondary-foreground">
-                    <span className="font-medium text-foreground">
-                      {image?.name}
-                    </span>{" "}
-                    {formatBytes(image?.size ?? 0)}
-                  </p>
-                  <Button
-                    variant="destructive"
-                    size="xs"
-                    className="w-fit"
-                    onClick={() => {
-                      setImage(null);
-
-                      setImagePreview((url) => {
-                        if (url) {
-                          URL.revokeObjectURL(url);
-                        }
-                        return null;
-                      });
-                    }}
-                  >
-                    Remove
-                  </Button>
-                </div>
-              )}
-            </div> */}
+              </div>
               <h3 className="text-lg font-medium text-secondary-foreground">
                 Personal Information
               </h3>
