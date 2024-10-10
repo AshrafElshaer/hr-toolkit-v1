@@ -54,7 +54,7 @@ export const columns: ColumnDef<DepartmentQuery>[] = [
         <div className=" flex items-center gap-2">
           <Avatar
             src={manager?.avatar_url}
-            initials={`${manager?.first_name[0] ?? ""}${manager?.last_name[0] ?? ""}`}
+            initials={manager?.avatar_url ? undefined : `${manager?.first_name[0] ?? ""}${manager?.last_name[0] ?? ""}`}
             size="small"
           />
           {manager?.first_name} {manager?.last_name}

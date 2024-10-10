@@ -79,7 +79,7 @@ export default function ProfileClient({
       >
         <Avatar
           src={user?.avatar_url}
-          initials={`${user?.first_name[0]}${user?.last_name[0]}`}
+          initials={user?.avatar_url ? undefined : `${user?.first_name[0]}${user?.last_name[0]}`}
           // size="large"
           className="w-full h-full"
           shape="circle"

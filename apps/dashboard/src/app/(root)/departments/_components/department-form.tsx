@@ -182,6 +182,7 @@ function DepartmentForm({ setOpen }: { setOpen: (open: boolean) => void }) {
                             src={manager?.avatar_url}
                             alt={manager?.first_name ?? ""}
                             initials={
+                              manager?.avatar_url ? undefined :
                               (manager?.first_name?.[0] ?? "") +
                               (manager?.last_name?.[0] ?? "")
                             }
