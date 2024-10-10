@@ -85,7 +85,7 @@ export const getEmployeesAction = authActionClient
   .action(async ({ ctx }) => {
     const { user } = ctx;
 
-    if (user.role === UserRolesEnum.admin) {
+    if (user.user_metadata.role === UserRolesEnum.admin) {
       const { data: employees, error: employeesError } =
         await getOrganizationMembers(user.user_metadata.organization_id);
 
