@@ -27,6 +27,7 @@ interface DataTableFacetedFilterProps<TData, TValue> {
   }[];
   isMultiSelect?: boolean;
   triggerIcon?: React.ReactNode;
+  containerClassName?: string;
 }
 
 export function DataTableFacetedFilter<TData, TValue>({
@@ -35,6 +36,7 @@ export function DataTableFacetedFilter<TData, TValue>({
   options,
   isMultiSelect = true,
   triggerIcon,
+  containerClassName,
 }: DataTableFacetedFilterProps<TData, TValue>) {
   const facets = column?.getFacetedUniqueValues();
   const selectedValues = new Set(column?.getFilterValue() as string[]);
@@ -95,7 +97,7 @@ export function DataTableFacetedFilter<TData, TValue>({
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0" align="start">
+      <PopoverContent className={cn("w-[200px] p-0", containerClassName)} align="start">
         <Command>
           <CommandInput placeholder={title} className="py-2 px-3" />
           <CommandList className="p-0">

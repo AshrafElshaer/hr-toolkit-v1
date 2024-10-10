@@ -57,6 +57,7 @@ export function DataTableToolbar<TData>({
             options={departmentOptions ?? []}
             isMultiSelect={false}
             triggerIcon={<IoGrid className="size-3 mr-2" />}
+            containerClassName="min-w-[250px]"
           />
         )}
         {table.getColumn("status") && (
