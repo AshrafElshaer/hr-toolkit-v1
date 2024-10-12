@@ -40,6 +40,7 @@ export default function ProfileForm({ user }: Props) {
   const { execute, isExecuting } = useAction(updateUserByIdAction, {
     onSuccess: () => {
       toast.success("User updated successfully");
+      form.reset();
     },
     onError: ({ error }) => {
       toast.error(error.serverError);
@@ -58,9 +59,7 @@ export default function ProfileForm({ user }: Props) {
     },
   });
 
-
   function onSubmit(values: z.infer<typeof userUpdateSchema>) {
-
     const dirtyFields = Object.keys(form.formState.dirtyFields);
 
     const payload = dirtyFields.reduce<Record<string, unknown>>(
@@ -408,7 +407,15 @@ export default function ProfileForm({ user }: Props) {
           <div className="flex justify-end items-center gap-2">
             <Button
               type="button"
-              onClick={() => form.reset()}
+              onClick={() => {
+                form.reset();
+                form.setValue("first_name", user.first_name);
+                form.setValue("last_name", user.last_name);
+                form.setValue("email", user.email);
+                form.setValue("phone_number", user.phone_number);
+                form.setValue("gender", user.gender);
+                form.setValue("date_of_birth", user.date_of_birth);
+              }}
               variant="warning"
               size="sm"
               className="w-full sm:w-fit"
