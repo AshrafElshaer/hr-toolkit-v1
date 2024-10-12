@@ -394,9 +394,19 @@ export default function ProfileForm({ user }: Props) {
         </div>
 
         {Object.keys(form.formState.touchedFields).length !== 0 ? (
-          <Button type="submit" className="w-fit ml-auto">
+          <div className="flex justify-end items-center gap-2">
+            <Button
+              type="button"
+              onClick={() => form.reset()}
+              variant="warning"
+              size="sm"
+            >
+              Discard
+            </Button>
+            <Button type="submit">
             Save
           </Button>
+          </div>
         ) : null}
       </form>
     </Form>

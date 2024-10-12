@@ -186,7 +186,7 @@ function DepartmentForm({ setOpen }: { setOpen: (open: boolean) => void }) {
                                 : (manager?.first_name?.[0] ?? "") +
                                   (manager?.last_name?.[0] ?? "")
                             }
-                            className="inline-block"
+                            className="inline-block overflow-hidden"
                           />
                           <span>
                             {manager?.first_name} {manager?.last_name}
