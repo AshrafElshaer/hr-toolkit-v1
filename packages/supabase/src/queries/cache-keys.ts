@@ -19,5 +19,6 @@ export const cacheKeys = {
     documents: "user:documents",
     organization: "user:organization",
     department: "user:department",
+    address: "user:address",
   },
 };

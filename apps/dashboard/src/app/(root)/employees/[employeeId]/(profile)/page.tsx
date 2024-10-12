@@ -15,8 +15,8 @@ export default function EmployeePage({ params }: EmployeePageProps) {
   return (
     <section className="flex-grow space-y-4">
       <Profile userId={userId} />
-      <Address />
-      <EmergencyContacts />
+      <Address userId={userId} />
+      <EmergencyContacts userId={userId} />
     </section>
   );
 }

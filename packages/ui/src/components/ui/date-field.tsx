@@ -1,6 +1,7 @@
 import { format, isValid, parse } from "date-fns";
 import * as React from "react";
 import { Input } from "./input";
+import { Calendar } from "lucide-react";
 
 interface DateFieldProps {
   value: Date | undefined;
@@ -56,6 +57,7 @@ export function DateField({
       value={formattedValue}
       onChange={handleInputChange}
       placeholder={placeholder}
+      endIcon={Calendar}
     />
   );
 }
