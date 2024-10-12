@@ -1,29 +1,17 @@
 "use client";
+import { updateUserByIdAction } from "@/actions/users.actions";
+import { PhoneInput } from "@/components/phone-input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { User } from "@toolkit/supabase/types";
 import {
   departmentMemberUpdateSchema,
   userUpdateSchema,
 } from "@toolkit/supabase/validations";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import type { z } from "zod";
-
-import { PhoneInput } from "@/components/phone-input";
-import { DepartmentSelector } from "@/components/selectors/department-selector";
-import {
-  type Department,
-  type DepartmentMember,
-  EmploymentTypeEnum,
-  type User,
-  UserRolesEnum,
-} from "@toolkit/supabase/types";
 import { Button } from "@toolkit/ui/button";
 import { DateField } from "@toolkit/ui/date-field";
-import { DatePicker } from "@toolkit/ui/date-picker";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -37,17 +25,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@toolkit/ui/select";
-import { CircleDollarSign, Clock } from "lucide-react";
+import { Loader } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
+import { useForm } from "react-hook-form";
 import type * as RPNInput from "react-phone-number-input";
+import { toast } from "sonner";
+import type { z } from "zod";
 
 type Props = {
   user: User;
-
 };
 
-const schema = userUpdateSchema.merge(departmentMemberUpdateSchema);
 export default function ProfileForm({ user }: Props) {
-  const form = useForm<z.infer<typeof schema>>({
+  const { execute, isExecuting } = useAction(updateUserByIdAction, {
+    onSuccess: () => {
+      toast.success("User updated successfully");
+    },
+    onError: ({ error }) => {
+      toast.error(error.serverError);
+    },
+  });
+
+  const form = useForm<z.infer<typeof userUpdateSchema>>({
     resolver: zodResolver(userUpdateSchema),
     defaultValues: {
       first_name: user.first_name,
@@ -59,15 +58,28 @@ export default function ProfileForm({ user }: Props) {
     },
   });
 
-  // 2. Define a submit handler.
+
   function onSubmit(values: z.infer<typeof userUpdateSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+
+    const dirtyFields = Object.keys(form.formState.dirtyFields);
+
+    const payload = dirtyFields.reduce<Record<string, unknown>>(
+      (acc, field) => {
+        if (field in values) {
+          acc[field] = values[field as keyof typeof values];
+        }
+        return acc;
+      },
+      {},
+    );
+
+    execute({
+      id: user.id,
+      revalidateUrl: `/employees/${user.id}`,
+      ...payload,
+    });
   }
-  useEffect(() => {
-    console.log({ form });
-  }, []);
+
   return (
     <Form {...form}>
       <form
@@ -145,7 +157,7 @@ export default function ProfileForm({ user }: Props) {
                 <FormLabel>Gender</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value ?? undefined}
+                  value={field.value ?? undefined}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -173,7 +185,6 @@ export default function ProfileForm({ user }: Props) {
                     onChange={(date) => {
                       field.onChange(date?.toISOString());
                     }}
-
                   />
                 </FormControl>
                 <FormMessage />
@@ -393,19 +404,28 @@ export default function ProfileForm({ user }: Props) {
           /> */}
         </div>
 
-        {Object.keys(form.formState.touchedFields).length !== 0 ? (
+        {form.formState.isDirty ? (
           <div className="flex justify-end items-center gap-2">
             <Button
               type="button"
               onClick={() => form.reset()}
               variant="warning"
               size="sm"
+              className="w-full sm:w-fit"
+              disabled={isExecuting}
             >
               Discard
             </Button>
-            <Button type="submit">
-            Save
-          </Button>
+            <Button
+              type="submit"
+              className="w-full sm:w-fit"
+              disabled={isExecuting}
+            >
+              {isExecuting ? (
+                <Loader className="animate-spin size-4 mr-2" />
+              ) : null}
+              Save
+            </Button>
           </div>
         ) : null}
       </form>

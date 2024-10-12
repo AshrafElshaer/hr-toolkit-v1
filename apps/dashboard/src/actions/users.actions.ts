@@ -2,6 +2,7 @@
 
 import { authActionClient } from "@/actions/safe-action";
 import addressMutations from "@toolkit/supabase/address-mutations";
+import { cacheKeys } from "@toolkit/supabase/cache-keys";
 import {
   getCurrentUser,
   getDepartmentMembers,
@@ -17,7 +18,8 @@ import {
   userInsertSchema,
   userUpdateSchema,
 } from "@toolkit/supabase/validations";
-import { cacheKeys } from "@toolkit/supabase/cache-keys";
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 const createOrganizationOwnerSchema =
   userInsertSchema.merge(addressInsertSchema);
@@ -81,17 +83,17 @@ export const createOrganizationOwnerAction = authActionClient
     };
   });
 
-
 export const updateUserByIdAction = authActionClient
   .metadata({
     name: "update-user-by-id",
   })
-  .schema(userUpdateSchema)
-  .action(async ({ parsedInput, ctx }) => {
-    const { user } = ctx;
-    const { data, error } = await userMutations.update(parsedInput);
+  .schema(userUpdateSchema.extend({ revalidateUrl: z.string().optional() }))
+  .action(async ({ parsedInput }) => {
+    const { revalidateUrl, ...payload } = parsedInput;
+    const { data, error } = await userMutations.update(payload);
     if (error) {
       throw new Error(error.message);
     }
+    revalidateUrl && revalidatePath(revalidateUrl);
     return data;
   });
