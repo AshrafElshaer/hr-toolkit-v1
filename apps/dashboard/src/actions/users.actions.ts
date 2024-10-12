@@ -86,6 +86,10 @@ export const createOrganizationOwnerAction = authActionClient
 export const updateUserByIdAction = authActionClient
   .metadata({
     name: "update-user-by-id",
+    track: {
+      event: "update-user-by-id",
+      channel: "user",
+    },
   })
   .schema(userUpdateSchema.extend({ revalidateUrl: z.string().optional() }))
   .action(async ({ parsedInput }) => {
