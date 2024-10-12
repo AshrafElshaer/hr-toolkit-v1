@@ -1,7 +1,7 @@
 import { format, isValid, parse } from "date-fns";
+import { Calendar } from "lucide-react";
 import * as React from "react";
 import { Input } from "./input";
-import { Calendar } from "lucide-react";
 
 interface DateFieldProps {
   value: Date | undefined;
