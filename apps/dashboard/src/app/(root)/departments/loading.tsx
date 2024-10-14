@@ -5,7 +5,24 @@ import { PaginationLoader } from "@/components/loaders/pagination-loader";
 import { TableLoader } from "@/components/loaders/table-loader";
 import Main from "@/components/main";
 import { Button } from "@toolkit/ui/button";
+import { Skeleton } from "@toolkit/ui/skeleton";
 import { PlusIcon } from "lucide-react";
+
+const columns = [
+  <div className="min-w-24" key="name">
+    Name
+  </div>,
+  <div className="min-w-44" key="description">
+    Description
+  </div>,
+  <div className="min-w-44" key="manager">
+    Manager
+  </div>,
+  <div className="min-w-16" key="members">
+    Members
+  </div>,
+  <div className="min-w-8" key="actions" />,
+];
 
 export default function DepartmentsLoading() {
   return (
@@ -24,7 +41,7 @@ export default function DepartmentsLoading() {
           Add Department
         </Button>
       </section>
-      <TableLoader />
+      <TableLoader columns={columns} />
       <PaginationLoader />
     </Main>
   );

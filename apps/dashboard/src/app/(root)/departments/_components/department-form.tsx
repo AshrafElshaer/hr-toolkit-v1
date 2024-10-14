@@ -205,10 +205,12 @@ function DepartmentForm({ setOpen }: { setOpen: (open: boolean) => void }) {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isCreating} className="ml-auto">
-          {isCreating ? <Loader className="w-4 h-4 animate-spin" /> : null}
-          Submit
-        </Button>
+        <div className="flex justify-end">
+          <Button type="submit" disabled={isCreating}>
+            {isCreating ? <Loader className="w-4 h-4 animate-spin" /> : null}
+            Save
+          </Button>
+        </div>
       </form>
     </Form>
   );

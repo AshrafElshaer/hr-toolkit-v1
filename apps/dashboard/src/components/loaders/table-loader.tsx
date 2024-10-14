@@ -1,31 +1,45 @@
-import { Skeleton } from "@toolkit/ui/skeleton";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
-
+import { Skeleton } from "@toolkit/ui/skeleton";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@toolkit/ui/table";
 interface TableLoaderProps {
   rows?: number;
-  columns?: number;
+  columns: React.ReactNode[];
 }
 
-export function TableLoader({ rows = 5, columns = 6 }: TableLoaderProps) {
+export function TableLoader({ rows = 5, columns }: TableLoaderProps) {
   return (
-    <div className="rounded-md border flex-grow overflow-x-scroll flex flex-col min-h-40">
-      <Skeleton className="w-full h-12 rounded-none" />
-      {[...Array(rows)].map((_, index) => (
-        <div
-          className="flex items-center gap-6 px-4 w-full h-10 text-accent-foreground border-b"
-          key={index.toString()}
-        >
-          {[...Array(columns)].map((_, colIndex) => (
-            <Skeleton
-              key={colIndex.toString()}
-              className="min-w-24 w-full h-6"
-            />
+    <div className="rounded-md border  flex-grow overflow-x-scroll flex flex-col min-h-40">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {columns.map((column, idx) => (
+              <TableHead key={idx.toString()} className="text-accent-foreground bg-secondary font-semibold">
+                {column}
+              </TableHead>
+            ))}
+          </TableRow>
+          
+        </TableHeader>
+        <TableBody>
+          {[...Array(rows)].map((_, idx) => (
+            <TableRow key={idx.toString()}>
+              {Array.from({ length: columns.length }).map((_, idx) => (
+                <TableCell key={idx.toString()} className="py-2">
+                  <Skeleton className="w-1/2 h-5" />
+                </TableCell>
+              ))}
+            </TableRow>
           ))}
-          <div className="min-w-8 flex items-center justify-center">
-            <ChevronRightIcon className="size-4" />
-          </div>
-        </div>
-      ))}
+        
+        </TableBody>
+      </Table>
     </div>
   );
 }

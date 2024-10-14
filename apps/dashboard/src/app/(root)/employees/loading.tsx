@@ -8,6 +8,31 @@ import { PlusCircle, PlusIcon, Search } from "lucide-react";
 import { IoGrid, IoKeySharp } from "react-icons/io5";
 import { MdSignalWifiStatusbarConnectedNoInternet2 } from "react-icons/md";
 
+const columns = [
+  <div className="min-w-24" key="name">
+    Name
+  </div>,
+  <div className="min-w-40" key="email">
+    Email
+  </div>,
+  <div className="min-w-40" key="department">
+    Department
+  </div>,
+  <div className="min-w-32" key="job_title">
+    Job Title
+  </div>,
+  <div className="min-w-14" key="role">
+    Role
+  </div>,
+  <div className="min-w-16" key="status">
+    Status
+  </div>,
+  <div className="min-w-24 text-center" key="type">
+    Type
+  </div>,
+  <div className="w-8" key="actions" />,
+];
+
 export default function EmployeesLoading() {
   return (
     <Main className="flex flex-col gap-4" isMaxHeight>
@@ -34,7 +59,7 @@ export default function EmployeesLoading() {
           Add Employee
         </Button>
       </section>
-      <TableLoader />
+      <TableLoader columns={columns} />
       {/* <PaginationLoader /> */}
     </Main>
   );
