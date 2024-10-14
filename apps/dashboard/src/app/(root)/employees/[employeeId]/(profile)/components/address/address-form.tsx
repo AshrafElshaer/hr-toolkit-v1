@@ -1,7 +1,11 @@
 "use client";
-import { updateAddressAction } from "@/actions/address.action";
+import {
+  deleteAddressAction,
+  updateAddressAction,
+} from "@/actions/address.action";
 import { updateUserByIdAction } from "@/actions/users.actions";
 import { CountrySelector } from "@/components/selectors/country-selector";
+import { COUNTRIES } from "@/constants/countries";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Address } from "@toolkit/supabase/types";
 import { addressUpdateSchema } from "@toolkit/supabase/validations";
@@ -15,28 +19,44 @@ import {
   FormMessage,
 } from "@toolkit/ui/form";
 import { Input } from "@toolkit/ui/input";
-import { Loader } from "lucide-react";
+import { Separator } from "@toolkit/ui/separator";
+import { Loader, Trash } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
+import type * as RPNInput from "react-phone-number-input";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { COUNTRIES } from "@/constants/countries";
-import type * as RPNInput from "react-phone-number-input";
 
 type Props = {
   address: Address;
+  addressesLength: number;
 };
 
-export default function AddressForm({ address }: Props) {
-  const { execute, isExecuting } = useAction(updateAddressAction, {
-    onSuccess: () => {
-      toast.success("Address updated successfully");
-      form.reset();
+export default function AddressForm({ address, addressesLength }: Props) {
+  const { execute: updateAddress, isExecuting: isUpdating } = useAction(
+    updateAddressAction,
+    {
+      onSuccess: () => {
+        toast.success("Address updated successfully");
+        form.reset();
+      },
+      onError: ({ error }) => {
+        toast.error(error.serverError);
+      },
     },
-    onError: ({ error }) => {
-      toast.error(error.serverError);
+  );
+
+  const { execute: deleteAddress, isExecuting: isDeleting } = useAction(
+    deleteAddressAction,
+    {
+      onSuccess: () => {
+        toast.success("Address deleted successfully");
+      },
+      onError: ({ error }) => {
+        toast.error(error.serverError);
+      },
     },
-  });
+  );
 
   const form = useForm<z.infer<typeof addressUpdateSchema>>({
     resolver: zodResolver(addressUpdateSchema),
@@ -63,7 +83,7 @@ export default function AddressForm({ address }: Props) {
       {},
     );
 
-    execute({
+    updateAddress({
       id: address.id,
       revalidateUrl: `/employees/${address.user_id}`,
       ...payload,
@@ -74,9 +94,9 @@ export default function AddressForm({ address }: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full flex flex-col gap-4"
+        className="w-full flex flex-col gap-4 border-b last:border-b-0 pb-4 last:pb-0"
       >
-        <div className="grid gap-x-4 gap-y-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full">
+        <div className="grid gap-x-4 gap-y-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 w-full">
           <FormField
             control={form.control}
             name="address_1"
@@ -158,12 +178,12 @@ export default function AddressForm({ address }: Props) {
               <FormItem>
                 <FormLabel>Country</FormLabel>
                 <FormControl>
-                            <CountrySelector
-                              onChange={(value: string) => {
-                                field.onChange(value);
-                              }}
-                              value={field.value as RPNInput.Country}
-                              options={COUNTRIES}
+                  <CountrySelector
+                    onChange={(value: string) => {
+                      field.onChange(value);
+                    }}
+                    value={field.value as RPNInput.Country}
+                    options={COUNTRIES}
                   />
                 </FormControl>
                 <FormMessage />
@@ -172,8 +192,26 @@ export default function AddressForm({ address }: Props) {
           />
         </div>
 
-        {form.formState.isDirty ? (
+        {form.formState.isDirty && (
           <div className="flex justify-end items-center gap-2">
+            {addressesLength > 1 ? (
+              <Button
+                type="button"
+                onClick={() =>
+                  deleteAddress({
+                    id: address.id,
+                    revalidateUrl: `/employees/${address.user_id}`,
+                  })
+                }
+                variant="destructive"
+                size="sm"
+                className="sm:mr-auto w-full sm:w-fit"
+                disabled={isDeleting || isUpdating}
+              >
+                {isDeleting && <Loader className="animate-spin size-4 mr-2" />}
+                Delete
+              </Button>
+            ) : null}
             <Button
               type="button"
               onClick={() => {
@@ -182,22 +220,20 @@ export default function AddressForm({ address }: Props) {
               variant="warning"
               size="sm"
               className="w-full sm:w-fit"
-              disabled={isExecuting}
+              disabled={isUpdating || isDeleting}
             >
               Discard
             </Button>
             <Button
               type="submit"
               className="w-full sm:w-fit"
-              disabled={isExecuting}
+              disabled={isUpdating || isDeleting}
             >
-              {isExecuting ? (
-                <Loader className="animate-spin size-4 mr-2" />
-              ) : null}
+              {isUpdating && <Loader className="animate-spin size-4 mr-2" />}
               Save
             </Button>
           </div>
-        ) : null}
+        )}
       </form>
     </Form>
   );

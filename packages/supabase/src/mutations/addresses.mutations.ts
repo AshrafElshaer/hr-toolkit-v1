@@ -20,8 +20,13 @@ async function update(data: UpdateAddress) {
     return updatedAddress;
   });
 }
-
+async function remove(id: string) {
+  return await safeAsync(async () => {
+    await db.delete(AddressTable).where(eq(AddressTable.id, id));
+  });
+}
 export default {
   create,
   update,
+  delete: remove,
 };

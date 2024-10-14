@@ -8,7 +8,7 @@ export const getAddress = (userId: string) =>
   unstable_cache(
     async () => {
       return safeAsync(async () => {
-        return db.query.AddressTable.findFirst({
+        return db.query.AddressTable.findMany({
           where: eq(AddressTable.user_id, userId),
         });
       });
