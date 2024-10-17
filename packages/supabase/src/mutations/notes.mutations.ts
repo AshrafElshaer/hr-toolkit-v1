@@ -1,36 +1,31 @@
-import { eq } from "drizzle-orm";
-import { NotesTable, db } from "../db";
-import type { InsertNote, UpdateNote } from "../types";
-import { safeAsync } from "../utils";
+import type { InsertNote, SupabaseInstance, UpdateNote } from "../types";
 
-async function create(data: InsertNote) {
-  return await safeAsync(async () => {
-    const [newNote] = await db.insert(NotesTable).values(data).returning();
-    return newNote;
-  });
+async function create(supabase: SupabaseInstance, data: InsertNote) {
+  return await supabase.from("notes").insert(data).select().single();
 }
 
-async function update(data: UpdateNote) {
+async function update(supabase: SupabaseInstance, data: UpdateNote) {
   if (!data.id) {
-    throw new Error("Note ID is required");
+    return {
+      data: null,
+      error: new Error("Note ID is required"),
+    };
   }
-  return await safeAsync(async () => {
-    const [updatedNote] = await db
-      .update(NotesTable)
-      .set({
-        ...data,
-        updatedAt: new Date(),
-      })
-      .where(eq(NotesTable.id, data.id!))
-      .returning();
-    return updatedNote;
-  });
+  return await supabase
+    .from("notes")
+    .update(data)
+    .eq("id", data.id)
+    .select()
+    .single();
 }
 
-async function remove(noteId: string) {
-  return await safeAsync(async () => {
-    await db.delete(NotesTable).where(eq(NotesTable.id, noteId));
-  });
+async function remove(supabase: SupabaseInstance, noteId: string) {
+  return await supabase
+    .from("notes")
+    .delete()
+    .eq("id", noteId)
+    .select()
+    .single();
 }
 
 export default {

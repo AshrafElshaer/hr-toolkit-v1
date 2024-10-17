@@ -2,7 +2,7 @@ import { getDepartmentsAction } from "@/actions/departments.actions";
 import Main from "@/components/main";
 import type { Metadata } from "next";
 
-import { columns } from "./_components/culomns";
+import { columns, type DepartmentQuery } from "./_components/culomns";
 import { DataTable } from "./_components/data-table";
 
 export const metadata: Metadata = {
@@ -16,7 +16,7 @@ export default async function DepartmentsPage() {
 
   return (
     <Main className="flex flex-col gap-4" isMaxHeight>
-      <DataTable columns={columns} data={departments ?? []} />
+      <DataTable columns={columns} data={departments as unknown as DepartmentQuery[] ?? []} />
     </Main>
   );
 }

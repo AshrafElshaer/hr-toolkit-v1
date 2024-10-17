@@ -18,8 +18,9 @@ export const getDepartmentsAction = authActionClient
   .metadata({
     name: "get-departments",
   })
-  .action(async ({ ctx: { user } }) => {
+  .action(async ({ ctx: { user, supabase } }) => {
     const { data, error } = await getDepartments(
+      supabase,
       user.user_metadata.organization_id,
     );
     if (error) {
@@ -41,12 +42,15 @@ export const createDepartmentAction = authActionClient
       organization_id: true,
     }),
   )
-  .action(async ({ ctx: { user }, parsedInput }) => {
+  .action(async ({ ctx: { user, supabase }, parsedInput }) => {
     // Create a new department
-    const { data: newDepartment, error } = await departmentMutations.create({
-      ...parsedInput,
-      organization_id: user.user_metadata.organization_id,
-    });
+    const { data: newDepartment, error } = await departmentMutations.create(
+      supabase,
+      {
+        ...parsedInput,
+        organization_id: user.user_metadata.organization_id,
+      },
+    );
     if (error) {
       throw new Error(error.message);
     }
@@ -56,6 +60,7 @@ export const createDepartmentAction = authActionClient
 
     // Get the manager details
     const { data: manager, error: managerError } = await getUserById(
+      supabase,
       parsedInput.manager_id as string,
     );
     if (managerError) {
@@ -71,20 +76,20 @@ export const createDepartmentAction = authActionClient
     }
 
     // Get the manager's current department
-    const { data: currentMember, error: currentMemberError } =
-      await getUserDepartment(manager.id);
+    const { data: currentDepartment, error: currentDepartmentError } =
+      await getUserDepartment(supabase, manager.id);
 
-    if (currentMemberError) {
-      throw new Error(currentMemberError.message);
+    if (currentDepartmentError) {
+      throw new Error(currentDepartmentError.message);
     }
 
     // If the manager is currently in a department
-    if (currentMember) {
+    if (currentDepartment.department) {
       // If the manager is currently managing another department, remove them as manager
-      if (currentMember.department.manager_id === manager.id) {
+      if (currentDepartment.department?.manager_id === manager.id) {
         const { error: updatedDepartmentError } =
-          await departmentMutations.update({
-            id: currentMember.department.id,
+          await departmentMutations.update(supabase, {
+            id: currentDepartment.department?.id,
             manager_id: null,
           });
         if (updatedDepartmentError) {
@@ -94,7 +99,7 @@ export const createDepartmentAction = authActionClient
     }
 
     const { data: departmentMemberData, error: departmentMemberError } =
-      await departmentMemberMutations.update(manager.id, {
+      await departmentMemberMutations.update(supabase, manager.id, {
         department_id: newDepartment.id,
       });
 

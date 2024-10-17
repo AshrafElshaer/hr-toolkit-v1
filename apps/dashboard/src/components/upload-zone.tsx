@@ -20,7 +20,10 @@ export default function UploadZone({
   return (
     <div
       {...getRootProps()}
-      className={cn("border border-dashed p-4 relative group overflow-hidden", className)}
+      className={cn(
+        "border border-dashed p-4 relative group overflow-hidden",
+        className,
+      )}
       {...props}
     >
       <input {...getInputProps()} />

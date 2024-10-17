@@ -12,7 +12,7 @@ import {
 import { real } from "drizzle-orm/pg-core";
 import { UserTable } from "./users.schema";
 
-const TimeSheetStatusEnum = pgEnum("time_sheet_status", [
+export const TimeSheetStatusEnum = pgEnum("time_sheet_status", [
   "pending",
   "approved",
   "rejected",
@@ -27,14 +27,16 @@ export const TimeSheetTable = pgTable("time_sheet", {
       onDelete: "cascade",
     })
     .notNull(),
-  clock_in: timestamp("clock_in").defaultNow().notNull(),
-  clock_out: timestamp("clock_out"),
+  clock_in: timestamp("clock_in", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+  clock_out: timestamp("clock_out", { withTimezone: true }),
   date: date("date").notNull(),
   status: TimeSheetStatusEnum("status").default("pending").notNull(),
   notes: text("notes"),
   total_worked_minutes: real("total_worked_minutes").default(0),
-  created_at: timestamp("created_at").defaultNow(),
-  updated_at: timestamp("updated_at").defaultNow(),
+  created_at: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updated_at: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
 
 export const TimeSheetBreakTable = pgTable("time_sheet_break", {
@@ -44,8 +46,8 @@ export const TimeSheetBreakTable = pgTable("time_sheet_break", {
       onDelete: "cascade",
     })
     .notNull(),
-  break_start: timestamp("break_start").notNull(),
-  break_end: timestamp("break_end"),
+  break_start: timestamp("break_start", { withTimezone: true }).notNull(),
+  break_end: timestamp("break_end", { withTimezone: true }),
 });
 
 export const TimeSheetTableRelations = relations(

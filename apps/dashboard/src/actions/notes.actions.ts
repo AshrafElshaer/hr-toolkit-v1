@@ -1,21 +1,22 @@
 "use server";
+import { cacheKeys } from "@toolkit/supabase/cache-keys";
 import notesMutations from "@toolkit/supabase/note-mutations";
 import { getUserNotes } from "@toolkit/supabase/queries";
 import {
-  noteInsertSchema,
-  noteUpdateSchema,
+  notesInsertSchema,
+  notesUpdateSchema,
 } from "@toolkit/supabase/validations";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
-import { cacheKeys } from "@toolkit/supabase/cache-keys";
 
 export const getUserNotesAction = authActionClient
   .metadata({
     name: "get-user-notes",
   })
   .action(async ({ ctx }) => {
-    const { data, error } = await getUserNotes(ctx.user.id);
+    const { data, error } = await getUserNotes(ctx.supabase, ctx.user.id);
+
     if (error) {
       throw new Error(error.message);
     }
@@ -30,9 +31,9 @@ export const createNoteAction = authActionClient
       channel: "notes",
     },
   })
-  .schema(noteInsertSchema)
+  .schema(notesInsertSchema.omit({ user_id: true }))
   .action(async ({ parsedInput: data, ctx }) => {
-    const { data: note, error } = await notesMutations.create({
+    const { data: note, error } = await notesMutations.create(ctx.supabase, {
       ...data,
       user_id: ctx.user.id,
     });
@@ -52,9 +53,12 @@ export const updateNoteAction = authActionClient
       channel: "notes",
     },
   })
-  .schema(noteUpdateSchema)
+  .schema(notesUpdateSchema)
   .action(async ({ parsedInput: data, ctx }) => {
-    const { data: note, error } = await notesMutations.update(data);
+    const { data: note, error } = await notesMutations.update(
+      ctx.supabase,
+      data,
+    );
     if (error) {
       throw new Error(error.message);
     }
@@ -73,7 +77,10 @@ export const deleteNoteAction = authActionClient
   })
   .schema(z.object({ noteId: z.string() }))
   .action(async ({ parsedInput: { noteId }, ctx }) => {
-    const { data: note, error } = await notesMutations.delete(noteId);
+    const { data: note, error } = await notesMutations.delete(
+      ctx.supabase,
+      noteId,
+    );
     if (error) {
       throw new Error(error.message);
     }

@@ -60,7 +60,7 @@ export function DataTable<TData, TValue>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
-                  console.log(header.id);
+
                   return (
                     <TableHead
                       key={header.id}

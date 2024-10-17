@@ -33,9 +33,11 @@ export default function UserMenu({ currentUser }: { currentUser: User }) {
           shape="circle"
           size="medium"
           src={currentUser.avatar_url ?? ""}
-          initials={currentUser.avatar_url ? undefined : `${currentUser.first_name[0]}${currentUser.last_name[0]}`}
-          
-          
+          initials={
+            currentUser.avatar_url
+              ? undefined
+              : `${currentUser.first_name[0]}${currentUser.last_name[0]}`
+          }
         />
       </DropdownMenuTrigger>
 

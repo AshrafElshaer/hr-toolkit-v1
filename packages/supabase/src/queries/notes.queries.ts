@@ -1,20 +1,18 @@
-import { desc, eq } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
-import { NotesTable, db } from "../db";
-import { safeAsync } from "../utils";
+import type { SupabaseInstance } from "../types";
 import { cacheKeys } from "./cache-keys";
 
-export const getUserNotes = async (userId: string) =>
+export const getUserNotes = async (
+  supabase: SupabaseInstance,
+  userId: string,
+) =>
   unstable_cache(
     async () => {
-      const result = await safeAsync(async () => {
-        return await db
-          .select()
-          .from(NotesTable)
-          .where(eq(NotesTable.user_id, userId))
-          .orderBy(desc(NotesTable.createdAt));
-      });
-      return result;
+      return await supabase
+        .from("notes")
+        .select("*")
+        .eq("user_id", userId)
+        .order("createdAt", { ascending: false });
     },
     [cacheKeys.user.notes, userId],
     { revalidate: 180, tags: [`${cacheKeys.user.notes}-${userId}`] }, // Cache for 3 minutes, adjust as needed

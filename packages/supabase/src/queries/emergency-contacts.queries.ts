@@ -1,17 +1,17 @@
-import { eq } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
-import { EmergencyContactTable, db } from "../db";
-import { safeAsync } from "../utils";
+import type { SupabaseInstance } from "../types";
 import { cacheKeys } from "./cache-keys";
 
-export const getEmergencyContacts = (userId: string) =>
+export const getEmergencyContacts = (
+  supabase: SupabaseInstance,
+  userId: string,
+) =>
   unstable_cache(
     async () => {
-      return safeAsync(async () => {
-        return db.query.EmergencyContactTable.findFirst({
-          where: eq(EmergencyContactTable.user_id, userId),
-        });
-      });
+      return await supabase
+        .from("emergency_contacts")
+        .select("*")
+        .eq("user_id", userId);
     },
     [cacheKeys.user.emergency_contacts, userId],
     {

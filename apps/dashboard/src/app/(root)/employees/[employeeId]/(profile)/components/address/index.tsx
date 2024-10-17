@@ -4,9 +4,11 @@ import AddressForm from "./address-form";
 import { Button } from "@toolkit/ui/button";
 import { MapPin, Plus } from "lucide-react";
 import { NewAddress } from "./new-address";
+import { createServerClient } from "@/lib/supabase/server";
 
 export async function Address({ userId }: { userId: string }) {
-  const { data, error } = await getAddress(userId);
+  const supabase = createServerClient();
+  const { data, error } = await getAddress(supabase, userId);
   if (error) {
     return <div>Error getting address</div>;
   }

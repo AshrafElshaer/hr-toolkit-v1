@@ -73,12 +73,7 @@ export default function SimpleEditor() {
           </EditorBubble>
         </EditorContent>
       </ScrollArea>
-      <Button
-        variant="outline"
-      
-      >
-        Save
-      </Button>
+      <Button variant="outline">Save</Button>
     </EditorRoot>
   );
 }

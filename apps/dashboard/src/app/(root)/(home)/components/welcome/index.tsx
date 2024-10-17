@@ -3,7 +3,7 @@ import { getCurrentUser } from "@toolkit/supabase/queries";
 export default async function WelcomeMessage() {
   // const today = moment().format("YYYY-MM-DD");
   const supabase = createServerClient();
-  const user = await getCurrentUser(supabase);
+  const { data: user, error: userError } = await getCurrentUser(supabase);
 
   // const userPromise = getCurrentUser(supabase);
   // const eventsPromise = getEventsByDateRange(supabase, {

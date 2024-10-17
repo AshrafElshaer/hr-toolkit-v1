@@ -1,62 +1,66 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type {
-  AddressTable,
-  DepartmentMemberTable,
-  DepartmentTable,
-  EmergencyContactTable,
-  NotesTable,
-  OrganizationMemberTable,
-  OrganizationTable,
-  TimeSheetBreakTable,
-  TimeSheetTable,
-  UserTable,
-} from "../db";
+
+import type { TimeSheetStatusEnum } from "./enums";
 
 export * from "./enums";
 export * from "./statements";
+export * from "./database";
+import type { Database } from "./database";
 
-export type User = typeof UserTable.$inferSelect;
-export type InsertUser = typeof UserTable.$inferInsert;
-export type UpdateUser = Partial<InsertUser>;
+export type SupabaseInstance = SupabaseClient<Database>;
 
-export type Organization = typeof OrganizationTable.$inferSelect;
-export type InsertOrganization = typeof OrganizationTable.$inferInsert;
-export type UpdateOrganization = Partial<InsertOrganization>;
+type UserTable = Database["public"]["Tables"]["user"];
+export type User = UserTable["Row"];
+export type InsertUser = UserTable["Insert"];
+export type UpdateUser = UserTable["Update"];
 
-export type OrganizationMember = typeof OrganizationMemberTable.$inferSelect;
-export type InsertOrganizationMember =
-  typeof OrganizationMemberTable.$inferInsert;
-export type UpdateOrganizationMember = Partial<InsertOrganizationMember>;
+type OrganizationTable = Database["public"]["Tables"]["organization"];
+export type Organization = OrganizationTable["Row"];
+export type InsertOrganization = OrganizationTable["Insert"];
+export type UpdateOrganization = OrganizationTable["Update"];
 
-export type TimeSheet = typeof TimeSheetTable.$inferSelect;
-export type InsertTimeSheet = typeof TimeSheetTable.$inferInsert;
-export type UpdateTimeSheet = Partial<InsertTimeSheet>;
+type OrganizationMemberTable =
+  Database["public"]["Tables"]["organization_members"];
+export type OrganizationMember = OrganizationMemberTable["Row"];
+export type InsertOrganizationMember = OrganizationMemberTable["Insert"];
+export type UpdateOrganizationMember = OrganizationMemberTable["Update"];
 
-export type TimeSheetBreak = typeof TimeSheetBreakTable.$inferSelect;
-export type InsertTimeSheetBreak = typeof TimeSheetBreakTable.$inferInsert;
-export type UpdateTimeSheetBreak = Partial<InsertTimeSheetBreak>;
+type TimeSheetTable = Database["public"]["Tables"]["time_sheet"];
+export type TimeSheet = TimeSheetTable["Row"];
+export type InsertTimeSheet = TimeSheetTable["Insert"];
+export type UpdateTimeSheet = TimeSheetTable["Update"];
 
-export type Department = typeof DepartmentTable.$inferSelect;
-export type InsertDepartment = typeof DepartmentTable.$inferInsert;
-export type UpdateDepartment = Partial<InsertDepartment>;
+type TimeSheetBreakTable = Database["public"]["Tables"]["time_sheet_break"];
+export type TimeSheetBreak = TimeSheetBreakTable["Row"];
+export type InsertTimeSheetBreak = TimeSheetBreakTable["Insert"];
+export type UpdateTimeSheetBreak = TimeSheetBreakTable["Update"];
 
-export type DepartmentMember = typeof DepartmentMemberTable.$inferSelect;
-export type InsertDepartmentMember = typeof DepartmentMemberTable.$inferInsert;
-export type UpdateDepartmentMember = Partial<InsertDepartmentMember>;
+type DepartmentTable = Database["public"]["Tables"]["department"];
+export type Department = DepartmentTable["Row"];
+export type InsertDepartment = DepartmentTable["Insert"];
+export type UpdateDepartment = DepartmentTable["Update"];
 
-export type Address = typeof AddressTable.$inferSelect;
-export type InsertAddress = typeof AddressTable.$inferInsert;
-export type UpdateAddress = Partial<InsertAddress>;
+type DepartmentMemberTable = Database["public"]["Tables"]["department_member"];
+export type DepartmentMember = DepartmentMemberTable["Row"];
+export type InsertDepartmentMember = DepartmentMemberTable["Insert"];
+export type UpdateDepartmentMember = DepartmentMemberTable["Update"];
 
-export type EmergencyContact = typeof EmergencyContactTable.$inferSelect;
-export type InsertEmergencyContact = typeof EmergencyContactTable.$inferInsert;
-export type UpdateEmergencyContact = Partial<InsertEmergencyContact>;
+type AddressTable = Database["public"]["Tables"]["addresses"];
+export type Address = AddressTable["Row"];
+export type InsertAddress = AddressTable["Insert"];
+export type UpdateAddress = AddressTable["Update"];
 
-export type Note = typeof NotesTable.$inferSelect;
-export type InsertNote = typeof NotesTable.$inferInsert;
-export type UpdateNote = Partial<InsertNote>;
+type EmergencyContactTable = Database["public"]["Tables"]["emergency_contacts"];
+export type EmergencyContact = EmergencyContactTable["Row"];
+export type InsertEmergencyContact = EmergencyContactTable["Insert"];
+export type UpdateEmergencyContact = EmergencyContactTable["Update"];
 
-type StorageListFunction = SupabaseClient["storage"]["from"];
+type NoteTable = Database["public"]["Tables"]["notes"];
+export type Note = NoteTable["Row"];
+export type InsertNote = NoteTable["Insert"];
+export type UpdateNote = NoteTable["Update"];
+
+type StorageListFunction = SupabaseInstance["storage"]["from"];
 type ListFunctionReturn = ReturnType<StorageListFunction>;
 type StorageFilePromise = Awaited<ReturnType<ListFunctionReturn["list"]>>;
 type StorageFileType = Pick<StorageFilePromise, "data">["data"];

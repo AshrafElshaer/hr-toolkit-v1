@@ -52,7 +52,9 @@ export function DataTableFacetedFilter<TData, TValue>({
       const filterValues = Array.from(updatedValues);
       column?.setFilterValue(filterValues.length ? filterValues : undefined);
     } else {
-      column?.setFilterValue(value === column?.getFilterValue() ? undefined : [value]);
+      column?.setFilterValue(
+        value === column?.getFilterValue() ? undefined : [value],
+      );
     }
   }
 
@@ -60,7 +62,11 @@ export function DataTableFacetedFilter<TData, TValue>({
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="outline" size="sm" className="h-8 border-dashed">
-          {triggerIcon ? triggerIcon : <PlusCircledIcon className="mr-2 h-4 w-4" />}
+          {triggerIcon ? (
+            triggerIcon
+          ) : (
+            <PlusCircledIcon className="mr-2 h-4 w-4" />
+          )}
           {title}
           {selectedValues?.size > 0 && (
             <>
@@ -97,7 +103,10 @@ export function DataTableFacetedFilter<TData, TValue>({
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className={cn("w-[200px] p-0", containerClassName)} align="start">
+      <PopoverContent
+        className={cn("w-[200px] p-0", containerClassName)}
+        align="start"
+      >
         <Command>
           <CommandInput placeholder={title} className="py-2 px-3" />
           <CommandList className="p-0">

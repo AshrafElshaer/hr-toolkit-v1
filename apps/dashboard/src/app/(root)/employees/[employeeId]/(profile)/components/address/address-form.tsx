@@ -8,7 +8,7 @@ import { CountrySelector } from "@/components/selectors/country-selector";
 import { COUNTRIES } from "@/constants/countries";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Address } from "@toolkit/supabase/types";
-import { addressUpdateSchema } from "@toolkit/supabase/validations";
+import { addressesUpdateSchema } from "@toolkit/supabase/validations";
 import { Button } from "@toolkit/ui/button";
 import {
   Form,
@@ -58,8 +58,8 @@ export default function AddressForm({ address, addressesLength }: Props) {
     },
   );
 
-  const form = useForm<z.infer<typeof addressUpdateSchema>>({
-    resolver: zodResolver(addressUpdateSchema),
+  const form = useForm<z.infer<typeof addressesUpdateSchema>>({
+    resolver: zodResolver(addressesUpdateSchema),
     defaultValues: {
       address_1: address.address_1,
       address_2: address.address_2,
@@ -70,7 +70,7 @@ export default function AddressForm({ address, addressesLength }: Props) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof addressUpdateSchema>) {
+  function onSubmit(values: z.infer<typeof addressesUpdateSchema>) {
     const dirtyFields = Object.keys(form.formState.dirtyFields);
 
     const payload = dirtyFields.reduce<Record<string, unknown>>(

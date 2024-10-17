@@ -1,22 +1,23 @@
-import { and, eq } from "drizzle-orm";
-import { TimeSheetBreakTable, TimeSheetTable, db } from "../db";
-import { TimeSheetStatusEnum } from "../types";
+import { type SupabaseInstance, TimeSheetStatusEnum } from "../types";
 
-export async function getCurrentTimeSheet(userId: string) {
-  const timeSheet = await db.query.TimeSheetTable.findFirst({
-    where: and(
-      eq(TimeSheetTable.user_id, userId),
-      eq(TimeSheetTable.status, TimeSheetStatusEnum.clocked_in),
-    ),
-  });
-  return timeSheet;
+export async function getCurrentTimeSheet(
+  supabase: SupabaseInstance,
+  userId: string,
+) {
+  return await supabase
+    .from("time_sheet")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("status", TimeSheetStatusEnum.clocked_in)
+    .single();
 }
 
-export async function getCurrentBreaks(time_sheet_id?: string) {
-  if (!time_sheet_id) return undefined;
-
-  const currentBreak = await db.query.TimeSheetBreakTable.findMany({
-    where: eq(TimeSheetBreakTable.time_sheet_id, time_sheet_id),
-  });
-  return currentBreak;
+export async function getCurrentBreaks(
+  supabase: SupabaseInstance,
+  time_sheet_id: string,
+) {
+  return await supabase
+    .from("time_sheet_break")
+    .select("*")
+    .eq("time_sheet_id", time_sheet_id);
 }

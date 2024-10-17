@@ -9,8 +9,7 @@ import { toast } from "sonner";
 import type { z } from "zod";
 
 import {
-  addressInsertSchema,
-  addressUpdateSchema,
+  addressesInsertSchema,
 } from "@toolkit/supabase/validations";
 import { Button } from "@toolkit/ui/button";
 import {
@@ -49,8 +48,8 @@ export function NewAddress({ userId }: { userId: string }) {
     },
   });
 
-  const form = useForm<z.infer<typeof addressInsertSchema>>({
-    resolver: zodResolver(addressInsertSchema),
+  const form = useForm<z.infer<typeof addressesInsertSchema>>({
+    resolver: zodResolver(addressesInsertSchema),
     defaultValues: {
       address_1: "",
       address_2: "",
@@ -61,7 +60,7 @@ export function NewAddress({ userId }: { userId: string }) {
       user_id: userId,
     },
   });
-  function onSubmit(values: z.infer<typeof addressInsertSchema>) {
+  function onSubmit(values: z.infer<typeof addressesInsertSchema>) {
     execute({
       ...values,
       revalidateUrl: `/employees/${userId}`,
@@ -85,7 +84,7 @@ export function NewAddress({ userId }: { userId: string }) {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="grid gap-4 grid-cols-1 sm:grid-cols-2 "
+            className="grid gap-4 grid-cols-1 md:grid-cols-2 "
           >
             <FormField
               control={form.control}

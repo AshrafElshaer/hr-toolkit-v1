@@ -19,7 +19,7 @@ export default async function Employees() {
     <Main className="flex flex-col gap-4" isMaxHeight>
       <DataTable
         columns={columns}
-        data={employees as GetOrganizationMembersQuery[]}
+        data={employees as unknown as GetOrganizationMembersQuery[]}
       />
     </Main>
   );

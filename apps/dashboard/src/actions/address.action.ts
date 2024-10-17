@@ -3,8 +3,8 @@
 import addressMutations from "@toolkit/supabase/address-mutations";
 import { cacheKeys } from "@toolkit/supabase/cache-keys";
 import {
-  addressInsertSchema,
-  addressUpdateSchema,
+  addressesInsertSchema,
+  addressesUpdateSchema,
 } from "@toolkit/supabase/validations";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
@@ -18,10 +18,15 @@ export const updateAddressAction = authActionClient
       channel: "address",
     },
   })
-  .schema(addressUpdateSchema.extend({ revalidateUrl: z.string().optional() }))
-  .action(async ({ parsedInput }) => {
+  .schema(
+    addressesUpdateSchema.extend({ revalidateUrl: z.string().optional() }),
+  )
+  .action(async ({ parsedInput, ctx }) => {
     const { revalidateUrl, ...payload } = parsedInput;
-    const { data, error } = await addressMutations.update(payload);
+    const { data, error } = await addressMutations.update(
+      ctx.supabase,
+      payload,
+    );
     if (error) {
       throw new Error(error.message);
     }
@@ -38,10 +43,13 @@ export const createAddressAction = authActionClient
       channel: "address",
     },
   })
-  .schema(addressInsertSchema.extend({ revalidateUrl: z.string() }))
-  .action(async ({ parsedInput }) => {
+  .schema(addressesInsertSchema.extend({ revalidateUrl: z.string() }))
+  .action(async ({ parsedInput, ctx }) => {
     const { revalidateUrl, ...payload } = parsedInput;
-    const { data, error } = await addressMutations.create(payload);
+    const { data, error } = await addressMutations.create(
+      ctx.supabase,
+      payload,
+    );
     if (error) {
       throw new Error(error.message);
     }
@@ -61,7 +69,7 @@ export const deleteAddressAction = authActionClient
   .schema(z.object({ id: z.string(), revalidateUrl: z.string() }))
   .action(async ({ parsedInput, ctx }) => {
     const { id, revalidateUrl } = parsedInput;
-    const { data, error } = await addressMutations.delete(id);
+    const { data, error } = await addressMutations.delete(ctx.supabase, id);
     revalidateTag(`${cacheKeys.user.address}-${ctx.user.id}`);
     revalidateUrl && revalidatePath(revalidateUrl);
     if (error) {

@@ -1,29 +1,23 @@
-import { logger } from "@toolkit/logger";
-import { eq } from "drizzle-orm";
-import { UserTable, db } from "../db";
-import type { InsertUser, UpdateUser } from "../types";
-import { safeAsync } from "../utils";
+import type { InsertUser, SupabaseInstance, UpdateUser } from "../types";
 
-export async function create(data: InsertUser) {
-  return await safeAsync(async () => {
-    const [newUser] = await db.insert(UserTable).values(data).returning({
-      id: UserTable.id,
-    });
-    return newUser;
-  });
+export async function create(supabase: SupabaseInstance, data: InsertUser) {
+  return await supabase.from("user").insert(data).select().single();
 }
 
-export async function update(data: UpdateUser) {
-  return await safeAsync(async () => {
-    const [updatedUser] = await db
-      .update(UserTable)
-      .set(data)
-      .where(eq(UserTable.id, data.id as string))
-      .returning({
-        id: UserTable.id,
-      });
-    return updatedUser;
-  });
+export async function update(supabase: SupabaseInstance, data: UpdateUser) {
+  if (!data.id) {
+    return {
+      data: null,
+      error: new Error("User id is required"),
+    };
+  }
+
+  return await supabase
+    .from("user")
+    .update(data)
+    .eq("id", data.id)
+    .select()
+    .single();
 }
 
 export default {

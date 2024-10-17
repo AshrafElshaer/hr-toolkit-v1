@@ -12,13 +12,13 @@ import {
 
 import { UserTable } from "./users.schema";
 
-const OrganizationTypeEnum = pgEnum("organization_type", [
+export const OrganizationTypeEnum = pgEnum("organization_type", [
   "for-profit",
   "non-profit",
   "government",
 ]);
 
-const PayrollPatternEnum = pgEnum("payroll_pattern", [
+export const PayrollPatternEnum = pgEnum("payroll_pattern", [
   "weekly",
   "bi-weekly",
   "monthly",
@@ -44,8 +44,8 @@ export const OrganizationTable = pgTable("organization", {
   state: text("state").notNull(),
   country: text("country").notNull(),
   zip_code: text("zip_code").notNull(),
-  created_at: timestamp("created_at").defaultNow(),
-  updated_at: timestamp("updated_at").defaultNow(),
+  created_at: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updated_at: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
 
 export const OrganizationTableRelations = relations(

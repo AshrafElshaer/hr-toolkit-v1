@@ -12,7 +12,7 @@ export default function ProjectsPage() {
       <div>
         <h1>Projects</h1>
       </div>
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <Badge size="lg">Default</Badge>
         <Badge variant="outline" size="lg">
           Draft
@@ -24,13 +24,6 @@ export default function ProjectsPage() {
         <Badge variant="warning">warning</Badge>
         <Badge variant="success">success</Badge>
       </div>
-      <CountrySelector
-        onChange={(value: string) => {
-          console.log(value);
-        }}
-        value={"US"}
-        options={COUNTRIES}
-      />
     </Main>
   );
 }

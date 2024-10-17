@@ -1,47 +1,50 @@
 import { and, eq } from "drizzle-orm";
 import { DepartmentMemberTable, db } from "../db";
-import type { InsertDepartmentMember, UpdateDepartmentMember } from "../types";
+import type {
+  InsertDepartmentMember,
+  SupabaseInstance,
+  UpdateDepartmentMember,
+} from "../types";
 import { safeAsync } from "../utils";
 
-export async function create(input: InsertDepartmentMember) {
-  return safeAsync(async () => {
-    const [newDepartmentMember] = await db
-      .insert(DepartmentMemberTable)
-      .values(input)
-      .returning();
-    return newDepartmentMember;
-  });
+export async function create(
+  supabase: SupabaseInstance,
+  input: InsertDepartmentMember,
+) {
+  return await supabase
+    .from("department_member")
+    .insert(input)
+    .select()
+    .single();
 }
 
-export async function update(userId: string, input: UpdateDepartmentMember) {
-  return safeAsync(async () => {
-    const [updatedDepartmentMember] = await db
-      .update(DepartmentMemberTable)
-      .set(input)
-      .where(eq(DepartmentMemberTable.user_id, userId as string))
-      .returning();
-
-    return updatedDepartmentMember;
-  });
+export async function update(
+  supabase: SupabaseInstance,
+  userId: string,
+  input: UpdateDepartmentMember,
+) {
+  return await supabase
+    .from("department_member")
+    .update(input)
+    .eq("user_id", userId)
+    .select()
+    .single();
 }
 
-export async function remove(input: {
-  department_id: string;
-  user_id: string;
-}) {
-  return safeAsync(async () => {
-    await db
-      .delete(DepartmentMemberTable)
-      .where(
-        and(
-          eq(
-            DepartmentMemberTable.department_id,
-            input.department_id as string,
-          ),
-          eq(DepartmentMemberTable.user_id, input.user_id as string),
-        ),
-      );
-  });
+export async function remove(
+  supabase: SupabaseInstance,
+  input: {
+    department_id: string;
+    user_id: string;
+  },
+) {
+  return await supabase
+    .from("department_member")
+    .delete()
+    .eq("department_id", input.department_id)
+    .eq("user_id", input.user_id)
+    .select()
+    .single();
 }
 
 export default {

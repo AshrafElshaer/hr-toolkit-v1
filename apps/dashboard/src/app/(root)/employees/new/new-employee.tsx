@@ -3,7 +3,7 @@
 import { createEmployeeAction } from "@/actions/employees.actions";
 import UploadZone from "@/components/upload-zone";
 import { EmploymentTypeEnum, UserRolesEnum } from "@toolkit/supabase/types";
-import { createEmployeeSchema } from "@toolkit/supabase/validations";
+import { employeeInsertSchema } from "@toolkit/supabase/validations";
 import { DatePicker } from "@toolkit/ui/date-picker";
 import {
   Select,
@@ -107,7 +107,7 @@ export default function NewEmployee() {
     {
       onError: ({ error }) => {
         toast.error(error?.serverError ?? "Something went wrong");
-        console.log(error);
+
       },
       onSuccess: ({ data }) => {
         toast.success(
@@ -117,7 +117,7 @@ export default function NewEmployee() {
     },
   );
 
-  const formSchema = createEmployeeSchema.omit({ id: true, avatar_url: true });
+  const formSchema = employeeInsertSchema.omit({ id: true, avatar_url: true });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -140,9 +140,9 @@ export default function NewEmployee() {
       contact_relation: "",
       department_id: "",
       job_title: "",
-      employment_type: "full_time",
+      employment_type: EmploymentTypeEnum.full_time,
       hire_date: new Date().toISOString(),
-      role: "staff",
+      role: UserRolesEnum.staff,
       work_hours_per_week: 40,
       salary_per_hour: 0,
       working_days_per_week: [],
@@ -635,7 +635,7 @@ export default function NewEmployee() {
                     <FormLabel>Role</FormLabel>
                     <FormControl>
                       <Select
-                        value={field.value}
+                        value={field.value ?? undefined}
                         onValueChange={field.onChange}
                       >
                         <SelectTrigger className="capitalize">
@@ -666,8 +666,9 @@ export default function NewEmployee() {
                     <FormLabel>Employment Type</FormLabel>
                     <FormControl>
                       <Select
-                        value={field.value}
+                        value={field.value ?? undefined}
                         onValueChange={field.onChange}
+
                       >
                         <SelectTrigger className="capitalize">
                           <SelectValue placeholder="Select an employment type" />

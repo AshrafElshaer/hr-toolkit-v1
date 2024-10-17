@@ -1,15 +1,12 @@
 "use server";
 
 import { calcWorkedTime } from "@/lib/date";
-import {
-  getCurrentBreaks,
-  getCurrentTimeSheet,
-} from "@toolkit/supabase/queries";
+
 import timeSheetMutations from "@toolkit/supabase/timesheet-mutations";
 import { TimeSheetStatusEnum } from "@toolkit/supabase/types";
 import {
-  timeSheetBreakSchema,
-  timeSheetSchema,
+  timeSheetBreakRowSchema,
+  timeSheetRowSchema,
 } from "@toolkit/supabase/validations";
 import moment from "moment";
 import { revalidatePath } from "next/cache";
@@ -25,13 +22,14 @@ export const clockInAction = authActionClient
     },
   })
   .action(async ({ ctx }) => {
-    const { user } = ctx;
+    const { user, supabase } = ctx;
     const now = moment();
-    const { data, error } = await timeSheetMutations.create({
+
+    const { data, error } = await timeSheetMutations.create(supabase, {
       user_id: user.id,
-      clock_in: now.utc().toDate(),
       date: now.format("YYYY-MM-DD"),
       status: TimeSheetStatusEnum.clocked_in,
+      clock_in: now.toDate().toISOString(),
     });
 
     if (error) {
@@ -55,11 +53,11 @@ export const takeBreakAction = authActionClient
       time_sheet_id: z.string(),
     }),
   )
-  .action(async ({ parsedInput }) => {
+  .action(async ({ parsedInput, ctx }) => {
     const now = moment();
-    const { data, error } = await timeSheetMutations.takeBreak({
+    const { data, error } = await timeSheetMutations.takeBreak(ctx.supabase, {
       time_sheet_id: parsedInput.time_sheet_id,
-      break_start: now.utc().toDate(),
+      break_start: now.toDate().toISOString(),
     });
 
     if (error) {
@@ -78,8 +76,9 @@ export const endBreakAction = authActionClient
     },
   })
   .schema(z.object({ time_sheet_id: z.string() }))
-  .action(async ({ parsedInput }) => {
+  .action(async ({ parsedInput, ctx }) => {
     const { data, error } = await timeSheetMutations.endBreak(
+      ctx.supabase,
       parsedInput.time_sheet_id,
     );
 
@@ -100,21 +99,26 @@ export const clockOutAction = authActionClient
   })
   .schema(
     z.object({
-      timeSheet: timeSheetSchema,
-      breaks: z.array(timeSheetBreakSchema),
+      timeSheet: timeSheetRowSchema,
+      breaks: z.array(timeSheetBreakRowSchema),
     }),
   )
-  .action(async ({ parsedInput }) => {
+  .action(async ({ parsedInput, ctx }) => {
     const now = moment();
     const { timeSheet, breaks } = parsedInput;
 
-    const workedTime = calcWorkedTime(timeSheet.clock_in, breaks);
+    const workedTime = calcWorkedTime(
+      moment(timeSheet.clock_in).toDate(),
+      breaks,
+      now.toDate(),
+    );
     const totalWorkedMinutes = workedTime.hours * 60 + workedTime.minutes;
 
     const { data, error } = await timeSheetMutations.update(
-      parsedInput.timeSheet.id,
+      ctx.supabase,
+      timeSheet.id,
       {
-        clock_out: now.utc().toDate(),
+        clock_out: now.utc().toString(),
         status: TimeSheetStatusEnum.clocked_out,
         total_worked_minutes: totalWorkedMinutes,
       },

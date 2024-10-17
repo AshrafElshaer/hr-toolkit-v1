@@ -15,13 +15,15 @@ import moment from "moment";
 import Link from "next/link";
 import ProfileForm from "./profile-form";
 import ProfilePic from "./profle-pic";
+import { createServerClient } from "@/lib/supabase/server";
 
 type ProfileProps = {
   userId: string;
 };
 
 export default async function Profile({ userId }: ProfileProps) {
-  const { data: user, error } = await getUserById(userId);
+  const supabase = createServerClient();
+  const { data: user, error } = await getUserById(supabase, userId);
 
   if (error || !user) {
     return <div>Error: {error?.message}</div>;

@@ -9,7 +9,7 @@ import MainSidebar from "@/components/sidebar/main-sidebar";
 
 async function DashboardLayout({ children }: { children: ReactNode }) {
   const supabase = createServerClient();
-  const user = await getCurrentUser(supabase);
+  const { data: user } = await getCurrentUser(supabase);
 
   if (!user) {
     redirect("/auth");

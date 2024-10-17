@@ -14,15 +14,16 @@ import {
 import { UserRolesEnum } from "@toolkit/supabase/types";
 import userMutations from "@toolkit/supabase/user-mutations";
 import {
-  addressInsertSchema,
   userInsertSchema,
   userUpdateSchema,
+  addressesInsertSchema,
 } from "@toolkit/supabase/validations";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-const createOrganizationOwnerSchema =
-  userInsertSchema.merge(addressInsertSchema);
+const createOrganizationOwnerSchema = userInsertSchema.merge(
+  addressesInsertSchema,
+);
 
 export const getCurrentUserAction = authActionClient
   .metadata({
@@ -44,7 +45,7 @@ export const createOrganizationOwnerAction = authActionClient
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx;
 
-    const { data: newUser, error } = await userMutations.create({
+    const { data: newUser, error } = await userMutations.create(ctx.supabase, {
       id: user.id,
       email: parsedInput.email,
       first_name: parsedInput.first_name,
@@ -68,7 +69,7 @@ export const createOrganizationOwnerAction = authActionClient
       throw new Error(error?.message ?? "Error creating user");
     }
 
-    await addressMutations.create({
+    await addressMutations.create(ctx.supabase, {
       address_1: parsedInput.address_1,
       address_2: parsedInput.address_2,
       city: parsedInput.city,
@@ -92,9 +93,9 @@ export const updateUserByIdAction = authActionClient
     },
   })
   .schema(userUpdateSchema.extend({ revalidateUrl: z.string().optional() }))
-  .action(async ({ parsedInput }) => {
+  .action(async ({ parsedInput, ctx }) => {
     const { revalidateUrl, ...payload } = parsedInput;
-    const { data, error } = await userMutations.update(payload);
+    const { data, error } = await userMutations.update(ctx.supabase, payload);
     if (error) {
       throw new Error(error.message);
     }

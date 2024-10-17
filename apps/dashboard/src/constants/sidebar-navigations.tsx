@@ -59,8 +59,12 @@ export const sidebarNavigation = [
   {
     title: "Chats",
     path: "/chats",
-    icon: <Icon icon="fluent:chat-multiple-32-regular" className="text-[18px]"/>,
-    active: <Icon icon="fluent:chat-multiple-32-filled" className="text-[18px]"/>,
+    icon: (
+      <Icon icon="fluent:chat-multiple-32-regular" className="text-[18px]" />
+    ),
+    active: (
+      <Icon icon="fluent:chat-multiple-32-filled" className="text-[18px]" />
+    ),
   },
 ];
 

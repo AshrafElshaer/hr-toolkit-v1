@@ -1,8 +1,9 @@
+import type { Database } from "./database";
 import type { Organization, TimeSheet, User } from "./index";
 
-export type UserRoles = User["role"];
-export type EmploymentStatus = User["employment_status"];
-export type EmploymentType = User["employment_type"];
+type UserRoles = Database["public"]["Enums"]["user_roles"];
+type EmploymentStatus = Database["public"]["Enums"]["employment_status"];
+type EmploymentType = Database["public"]["Enums"]["employment_type"];
 
 export const UserRolesEnum: {
   [key in UserRoles]: key;
@@ -50,7 +51,7 @@ export const PayrollPatternEnum: {
   monthly: "monthly",
 };
 
-type TimeSheetStatus = TimeSheet["status"];
+type TimeSheetStatus = Database["public"]["Enums"]["time_sheet_status"];
 
 export const TimeSheetStatusEnum: {
   [key in TimeSheetStatus]: key;

@@ -92,8 +92,7 @@ function DepartmentForm({ setOpen }: { setOpen: (open: boolean) => void }) {
       if (result?.serverError) {
         throw new Error(result?.serverError);
       }
-      console.log({ result });
-      return result?.data?.map((manager) => manager.user);
+      return result?.data?.map((manager) => manager);
     },
   });
   // 1. Define your form.
@@ -160,7 +159,7 @@ function DepartmentForm({ setOpen }: { setOpen: (open: boolean) => void }) {
                       <SelectItem
                         key={index.toString()}
                         disabled
-                        value={index.toString()}
+                        value={(index + 1).toString()}
                       >
                         <div className="flex items-center gap-2">
                           <Skeleton className="w-4 h-4 rounded-full " />
@@ -169,7 +168,7 @@ function DepartmentForm({ setOpen }: { setOpen: (open: boolean) => void }) {
                       </SelectItem>
                     ))
                   ) : managers?.length === 0 ? (
-                    <SelectItem disabled value="">
+                    <SelectItem disabled value="none">
                       No managers found
                     </SelectItem>
                   ) : (

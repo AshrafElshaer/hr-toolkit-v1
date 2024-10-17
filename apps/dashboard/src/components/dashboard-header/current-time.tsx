@@ -3,7 +3,7 @@ import useCurrentTime from "@/hooks/use-current-time";
 import { useEffect, useState } from "react";
 
 export default function CurrentTime() {
-  const { fullDay } = useCurrentTime();
+  const { fullDay } = useCurrentTime({ enabled: true });
 
   const [isClient, setIsClient] = useState(false);
 

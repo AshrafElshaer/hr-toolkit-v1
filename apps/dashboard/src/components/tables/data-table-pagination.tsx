@@ -25,17 +25,23 @@ export function DataTablePagination<TData>({
   table,
   isSelectable = false,
 }: DataTablePaginationProps<TData>) {
-  const handlePageSizeChange = useCallback((value: string) => {
-    const newPageSize = Number(value);
-    if (newPageSize !== table.getState().pagination.pageSize) {
-      table.setPageSize(newPageSize);
-    }
-  }, [table]);
+  const handlePageSizeChange = useCallback(
+    (value: string) => {
+      const newPageSize = Number(value);
+      if (newPageSize !== table.getState().pagination.pageSize) {
+        table.setPageSize(newPageSize);
+      }
+    },
+    [table],
+  );
 
   const goToFirstPage = useCallback(() => table.setPageIndex(0), [table]);
   const goToPreviousPage = useCallback(() => table.previousPage(), [table]);
   const goToNextPage = useCallback(() => table.nextPage(), [table]);
-  const goToLastPage = useCallback(() => table.setPageIndex(table.getPageCount() - 1), [table]);
+  const goToLastPage = useCallback(
+    () => table.setPageIndex(table.getPageCount() - 1),
+    [table],
+  );
 
   return (
     <div className="flex flex-col items-start justify-start sm:flex-row sm:items-center sm:justify-between gap-4 px-2">

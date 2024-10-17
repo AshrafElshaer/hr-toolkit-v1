@@ -12,7 +12,7 @@ import {
   UserTable,
   db,
 } from "../db";
-import type { createEmployeeSchema } from "../db/validations";
+import type { employeeInsertSchema } from "../db/validations";
 import type {
   Address,
   InsertAddress,
@@ -21,16 +21,20 @@ import type {
   InsertOrganization,
   InsertOrganizationMember,
   InsertUser,
+  SupabaseInstance,
   User,
 } from "../types";
 import { safeAsync } from "../utils";
-export async function create(ownerId: string, data: InsertOrganization) {
-  const { data: newOrg, error: newOrgError } = await safeAsync(async () => {
-    const [newOrg] = await db.insert(OrganizationTable).values(data).returning({
-      id: OrganizationTable.id,
-    });
-    return newOrg;
-  });
+export async function create(
+  supabase: SupabaseInstance,
+  ownerId: string,
+  data: InsertOrganization,
+) {
+  const { data: newOrg, error: newOrgError } = await supabase
+    .from("organization")
+    .insert(data)
+    .select("id")
+    .single();
 
   if (!newOrg || newOrgError) {
     logger.error("Error creating organization:", newOrgError?.message);
@@ -39,33 +43,27 @@ export async function create(ownerId: string, data: InsertOrganization) {
     );
   }
 
-  const { error: ownerError } = await safeAsync(async () => {
-    await db.insert(OrganizationOwnerTable).values({
+  const { error: ownerError } = await supabase
+    .from("organization_owners")
+    .insert({
       organization_id: newOrg.id,
       user_id: ownerId,
     });
-  });
   if (ownerError) {
     logger.error("Error assigning owner to organization:", ownerError.message);
     throw new Error(ownerError.message);
   }
 
-  const { data: execDepartment, error: departmentError } = await safeAsync(
-    async () => {
-      const [department] = await db
-        .insert(DepartmentTable)
-        .values({
-          name: "Exec",
-          description: "Executives",
-          organization_id: newOrg.id,
-          manager_id: ownerId,
-        })
-        .returning({
-          id: DepartmentTable.id,
-        });
-      return department;
-    },
-  );
+  const { data: execDepartment, error: departmentError } = await supabase
+    .from("department")
+    .insert({
+      name: "Exec",
+      description: "Executives",
+      organization_id: newOrg.id,
+      manager_id: ownerId,
+    })
+    .select("id")
+    .single();
 
   if (departmentError || !execDepartment) {
     logger.error(
@@ -77,12 +75,12 @@ export async function create(ownerId: string, data: InsertOrganization) {
     );
   }
 
-  const { error: departmentMemberError } = await safeAsync(async () => {
-    await db.insert(DepartmentMemberTable).values({
+  const { error: departmentMemberError } = await supabase
+    .from("department_member")
+    .insert({
       department_id: execDepartment.id,
       user_id: ownerId,
     });
-  });
 
   if (departmentMemberError) {
     logger.error(
@@ -99,7 +97,8 @@ export async function create(ownerId: string, data: InsertOrganization) {
 }
 
 export async function createEmployee(
-  data: z.infer<typeof createEmployeeSchema>,
+  supabase: SupabaseInstance,
+  data: z.infer<typeof employeeInsertSchema>,
   organizationId: string,
 ) {
   const user: InsertUser = {
@@ -120,8 +119,8 @@ export async function createEmployee(
     employment_type: data.employment_type ?? "full_time",
     work_hours_per_week: data.work_hours_per_week ?? null,
     salary_per_hour: data.salary_per_hour ?? null,
-    created_at: new Date(),
-    updated_at: new Date(),
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   };
 
   const address: InsertAddress = {
@@ -152,52 +151,40 @@ export async function createEmployee(
     user_id: data.id as string,
   };
 
-  const { data: employee, error: employeeError } = await safeAsync(async () => {
-    return await db.transaction(async (tx) => {
-      const [insertedUser] = await tx
-        .insert(UserTable)
-        .values(user)
-        .returning();
-      const [insertedAddress] = await tx
-        .insert(AddressTable)
-        .values(address)
-        .returning();
-      const [insertedEmergencyContact] = await tx
-        .insert(EmergencyContactTable)
-        .values(emergencyContact)
-        .returning();
-      const [insertedDepartmentMember] = await tx
-        .insert(DepartmentMemberTable)
-        .values(departmentMember)
-        .returning();
-      const [insertedOrganizationMember] = await tx
-        .insert(OrganizationMemberTable)
-        .values(organizationMember)
-        .returning();
-
-      if (
-        !insertedUser ||
-        !insertedAddress ||
-        !insertedEmergencyContact ||
-        !insertedDepartmentMember ||
-        !insertedOrganizationMember
-      ) {
-        throw new Error("Failed to insert one or more records");
-      }
-
-      return {
-        user: insertedUser,
-        address: insertedAddress,
-        emergencyContact: insertedEmergencyContact,
-        departmentMember: insertedDepartmentMember,
-        organizationMember: insertedOrganizationMember,
-      };
-    });
-  });
+  const [
+    { data: newUser, error: newUserError },
+    { data: newAddress, error: newAddressError },
+    { data: newEmergencyContact, error: newEmergencyContactError },
+    { data: newDepartmentMember, error: newDepartmentMemberError },
+    { data: newOrganizationMember, error: newOrganizationMemberError },
+  ] = await Promise.all([
+    supabase.from("user").insert(user).select().single(),
+    supabase.from("addresses").insert(address).select().single(),
+    supabase
+      .from("emergency_contacts")
+      .insert(emergencyContact)
+      .select()
+      .single(),
+    supabase
+      .from("department_member")
+      .insert(departmentMember)
+      .select()
+      .single(),
+    supabase
+      .from("organization_members")
+      .insert(organizationMember)
+      .select()
+      .single(),
+  ]);
 
   return {
-    data: employee,
-    error: employeeError,
+    data: newUser,
+    error:
+      newUserError ||
+      newAddressError ||
+      newEmergencyContactError ||
+      newDepartmentMemberError ||
+      newOrganizationMemberError,
   };
 }
 

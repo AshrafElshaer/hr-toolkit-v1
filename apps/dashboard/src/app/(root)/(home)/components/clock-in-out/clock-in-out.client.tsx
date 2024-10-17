@@ -6,6 +6,7 @@ import {
   takeBreakAction,
 } from "@/actions/timesheets.actions";
 import useCurrentTime from "@/hooks/use-current-time";
+import useCurrentTimezone from "@/hooks/use-current-timezone";
 import { calcWorkedTime } from "@/lib/date";
 import {
   type TimeSheet,
@@ -16,33 +17,39 @@ import { Button } from "@toolkit/ui/button";
 import { Card } from "@toolkit/ui/card";
 import { Loader } from "lucide-react";
 import moment from "moment";
+
 import { useAction } from "next-safe-action/hooks";
 import React from "react";
 import { toast } from "sonner";
 
 type Props = {
-  currentTimeSheet?: TimeSheet;
-  currentBreaks?: TimeSheetBreak[];
+  currentTimeSheet: TimeSheet | null;
+  currentBreaks: TimeSheetBreak[] | null;
 };
 
 export default function ClockInOutClient({
   currentTimeSheet,
   currentBreaks,
 }: Props) {
-  const { hoursAndMinutes } = useCurrentTime();
+  const currentTimezone = useCurrentTimezone();
   const isClockedIn =
     currentTimeSheet?.status === TimeSheetStatusEnum.clocked_in;
 
   const isOnBreak = currentBreaks?.some((breakItem) => !breakItem.break_end);
 
+  const { hoursAndMinutes } = useCurrentTime({
+    enabled: true,
+  });
+
   let hours = null;
   let minutes = null;
   let seconds = null;
 
-  if (isClockedIn) {
+  if (isClockedIn && currentTimeSheet) {
     ({ hours, minutes, seconds } = calcWorkedTime(
-      currentTimeSheet?.clock_in || "",
+      moment(currentTimeSheet.clock_in).toDate(),
       currentBreaks || [],
+      moment().toDate(),
     ));
   }
 

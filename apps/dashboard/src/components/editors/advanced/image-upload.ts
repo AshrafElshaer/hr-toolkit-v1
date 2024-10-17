@@ -1,4 +1,3 @@
-
 import { createClient } from "@/lib/supabase/client";
 import { createImageUpload } from "novel/plugins";
 import { toast } from "sonner";

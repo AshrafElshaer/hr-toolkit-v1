@@ -1,5 +1,6 @@
 import { getCurrentUserAction } from "@/actions/users.actions";
 import { createClient } from "@/lib/supabase/client";
+import { getCurrentUser } from "@toolkit/supabase/queries";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -8,8 +9,11 @@ export function useCurrentUser() {
   const { data } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
-      const result = await getCurrentUserAction();
-      return result?.data;
+      const { data, error } = await getCurrentUser(supabase);
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data;
     },
   });
   return data;

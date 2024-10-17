@@ -17,8 +17,8 @@ export const DepartmentTable = pgTable("department", {
   manager_id: uuid("manager_id").references(() => UserTable.id, {
     onDelete: "set null",
   }),
-  created_at: timestamp("created_at").defaultNow(),
-  updated_at: timestamp("updated_at").defaultNow(),
+  created_at: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updated_at: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
 
 export const DepartmentMemberTable = pgTable(

@@ -10,15 +10,15 @@ import type {
 
 import { ChevronRight, MoreHorizontal } from "lucide-react";
 
+import { DataTableColumnHeader } from "@/components/tables/data-table-column-header";
 import { Avatar, AvatarGroup } from "@toolkit/ui/avatar";
 import { Badge } from "@toolkit/ui/badge";
 import { Button } from "@toolkit/ui/button";
 import { GoDash } from "react-icons/go";
-import { DataTableColumnHeader } from "@/components/tables/data-table-column-header";
 
-interface DepartmentQuery extends Department {
+export interface DepartmentQuery extends Department {
   manager: User | null;
-  members: DepartmentMember[];
+  members: { user_id: string }[];
 }
 
 export const columns: ColumnDef<DepartmentQuery>[] = [
@@ -54,7 +54,11 @@ export const columns: ColumnDef<DepartmentQuery>[] = [
         <div className=" flex items-center gap-2">
           <Avatar
             src={manager?.avatar_url}
-            initials={manager?.avatar_url ? undefined : `${manager?.first_name[0] ?? ""}${manager?.last_name[0] ?? ""}`}
+            initials={
+              manager?.avatar_url
+                ? undefined
+                : `${manager?.first_name[0] ?? ""}${manager?.last_name[0] ?? ""}`
+            }
             size="small"
           />
           {manager?.first_name} {manager?.last_name}
@@ -67,12 +71,16 @@ export const columns: ColumnDef<DepartmentQuery>[] = [
     id: "members",
     accessorFn: (row) => row.members.length,
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Members" className="justify-center" />
+      <DataTableColumnHeader
+        column={column}
+        title="Members"
+        className="justify-center"
+      />
     ),
     cell: ({ row }) => {
       const department = row.original;
       const members = department.members;
-      
+
       return (
         <div className="text-base font-semibold text-center">
           {members.length}

@@ -20,12 +20,14 @@ export function TableLoader({ rows = 5, columns }: TableLoaderProps) {
         <TableHeader>
           <TableRow>
             {columns.map((column, idx) => (
-              <TableHead key={idx.toString()} className="text-accent-foreground bg-secondary font-semibold">
+              <TableHead
+                key={idx.toString()}
+                className="text-accent-foreground bg-secondary font-semibold"
+              >
                 {column}
               </TableHead>
             ))}
           </TableRow>
-          
         </TableHeader>
         <TableBody>
           {[...Array(rows)].map((_, idx) => (
@@ -37,7 +39,6 @@ export function TableLoader({ rows = 5, columns }: TableLoaderProps) {
               ))}
             </TableRow>
           ))}
-        
         </TableBody>
       </Table>
     </div>

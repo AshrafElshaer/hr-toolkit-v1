@@ -19,7 +19,11 @@ export const createOrganizationAction = authActionClient
       isAdmin: true,
     });
 
-    const newOrgId = await OrganizationMutations.create(user.id, parsedInput);
+    const newOrgId = await OrganizationMutations.create(
+      supabase,
+      user.id,
+      parsedInput,
+    );
 
     await supabase.auth.admin.updateUserById(user.id, {
       user_metadata: {

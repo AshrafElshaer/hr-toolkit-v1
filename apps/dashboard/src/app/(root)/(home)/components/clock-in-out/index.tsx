@@ -8,9 +8,16 @@ import React from "react";
 import ClockInOutClient from "./clock-in-out.client";
 export default async function ClockInOut() {
   const supabase = createServerClient();
-  const user = await getCurrentUser(supabase);
-  const currentTimeSheet = await getCurrentTimeSheet(user.id);
-  const currentBreaks = await getCurrentBreaks(currentTimeSheet?.id);
+  const { data: auth, error: authError } = await supabase.auth.getUser();
+  if (authError) {
+    return <div>Error: {authError.message}</div>;
+  }
+  const { data: currentTimeSheet, error: currentTimeSheetError } =
+    await getCurrentTimeSheet(supabase, auth.user.id);
+  const { data: currentBreaks, error: currentBreaksError } =
+    currentTimeSheet?.id
+      ? await getCurrentBreaks(supabase, currentTimeSheet.id)
+      : { data: [], error: null };
   return (
     <ClockInOutClient
       currentTimeSheet={currentTimeSheet}

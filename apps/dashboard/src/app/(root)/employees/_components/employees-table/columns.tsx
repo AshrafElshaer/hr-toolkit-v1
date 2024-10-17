@@ -1,7 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import type { GetOrganizationMembersQuery } from "@toolkit/supabase/types";
+import type { Department, GetOrganizationMembersQuery, User } from "@toolkit/supabase/types";
 
 import { ChevronRight, MoreHorizontal } from "lucide-react";
 
@@ -15,6 +15,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@toolkit/ui/dropdown-menu";
+
+type Member = {
+  user: User;
+  department: Department;
+};
 export const columns: ColumnDef<GetOrganizationMembersQuery>[] = [
   {
     id: "name",

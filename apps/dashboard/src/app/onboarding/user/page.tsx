@@ -25,7 +25,7 @@ import { PhoneInputSimple } from "@/components/phone-input";
 import { COUNTRIES } from "@/constants/countries";
 import { useSession } from "@/hooks/use-session";
 import {
-  addressInsertSchema,
+  addressesInsertSchema,
   userInsertSchema,
 } from "@toolkit/supabase/validations";
 import { DateOfBirthPicker } from "@toolkit/ui/date-of-birth-picker";
@@ -46,7 +46,7 @@ import { CircleDollarSign, Clock, Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 
-const formSchema = userInsertSchema.merge(addressInsertSchema);
+const formSchema = userInsertSchema.merge(addressesInsertSchema);
 
 export default function OwnerOnboarding() {
   const [counter, { startCountdown }] = useCountdown({

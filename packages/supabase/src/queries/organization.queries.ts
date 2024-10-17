@@ -1,29 +1,20 @@
-import { eq, sql } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
-import {
-  DepartmentMemberTable,
-  DepartmentTable,
-  OrganizationMemberTable,
-  OrganizationTable,
-  UserTable,
-  db,
-} from "../db";
-import { getOrganizationMembersQuery } from "../db/statements/employees.statements";
-import { safeAsync } from "../utils";
+import type { SupabaseInstance } from "../types";
+
+import { QueryData } from "@supabase/supabase-js";
 import { cacheKeys } from "./cache-keys";
 
-export const getOrganizationById = async (organizationId: string) =>
+export const getOrganizationById = async (
+  supabase: SupabaseInstance,
+  organizationId: string,
+) =>
   unstable_cache(
     async () => {
-      const result = await safeAsync(async () => {
-        const query = await db.query.OrganizationTable.findFirst({
-          where: eq(OrganizationTable.id, organizationId),
-        });
-
-        return query;
-      });
-
-      return result;
+      return await supabase
+        .from("organization")
+        .select("*")
+        .eq("id", organizationId)
+        .single();
     },
     [cacheKeys.organization.info, organizationId],
     {
@@ -32,15 +23,29 @@ export const getOrganizationById = async (organizationId: string) =>
     },
   )();
 
-export const getOrganizationMembers = async (organizationId: string) =>
+export const getOrganizationMembers = async (
+  supabase: SupabaseInstance,
+  organizationId: string,
+) =>
   unstable_cache(
     async () => {
-      const result = await safeAsync(async () => {
-        return await getOrganizationMembersQuery.execute({
-          organization_id: organizationId,
-        });
-      });
-      return result;
+      const { data, error } = await supabase
+        .from("organization_members")
+        .select(`
+          user:user(*),
+          department:user(department_member(department(*)))
+        `)
+        .eq("organization_id", organizationId);
+
+      return {
+        data: data?.map((item) => {
+          return {
+            ...item,
+            department: item.department?.department_member[0]?.department,
+          };
+        }),
+        error,
+      };
     },
     [cacheKeys.organization.members, organizationId],
     {
