@@ -4,7 +4,6 @@ import type {
   UpdateDepartmentMember,
 } from "../types";
 
-
 export async function create(
   supabase: SupabaseInstance,
   input: InsertDepartmentMember,
