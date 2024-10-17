@@ -1,8 +1,7 @@
-import { eq } from "drizzle-orm";
-import { AddressTable, db } from "../db";
+
 import type { InsertAddress, UpdateAddress } from "../types";
 import type { SupabaseInstance } from "../types";
-import { safeAsync } from "../utils";
+
 
 async function create(supabase: SupabaseInstance, data: InsertAddress) {
   return await supabase.from("addresses").insert(data).select().single();

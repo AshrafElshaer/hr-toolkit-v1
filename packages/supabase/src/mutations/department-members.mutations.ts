@@ -1,11 +1,9 @@
-import { and, eq } from "drizzle-orm";
-import { DepartmentMemberTable, db } from "../db";
 import type {
   InsertDepartmentMember,
   SupabaseInstance,
   UpdateDepartmentMember,
 } from "../types";
-import { safeAsync } from "../utils";
+
 
 export async function create(
   supabase: SupabaseInstance,

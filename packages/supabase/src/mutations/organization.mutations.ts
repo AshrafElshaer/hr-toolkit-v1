@@ -24,7 +24,7 @@ import type {
   SupabaseInstance,
   User,
 } from "../types";
-import { safeAsync } from "../utils";
+
 export async function create(
   supabase: SupabaseInstance,
   ownerId: string,
