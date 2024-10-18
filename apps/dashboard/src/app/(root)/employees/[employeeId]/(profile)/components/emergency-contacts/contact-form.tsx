@@ -1,14 +1,13 @@
 "use client";
+
 import {
-  deleteAddressAction,
-  updateAddressAction,
-} from "@/actions/address.action";
-import { updateUserByIdAction } from "@/actions/users.actions";
-import { CountrySelector } from "@/components/selectors/country-selector";
-import { COUNTRIES } from "@/constants/countries";
+  deleteEmergencyContactAction,
+  updateEmergencyContactAction,
+} from "@/actions/emergency-contacts.actions";
+import { PhoneInput } from "@/components/phone-input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { Address } from "@toolkit/supabase/types";
-import { addressesUpdateSchema } from "@toolkit/supabase/validations";
+import type { EmergencyContact } from "@toolkit/supabase/types";
+import { emergencyContactsUpdateSchema } from "@toolkit/supabase/validations";
 import { Button } from "@toolkit/ui/button";
 import {
   Form,
@@ -19,25 +18,24 @@ import {
   FormMessage,
 } from "@toolkit/ui/form";
 import { Input } from "@toolkit/ui/input";
-import { Separator } from "@toolkit/ui/separator";
-import { Loader, Trash } from "lucide-react";
+import { Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
-import type * as RPNInput from "react-phone-number-input";
 import { toast } from "sonner";
 import type { z } from "zod";
+import type * as RPNInput from "react-phone-number-input";
 
 type Props = {
-  address: Address;
-  addressesLength: number;
+  contact: EmergencyContact;
+  contactsLength: number;
 };
 
-export default function AddressForm({ address, addressesLength }: Props) {
-  const { execute: updateAddress, isExecuting: isUpdating } = useAction(
-    updateAddressAction,
+export default function ContactForm({ contact, contactsLength }: Props) {
+  const { execute: updateContact, isExecuting: isUpdating } = useAction(
+    updateEmergencyContactAction,
     {
       onSuccess: () => {
-        toast.success("Address updated successfully");
+        toast.success("Emergency contact updated successfully");
         form.reset({}, { keepValues: true });
       },
       onError: ({ error }) => {
@@ -46,11 +44,11 @@ export default function AddressForm({ address, addressesLength }: Props) {
     },
   );
 
-  const { execute: deleteAddress, isExecuting: isDeleting } = useAction(
-    deleteAddressAction,
+  const { execute: deleteContact, isExecuting: isDeleting } = useAction(
+    deleteEmergencyContactAction,
     {
       onSuccess: () => {
-        toast.success("Address deleted successfully");
+        toast.success("Emergency contact deleted successfully");
       },
       onError: ({ error }) => {
         toast.error(error.serverError);
@@ -58,19 +56,18 @@ export default function AddressForm({ address, addressesLength }: Props) {
     },
   );
 
-  const form = useForm<z.infer<typeof addressesUpdateSchema>>({
-    resolver: zodResolver(addressesUpdateSchema),
+  const form = useForm<z.infer<typeof emergencyContactsUpdateSchema>>({
+    resolver: zodResolver(emergencyContactsUpdateSchema),
     defaultValues: {
-      address_1: address.address_1,
-      address_2: address.address_2,
-      city: address.city,
-      state: address.state,
-      zip_code: address.zip_code,
-      country: address.country,
+      contact_name: contact.contact_name,
+      contact_relation: contact.contact_relation,
+      contact_number: contact.contact_number,
+      contact_email: contact.contact_email,
+
     },
   });
 
-  function onSubmit(values: z.infer<typeof addressesUpdateSchema>) {
+  function onSubmit(values: z.infer<typeof emergencyContactsUpdateSchema>) {
     const dirtyFields = Object.keys(form.formState.dirtyFields);
 
     const payload = dirtyFields.reduce<Record<string, unknown>>(
@@ -83,9 +80,8 @@ export default function AddressForm({ address, addressesLength }: Props) {
       {},
     );
 
-    updateAddress({
-      id: address.id,
-      revalidateUrl: `/employees/${address.user_id}`,
+    updateContact({
+      id: contact.id,
       ...payload,
     });
   }
@@ -96,36 +92,31 @@ export default function AddressForm({ address, addressesLength }: Props) {
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full flex flex-col gap-4 border-b last:border-b-0 pb-4 last:pb-0"
       >
-        <div className="grid gap-x-4 gap-y-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 w-full">
+        <div className="grid gap-x-4 gap-y-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 w-full">
           <FormField
             control={form.control}
-            name="address_1"
+            name="contact_name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Address 1</FormLabel>
+                <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="123 Main St" {...field} />
+                  <Input placeholder="John Doe" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormField
+              <FormField
             control={form.control}
-            name="address_2"
+            name="contact_email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Address 2
-                  <span className="text-xs text-muted-foreground ml-1">
-                    (Optional)
-                  </span>
-                </FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Apt 4B"
+                    type="email"
+                    placeholder="john@example.com"
                     {...field}
-                    value={field.value ?? ""}
                   />
                 </FormControl>
                 <FormMessage />
@@ -134,12 +125,12 @@ export default function AddressForm({ address, addressesLength }: Props) {
           />
           <FormField
             control={form.control}
-            name="city"
+            name="contact_relation"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>City</FormLabel>
+                <FormLabel>Relationship</FormLabel>
                 <FormControl>
-                  <Input placeholder="New York" {...field} />
+                  <Input placeholder="Spouse" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -147,60 +138,34 @@ export default function AddressForm({ address, addressesLength }: Props) {
           />
           <FormField
             control={form.control}
-            name="state"
+            name="contact_number"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>State</FormLabel>
+                <FormLabel>Phone</FormLabel>
                 <FormControl>
-                  <Input placeholder="NY" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="zip_code"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Zip Code</FormLabel>
-                <FormControl>
-                  <Input placeholder="10001" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="country"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Country</FormLabel>
-                <FormControl>
-                  <CountrySelector
-                    onChange={(value: string) => {
+                  <PhoneInput
+                    {...field}
+                    onChange={(value: RPNInput.Value) => {
                       field.onChange(value);
                     }}
-                    value={field.value as RPNInput.Country}
-                    options={COUNTRIES}
+                    value={field.value as RPNInput.Value}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+      
         </div>
 
         {form.formState.isDirty && (
           <div className="flex justify-end items-center gap-2">
-            {addressesLength > 1 ? (
+            {contactsLength > 1 ? (
               <Button
                 type="button"
                 onClick={() =>
-                  deleteAddress({
-                    id: address.id,
-                    revalidateUrl: `/employees/${address.user_id}`,
+                  deleteContact({
+                    id: contact.id,
                   })
                 }
                 variant="destructive"

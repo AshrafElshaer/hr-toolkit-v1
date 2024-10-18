@@ -37,6 +37,7 @@
     "./storage": "./src/utils/storage.ts",
     "./department-member-mutations": "./src/mutations/department-members.mutations.ts",
     "./department-mutations": "./src/mutations/departments.mutations.ts",
+    "./emergency-contacts-mutations": "./src/mutations/emergency-contacts.mutations.ts",
     "./types": "./src/types/index.ts",
     "./validations": "./src/db/validations/index.ts",
     "./cache-keys": "./src/queries/cache-keys.ts"

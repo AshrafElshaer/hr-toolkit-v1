@@ -71,7 +71,7 @@ export function NewAddress({ userId }: { userId: string }) {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="secondary" size="icon">
-          <Plus className="size-4" />
+          <MapPinPlus className="size-4" />
         </Button>
       </DialogTrigger>
       <DialogContent>
