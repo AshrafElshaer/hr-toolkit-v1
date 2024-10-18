@@ -170,13 +170,26 @@ export const updateEmployeeAction = authActionClient
     }
 
     if (department_id) {
-      const { error: departmentMemberError } =
+      const { data: departmentMemberData, error: departmentMemberError } =
+        await getUserDepartment(supabase, user_id);
+
+      if (departmentMemberError || !departmentMemberData.department) {
+        throw new Error(departmentMemberError?.message ?? "Error getting department");
+      }
+
+      if (departmentMemberData.department.manager_id === user_id) {
+        throw new Error(
+          "You cannot change the manager of a department, assign a new manager first",
+        );
+      }
+
+      const { error: updatedMemberError } =
         await departmentMembersMutations.update(supabase, user_id, {
           department_id,
         });
 
-      if (departmentMemberError) {
-        throw new Error(departmentMemberError.message);
+      if (updatedMemberError) {
+        throw new Error(updatedMemberError.message);
       }
     }
 
@@ -185,3 +198,6 @@ export const updateEmployeeAction = authActionClient
       `${cacheKeys.organization.members}-${ctx.user.user_metadata.organization_id}`,
     );
   });
+
+
+  
