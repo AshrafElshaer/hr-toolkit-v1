@@ -1,5 +1,6 @@
 import { Address } from "./components/address";
 import { EmergencyContacts } from "./components/emergency-contacts";
+import { Employment } from "./components/employment";
 import Profile from "./components/profile";
 
 type EmployeePageProps = {
@@ -17,6 +18,7 @@ export default function EmployeePage({ params }: EmployeePageProps) {
       <Profile userId={userId} />
       <Address userId={userId} />
       <EmergencyContacts userId={userId} />
+      <Employment userId={userId} />
     </section>
   );
 }

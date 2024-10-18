@@ -99,3 +99,14 @@ export function getManagers(
     },
   )();
 }
+
+export function getDepartmentMemberByUserId(
+  supabase: SupabaseInstance,
+  userId: string,
+) {
+  return supabase
+    .from("department_member")
+    .select("*")
+    .eq("user_id", userId)
+    .single();
+}

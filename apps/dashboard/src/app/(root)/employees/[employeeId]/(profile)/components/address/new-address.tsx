@@ -8,9 +8,7 @@ import type * as RPNInput from "react-phone-number-input";
 import { toast } from "sonner";
 import type { z } from "zod";
 
-import {
-  addressesInsertSchema,
-} from "@toolkit/supabase/validations";
+import { addressesInsertSchema } from "@toolkit/supabase/validations";
 import { Button } from "@toolkit/ui/button";
 import {
   Dialog,
@@ -84,13 +82,13 @@ export function NewAddress({ userId }: { userId: string }) {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="grid gap-4 grid-cols-1 md:grid-cols-2 "
+            className="grid gap-4 grid-cols-1 sm:grid-cols-2"
           >
             <FormField
               control={form.control}
               name="address_1"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="sm:col-span-2">
                   <FormLabel>Address 1</FormLabel>
                   <FormControl>
                     <Input placeholder="123 Main St" {...field} />
@@ -103,7 +101,7 @@ export function NewAddress({ userId }: { userId: string }) {
               control={form.control}
               name="address_2"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="sm:col-span-2">
                   <FormLabel>
                     Address 2
                     <span className="text-xs text-muted-foreground ml-1">
@@ -179,7 +177,7 @@ export function NewAddress({ userId }: { userId: string }) {
                 </FormItem>
               )}
             />
-            <div className="flex justify-end gap-2 col-span-2">
+            <div className="flex justify-end gap-2 sm:col-span-2">
               <Button
                 variant="secondary"
                 type="button"

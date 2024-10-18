@@ -184,11 +184,20 @@ function OrganizationForm() {
                   <span className="text-muted-foreground"> (optional)</span>
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="example.com"
-                    {...field}
-                    value={field.value ?? ""}
-                  />
+                  <div className="space-y-2">
+                    <div className="flex rounded-lg shadow-sm shadow-black/[.04]">
+                      <span className="-z-10 inline-flex items-center rounded-l-lg border border-input bg-background px-3 text-sm text-muted-foreground">
+                        https://
+                      </span>
+                      <Input
+                        className="-ml-px rounded-l-none shadow-none"
+                        type="text"
+                        placeholder="example.com"
+                        {...field}
+                        value={field.value ?? ""}
+                      />
+                    </div>
+                  </div>
                 </FormControl>
 
                 <FormMessage />

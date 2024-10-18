@@ -40,6 +40,7 @@ import { subYears } from "date-fns";
 
 import { createOrganizationOwnerAction } from "@/actions/users.actions";
 import { CountrySelector } from "@/components/selectors/country-selector";
+import { WorkingDaysSelector } from "@/components/selectors/working-days-selector";
 import { DateField } from "@toolkit/ui/date-field";
 import { ToggleGroup, ToggleGroupItem } from "@toolkit/ui/toggle-group";
 import { CircleDollarSign, Clock, Loader } from "lucide-react";
@@ -89,36 +90,7 @@ export default function OwnerOnboarding() {
   );
 }
 
-const DAYS_OF_WEEK = [
-  {
-    label: "Monday",
-    value: "1",
-  },
-  {
-    label: "Tuesday",
-    value: "2",
-  },
-  {
-    label: "Wednesday",
-    value: "3",
-  },
-  {
-    label: "Thursday",
-    value: "4",
-  },
-  {
-    label: "Friday",
-    value: "5",
-  },
-  {
-    label: "Saturday",
-    value: "6",
-  },
-  {
-    label: "Sunday",
-    value: "7",
-  },
-];
+
 
 function OwnerForm() {
   const session = useSession();
@@ -345,19 +317,10 @@ function OwnerForm() {
             <FormItem className="w-full">
               <FormLabel>How many days do you work per week?</FormLabel>
               <FormControl>
-                <ToggleGroup
-                  type="multiple"
-                  variant="outline"
+                <WorkingDaysSelector
                   value={field.value ?? []}
-                  onValueChange={(value: string[]) => field.onChange(value)}
-                  className="flex-wrap gap-2 justify-start"
-                >
-                  {DAYS_OF_WEEK.map((day) => (
-                    <ToggleGroupItem key={day.value} value={day.value}>
-                      {day.label}
-                    </ToggleGroupItem>
-                  ))}
-                </ToggleGroup>
+                  onChange={field.onChange}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

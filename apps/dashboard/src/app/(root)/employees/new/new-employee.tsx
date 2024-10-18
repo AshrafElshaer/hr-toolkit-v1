@@ -53,36 +53,8 @@ import { Input } from "@toolkit/ui/input";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-const DAYS_OF_WEEK = [
-  {
-    label: "Monday",
-    value: "1",
-  },
-  {
-    label: "Tuesday",
-    value: "2",
-  },
-  {
-    label: "Wednesday",
-    value: "3",
-  },
-  {
-    label: "Thursday",
-    value: "4",
-  },
-  {
-    label: "Friday",
-    value: "5",
-  },
-  {
-    label: "Saturday",
-    value: "6",
-  },
-  {
-    label: "Sunday",
-    value: "7",
-  },
-];
+import { WorkingDaysSelector } from "@/components/selectors/working-days-selector";
+
 
 function createUploadZoneOptions(
   onDrop: DropzoneOptions["onDrop"],
@@ -798,23 +770,7 @@ export default function NewEmployee() {
                 <FormItem className="w-full mt-2">
                   <FormLabel>Working Days / Week</FormLabel>
                   <FormControl>
-                    <ToggleGroup
-                      type="multiple"
-                      variant="outline"
-                      value={field.value ?? []}
-                      onValueChange={(value: string[]) => field.onChange(value)}
-                      className="flex-wrap gap-2 justify-start"
-                    >
-                      {DAYS_OF_WEEK.map((day) => (
-                        <ToggleGroupItem
-                          key={day.value}
-                          value={day.value}
-                          className="h-8"
-                        >
-                          {day.label}
-                        </ToggleGroupItem>
-                      ))}
-                    </ToggleGroup>
+                  <WorkingDaysSelector value={field.value ?? []} onChange={field.onChange} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

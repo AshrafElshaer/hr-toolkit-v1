@@ -4,6 +4,7 @@ import { resend } from "@/lib/resend";
 import { createServerClient } from "@/lib/supabase/server";
 import { NewEmployeeEmail } from "@toolkit/email/new-employee";
 import { cacheKeys } from "@toolkit/supabase/cache-keys";
+import departmentMembersMutations from "@toolkit/supabase/department-member-mutations";
 import OrganizationMutations from "@toolkit/supabase/organization-mutations";
 import {
   getDepartmentMembers,
@@ -12,8 +13,13 @@ import {
   getUserDepartment,
 } from "@toolkit/supabase/queries";
 import { UserRolesEnum } from "@toolkit/supabase/types";
-import { employeeInsertSchema } from "@toolkit/supabase/validations";
-import { revalidateTag } from "next/cache";
+import userMutations from "@toolkit/supabase/user-mutations";
+import {
+  departmentMemberUpdateSchema,
+  employeeInsertSchema,
+  userUpdateSchema,
+} from "@toolkit/supabase/validations";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
@@ -135,4 +141,47 @@ export const getManagersAction = authActionClient
       throw new Error(error.message);
     }
     return data;
+  });
+
+export const updateEmployeeAction = authActionClient
+  .metadata({
+    name: "update-employee",
+    track: {
+      event: "update-employee",
+      channel: "employees",
+    },
+  })
+  .schema(userUpdateSchema.merge(departmentMemberUpdateSchema))
+  .action(async ({ ctx, parsedInput }) => {
+    const { department_id, user_id, ...data } = parsedInput;
+    const { supabase } = ctx;
+
+    if (!user_id) {
+      throw new Error("User ID is required");
+    }
+
+    const { error: userError } = await userMutations.update(supabase, {
+      id: user_id,
+      ...data,
+    });
+
+    if (userError) {
+      throw new Error(userError.message);
+    }
+
+    if (department_id) {
+      const { error: departmentMemberError } =
+        await departmentMembersMutations.update(supabase, user_id, {
+          department_id,
+        });
+
+      if (departmentMemberError) {
+        throw new Error(departmentMemberError.message);
+      }
+    }
+
+    revalidatePath(`/employees/${user_id}`);
+    revalidateTag(
+      `${cacheKeys.organization.members}-${ctx.user.user_metadata.organization_id}`,
+    );
   });
