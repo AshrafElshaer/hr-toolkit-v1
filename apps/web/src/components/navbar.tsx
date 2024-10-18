@@ -13,7 +13,7 @@ import Link from "next/link";
 import LogoSVG from "./logo-svg";
 export default function Navbar() {
   return (
-    <nav className="flex items-center justify-between p-2 gap-4 w-full border rounded-lg max-w-xl mx-auto">
+    <nav className="flex items-center justify-between p-2 gap-4  border rounded-lg w-11/12 max-w-5xl mx-auto sticky top-4 z-50">
       <Link href="/">
         <LogoSVG className="size-8 fill-foreground" />
       </Link>
@@ -21,19 +21,19 @@ export default function Navbar() {
       <div className="flex items-center gap-2 sm:gap-4">
         <button
           type="button"
-          className="font-medium transition-colors text-foreground hover:text-secondary-foreground"
+          className="font-medium text-sm transition-colors text-foreground hover:text-foreground/70"
         >
           Features
         </button>
         <button
           type="button"
-          className="font-medium transition-colors text-foreground hover:text-secondary-foreground"
+          className="font-medium text-sm transition-colors text-foreground hover:text-foreground/70"
         >
           Updates
         </button>
         <button
           type="button"
-          className="font-medium transition-colors text-foreground hover:text-secondary-foreground"
+          className="font-medium text-sm transition-colors text-foreground hover:text-foreground/70"
         >
           Pricing
         </button>
