@@ -65,7 +65,7 @@ export default function NoteSheet({
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
   const [content, setContent] = useState<JSONContent>(
-    note?.content ? (note.content as JSONContent) : DEFAULT_CONTENT,
+    note?.content ? JSON.parse(note.content as string) : DEFAULT_CONTENT,
   );
   const isNewNote = !note;
 
