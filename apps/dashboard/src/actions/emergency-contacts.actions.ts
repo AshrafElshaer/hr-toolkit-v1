@@ -49,9 +49,7 @@ export const updateEmergencyContactAction = authActionClient
     );
 
     if (error) {
-      return {
-        error: error.message,
-      };
+      throw new Error(error.message);
     }
     revalidatePath(`/employees/${parsedInput.user_id}`);
     return data;

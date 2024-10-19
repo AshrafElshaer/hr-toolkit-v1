@@ -38,9 +38,16 @@ type Props = {
 
 export default function ProfileForm({ user }: Props) {
   const { execute, isExecuting } = useAction(updateUserByIdAction, {
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
       toast.success("User updated successfully");
-      form.reset();
+      form.reset({
+        first_name: data?.first_name,
+        last_name: data?.last_name,
+        email: data?.email,
+        phone_number: data?.phone_number,
+        date_of_birth: data?.date_of_birth,
+        gender: data?.gender,
+      });
     },
     onError: ({ error }) => {
       toast.error(error.serverError);
@@ -190,7 +197,6 @@ export default function ProfileForm({ user }: Props) {
               </FormItem>
             )}
           />
-       
         </div>
 
         {form.formState.isDirty ? (

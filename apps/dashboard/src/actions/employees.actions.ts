@@ -200,6 +200,8 @@ export const updateEmployeeAction = authActionClient
     revalidateTag(
       `${cacheKeys.organization.departments}-${ctx.user.user_metadata.organization_id}`,
     );
+
+    return { ...data, department_id };
   });
 
 

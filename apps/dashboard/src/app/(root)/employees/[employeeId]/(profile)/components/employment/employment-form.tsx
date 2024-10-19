@@ -52,9 +52,19 @@ export default function EmploymentForm({ user, departmentMember }: Props) {
   const { execute: updateEmployment, isExecuting: isUpdating } = useAction(
     updateEmployeeAction,
     {
-      onSuccess: () => {
+      onSuccess: ({ data }) => {
         toast.success("Employment details updated successfully");
-        form.reset({}, { keepValues: true });
+        form.reset({
+          job_title: data?.job_title,
+          department_id: data?.department_id,
+          role: data?.role,
+          hire_date: data?.hire_date,
+          employment_status: data?.employment_status,
+          employment_type: data?.employment_type,
+          work_hours_per_week: data?.work_hours_per_week,
+          salary_per_hour: data?.salary_per_hour,
+          working_days_per_week: data?.working_days_per_week,
+        });
       },
       onError: ({ error }) => {
         toast.error(error.serverError);

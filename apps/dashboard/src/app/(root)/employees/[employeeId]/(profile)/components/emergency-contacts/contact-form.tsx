@@ -21,9 +21,9 @@ import { Input } from "@toolkit/ui/input";
 import { Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
+import type * as RPNInput from "react-phone-number-input";
 import { toast } from "sonner";
 import type { z } from "zod";
-import type * as RPNInput from "react-phone-number-input";
 
 type Props = {
   contact: EmergencyContact;
@@ -34,9 +34,14 @@ export default function ContactForm({ contact, contactsLength }: Props) {
   const { execute: updateContact, isExecuting: isUpdating } = useAction(
     updateEmergencyContactAction,
     {
-      onSuccess: () => {
+      onSuccess: ({ data }) => {
         toast.success("Emergency contact updated successfully");
-        form.reset({}, { keepValues: true });
+        form.reset({
+          contact_name: data?.contact_name,
+          contact_relation: data?.contact_relation,
+          contact_number: data?.contact_number,
+          contact_email: data?.contact_email,
+        });
       },
       onError: ({ error }) => {
         toast.error(error.serverError);
@@ -63,7 +68,6 @@ export default function ContactForm({ contact, contactsLength }: Props) {
       contact_relation: contact.contact_relation,
       contact_number: contact.contact_number,
       contact_email: contact.contact_email,
-
     },
   });
 
@@ -106,7 +110,7 @@ export default function ContactForm({ contact, contactsLength }: Props) {
               </FormItem>
             )}
           />
-              <FormField
+          <FormField
             control={form.control}
             name="contact_email"
             render={({ field }) => (
@@ -155,7 +159,6 @@ export default function ContactForm({ contact, contactsLength }: Props) {
               </FormItem>
             )}
           />
-      
         </div>
 
         {form.formState.isDirty && (

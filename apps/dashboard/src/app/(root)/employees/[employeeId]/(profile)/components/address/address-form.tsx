@@ -36,9 +36,16 @@ export default function AddressForm({ address, addressesLength }: Props) {
   const { execute: updateAddress, isExecuting: isUpdating } = useAction(
     updateAddressAction,
     {
-      onSuccess: () => {
+      onSuccess: ({ data }) => {
         toast.success("Address updated successfully");
-        form.reset({}, { keepValues: true });
+        form.reset({
+          address_1: data?.address_1,
+          address_2: data?.address_2,
+          city: data?.city,
+          state: data?.state,
+          zip_code: data?.zip_code,
+          country: data?.country,
+        });
       },
       onError: ({ error }) => {
         toast.error(error.serverError);
