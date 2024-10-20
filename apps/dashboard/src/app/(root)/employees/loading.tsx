@@ -15,7 +15,7 @@ const columns = [
   <div className="min-w-40" key="email">
     Email
   </div>,
-  <div className="min-w-40" key="department">
+  <div className="min-w-60" key="department">
     Department
   </div>,
   <div className="min-w-32" key="job_title">

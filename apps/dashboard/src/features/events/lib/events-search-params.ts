@@ -1,9 +1,5 @@
 import moment from "moment";
-import {
-  createSearchParamsCache,
-  parseAsInteger,
-  parseAsString,
-} from "nuqs/server";
+import { createSearchParamsCache, parseAsString } from "nuqs/server";
 
 export const eventsSearchParamsParser = {
   from: parseAsString.withDefault(moment().format("YYYY-MM-DD")),

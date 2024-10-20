@@ -35,7 +35,7 @@ export const columns: ColumnDef<GetOrganizationMembersQuery>[] = [
     id: "department",
     accessorFn: (row) =>
       `${row.department?.name} - ${row.department?.description}`,
-    header: () => <div className="min-w-40">Department</div>,
+    header: () => <div className="min-w-60">Department</div>,
   },
   {
     id: "job_title",

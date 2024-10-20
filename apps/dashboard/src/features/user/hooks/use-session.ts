@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { useSupabase } from "./use-supabase";
+import { useSupabase } from "../../../hooks/use-supabase";
 
 export function useSession() {
   const supabase = useSupabase();

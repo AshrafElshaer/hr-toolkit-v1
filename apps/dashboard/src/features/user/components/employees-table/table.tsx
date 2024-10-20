@@ -25,14 +25,14 @@ import { parseAsJson, useQueryState } from "nuqs";
 
 import { DataTablePagination } from "@/components/tables/data-table-pagination";
 import { cn } from "@toolkit/ui/cn";
-import { DataTableToolbar } from "./data-table-toolbar";
+import { DataTableToolbar } from "./toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function EmployeesTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {

@@ -32,7 +32,7 @@ import { FiCommand } from "react-icons/fi";
 import { NoteSheet } from "@/features/user/components/notes/note-sheet";
 
 // import EventForm from "@/app/(root)/(home)/_components/calendar/event-form";
-import { useSession } from "@/hooks/use-session";
+import { useSession } from "@/features/user/hooks/use-session";
 import { RiStickyNoteAddLine } from "react-icons/ri";
 
 export function CommandMenu() {

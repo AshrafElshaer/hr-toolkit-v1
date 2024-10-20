@@ -12,7 +12,7 @@ import { UserRolesEnum } from "@toolkit/supabase/types";
 import { departmentInsertSchema } from "@toolkit/supabase/validations";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
-import { authActionClient } from "../lib/safe-action";
+import { authActionClient } from "@/lib/safe-action";
 
 export const getDepartmentsAction = authActionClient
   .metadata({

@@ -1,8 +1,8 @@
 "use client";
 
-import { updateEmployeeAction } from "@/actions/employees.actions";
-import { DepartmentSelector } from "@/components/selectors/department-selector";
 import { WorkingDaysSelector } from "@/components/selectors/working-days-selector";
+import { DepartmentSelector } from "@/features/departments/components/department-selector";
+import { updateEmployeeAction } from "@/features/user/actions/employees.actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   type DepartmentMember,

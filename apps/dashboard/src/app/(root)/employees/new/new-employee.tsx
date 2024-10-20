@@ -1,7 +1,7 @@
 "use client";
 
-import { createEmployeeAction } from "@/actions/employees.actions";
 import UploadZone from "@/components/upload-zone";
+import { createEmployeeAction } from "@/features/user/actions/employees.actions";
 import { EmploymentTypeEnum, UserRolesEnum } from "@toolkit/supabase/types";
 import { employeeInsertSchema } from "@toolkit/supabase/validations";
 import { DatePicker } from "@toolkit/ui/date-picker";
@@ -32,8 +32,9 @@ import { toast } from "sonner";
 import { updateUserByIdAction } from "@/actions/users.actions";
 import { PhoneInputSimple } from "@/components/phone-input";
 import { CountrySelector } from "@/components/selectors/country-selector";
-import { DepartmentSelector } from "@/components/selectors/department-selector";
+import { WorkingDaysSelector } from "@/components/selectors/working-days-selector";
 import { COUNTRIES } from "@/constants/countries";
+import { DepartmentSelector } from "@/features/departments/components/department-selector";
 import { createClient } from "@/lib/supabase/client";
 import { uploadUserAvatar } from "@/lib/supabase/storage/upload";
 import { formatBytes } from "@/lib/utils";
@@ -53,8 +54,6 @@ import { Input } from "@toolkit/ui/input";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { WorkingDaysSelector } from "@/components/selectors/working-days-selector";
-
 
 function createUploadZoneOptions(
   onDrop: DropzoneOptions["onDrop"],
@@ -79,7 +78,6 @@ export default function NewEmployee() {
     {
       onError: ({ error }) => {
         toast.error(error?.serverError ?? "Something went wrong");
-
       },
       onSuccess: ({ data }) => {
         toast.success(
@@ -640,7 +638,6 @@ export default function NewEmployee() {
                       <Select
                         value={field.value ?? undefined}
                         onValueChange={field.onChange}
-
                       >
                         <SelectTrigger className="capitalize">
                           <SelectValue placeholder="Select an employment type" />
@@ -770,7 +767,10 @@ export default function NewEmployee() {
                 <FormItem className="w-full mt-2">
                   <FormLabel>Working Days / Week</FormLabel>
                   <FormControl>
-                  <WorkingDaysSelector value={field.value ?? []} onChange={field.onChange} />
+                    <WorkingDaysSelector
+                      value={field.value ?? []}
+                      onChange={field.onChange}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

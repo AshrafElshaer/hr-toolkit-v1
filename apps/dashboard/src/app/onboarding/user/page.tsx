@@ -23,7 +23,7 @@ import type { z } from "zod";
 
 import { PhoneInputSimple } from "@/components/phone-input";
 import { COUNTRIES } from "@/constants/countries";
-import { useSession } from "@/hooks/use-session";
+import { useSession } from "@/features/user/hooks/use-session";
 import {
   addressesInsertSchema,
   userInsertSchema,
@@ -89,8 +89,6 @@ export default function OwnerOnboarding() {
     </AnimatePresence>
   );
 }
-
-
 
 function OwnerForm() {
   const session = useSession();

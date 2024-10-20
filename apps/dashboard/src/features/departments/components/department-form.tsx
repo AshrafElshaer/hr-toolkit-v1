@@ -9,12 +9,13 @@ import {
   DialogTrigger,
 } from "@toolkit/ui/dialog";
 import { useState } from "react";
+
 type DepartmentDialogProps = {
   children?: React.ReactNode;
   department?: Department;
 };
 
-export default function DepartmentDialog({
+export function DepartmentDialog({
   children: trigger,
   department,
 }: DepartmentDialogProps) {
@@ -37,9 +38,8 @@ import { departmentInsertSchema } from "@toolkit/supabase/validations";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
-import { createDepartmentAction } from "@/actions/departments.actions";
-import { getManagersAction } from "@/actions/employees.actions";
-import { useSession } from "@/hooks/use-session";
+import { getManagersAction } from "@/features/user/actions/employees.actions";
+import { useSession } from "@/features/user/hooks/use-session";
 import { useQuery } from "@tanstack/react-query";
 import type { Department } from "@toolkit/supabase/types";
 import { Avatar } from "@toolkit/ui/avatar";
@@ -47,7 +47,6 @@ import { Button } from "@toolkit/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -62,9 +61,10 @@ import {
   SelectValue,
 } from "@toolkit/ui/select";
 import { Skeleton } from "@toolkit/ui/skeleton";
-import { Loader, PlusIcon } from "lucide-react";
+import { Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
+import { createDepartmentAction } from "../departments.actions";
 
 const formSchema = departmentInsertSchema.omit({
   organization_id: true,
@@ -162,7 +162,7 @@ function DepartmentForm({ setOpen }: { setOpen: (open: boolean) => void }) {
                         value={(index + 1).toString()}
                       >
                         <div className="flex items-center gap-2">
-                          <Skeleton className="w-4 h-4 rounded-full " />
+                          <Skeleton className="size-5 rounded-full " />
                           <Skeleton className="w-20 h-4" />
                         </div>
                       </SelectItem>

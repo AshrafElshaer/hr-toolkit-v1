@@ -6,14 +6,14 @@ import type { Table } from "@tanstack/react-table";
 import { Button, buttonVariants } from "@toolkit/ui/button";
 import { Input } from "@toolkit/ui/input";
 
-import { getDepartmentsAction } from "@/actions/departments.actions";
+import { DataTableFacetedFilter } from "@/components/tables/data-table-faceted-filter";
+import { getDepartmentsAction } from "@/features/departments/departments.actions";
 import { useQuery } from "@tanstack/react-query";
 import { PlusIcon, Search } from "lucide-react";
 import Link from "next/link";
 import { IoGrid } from "react-icons/io5";
 import { IoKeySharp } from "react-icons/io5";
 import { MdSignalWifiStatusbarConnectedNoInternet2 } from "react-icons/md";
-import { DataTableFacetedFilter } from "../../../../../components/tables/data-table-faceted-filter";
 import { employmentTypes, roles, statuses } from "./filters";
 
 interface DataTableToolbarProps<TData> {

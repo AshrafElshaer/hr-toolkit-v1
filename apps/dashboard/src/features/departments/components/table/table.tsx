@@ -23,14 +23,14 @@ import {
   TableRow,
 } from "@toolkit/ui/table";
 import { useState } from "react";
-import { DataTableToolbar } from "./data-table-toolbar";
+import { DataTableToolbar } from "./toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function DepartmentsTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -60,7 +60,6 @@ export function DataTable<TData, TValue>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
-
                   return (
                     <TableHead
                       key={header.id}
