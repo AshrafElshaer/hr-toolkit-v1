@@ -29,7 +29,7 @@ import {
 } from "lucide-react";
 import { FiCommand } from "react-icons/fi";
 
-import NoteSheet from "@/app/(root)/(home)/components/notes/note-sheet";
+import { NoteSheet } from "@/features/user/components/notes/note-sheet";
 
 // import EventForm from "@/app/(root)/(home)/_components/calendar/event-form";
 import { useSession } from "@/hooks/use-session";

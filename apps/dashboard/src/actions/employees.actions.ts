@@ -23,7 +23,7 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { authActionClient } from "./safe-action";
+import { authActionClient } from "../lib/safe-action";
 
 export const createEmployeeAction = authActionClient
   .metadata({
@@ -174,7 +174,9 @@ export const updateEmployeeAction = authActionClient
         await getUserDepartment(supabase, user_id);
 
       if (departmentMemberError || !departmentMemberData.department) {
-        throw new Error(departmentMemberError?.message ?? "Error getting department");
+        throw new Error(
+          departmentMemberError?.message ?? "Error getting department",
+        );
       }
 
       if (departmentMemberData.department.manager_id === user_id) {
@@ -203,6 +205,3 @@ export const updateEmployeeAction = authActionClient
 
     return { ...data, department_id };
   });
-
-
-  

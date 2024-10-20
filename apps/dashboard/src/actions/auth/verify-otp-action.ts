@@ -1,6 +1,6 @@
 "use server";
 
-import { actionClient } from "@/actions/safe-action";
+import { actionClient } from "@/lib/safe-action";
 import { createServerClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 

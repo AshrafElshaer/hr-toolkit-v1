@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/client";
+import { FileOptions } from "@supabase/storage-js";
 
 type UploadProps = {
   path: string;

@@ -1,15 +1,15 @@
 import Main from "@/components/main";
+import { ClockInOutSkeleton } from "@/features/attendance/components/clock-in-out/clock-in-out.loading";
+import { CalendarListLoading } from "@/features/events/components/events-widget";
+import { DateSelector } from "@/features/events/components/events-widget/date-selector";
+import { CurrentProjectLoading } from "@/features/projects/components/current-project/curent-project.loading";
+import { TasksLoading } from "@/features/projects/components/current-tasks/tasks.loading";
+import { MetricsLoading } from "@/features/user/components/metrics-widget/metrics.loading";
+import { NotesLoading } from "@/features/user/components/notes/notes.loading";
+import { WelcomeMessageLoading } from "@/features/user/components/welcome/welcome.loading";
 import { Card, CardContent } from "@toolkit/ui/card";
 import { CalendarCheck } from "lucide-react";
 import React from "react";
-import { ClockInOutSkeleton } from "./components/clock-in-out/clock-in-out.loading";
-import CurrentProjectLoading from "./components/current-project/curent-project.loading";
-import TasksLoading from "./components/current-tasks/tasks.loading";
-import { CalendarListLoading } from "./components/events";
-import DateSelector from "./components/events/date-selector";
-import MetricsLoading from "./components/metrics/metrics.loading";
-import NotesLoading from "./components/notes/notes.loading";
-import { WelcomeMessageLoading } from "./components/welcome/welcome.loading";
 
 export default function HomeLoading() {
   return (

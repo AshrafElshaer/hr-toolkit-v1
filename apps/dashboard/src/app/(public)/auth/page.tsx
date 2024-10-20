@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { LoginForm } from "@/features/user/components/auth/login-form";
+import { OtpConfirmation } from "@/features/user/components/auth/otp-confirmation";
 import { AnimatePresence, motion } from "framer-motion";
-import LoginForm from "./components/login-form";
-import { OtpConfirmation } from "./components/otp-confirmation";
+import { useState } from "react";
 
 export default function LoginPage(): JSX.Element {
   const [userEmail, setUserEmail] = useState<string | null>(null);

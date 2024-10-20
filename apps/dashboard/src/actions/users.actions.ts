@@ -1,6 +1,6 @@
 "use server";
 
-import { authActionClient } from "@/actions/safe-action";
+import { authActionClient } from "@/lib/safe-action";
 import addressMutations from "@toolkit/supabase/address-mutations";
 import { cacheKeys } from "@toolkit/supabase/cache-keys";
 import {
@@ -14,9 +14,9 @@ import {
 import { UserRolesEnum } from "@toolkit/supabase/types";
 import userMutations from "@toolkit/supabase/user-mutations";
 import {
+  addressesInsertSchema,
   userInsertSchema,
   userUpdateSchema,
-  addressesInsertSchema,
 } from "@toolkit/supabase/validations";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";

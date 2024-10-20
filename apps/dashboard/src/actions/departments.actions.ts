@@ -1,4 +1,5 @@
 "use server";
+import { cacheKeys } from "@toolkit/supabase/cache-keys";
 import departmentMemberMutations from "@toolkit/supabase/department-member-mutations";
 import departmentMutations from "@toolkit/supabase/department-mutations";
 import {
@@ -11,8 +12,7 @@ import { UserRolesEnum } from "@toolkit/supabase/types";
 import { departmentInsertSchema } from "@toolkit/supabase/validations";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
-import { authActionClient } from "./safe-action";
-import { cacheKeys } from "@toolkit/supabase/cache-keys";
+import { authActionClient } from "../lib/safe-action";
 
 export const getDepartmentsAction = authActionClient
   .metadata({

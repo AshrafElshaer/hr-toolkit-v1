@@ -7,7 +7,7 @@ import {
 } from "@toolkit/supabase/validations";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { authActionClient } from "./safe-action";
+import { authActionClient } from "../lib/safe-action";
 
 export const createEmergencyContactAction = authActionClient
   .metadata({
