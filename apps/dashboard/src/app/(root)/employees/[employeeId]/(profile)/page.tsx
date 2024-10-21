@@ -28,8 +28,12 @@ export default function EmployeePage({ params }: EmployeePageProps) {
       <Suspense fallback={<AddressLoading />}>
         <Address userId={userId} />
       </Suspense>
-      <EmergencyContacts userId={userId} />
-      <Employment userId={userId} />
+      <Suspense fallback={<div>Loading emergency contacts...</div>}>
+        <EmergencyContacts userId={userId} />
+      </Suspense>
+      <Suspense fallback={<div>Loading employment details...</div>}>
+        <Employment userId={userId} />
+      </Suspense>
     </section>
   );
 }
