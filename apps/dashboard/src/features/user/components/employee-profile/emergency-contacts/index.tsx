@@ -36,3 +36,6 @@ export async function EmergencyContacts({ userId }: { userId: string }) {
     </Card>
   );
 }
+
+
+export { EmergencyContactsLoading } from "./contacts.loading";

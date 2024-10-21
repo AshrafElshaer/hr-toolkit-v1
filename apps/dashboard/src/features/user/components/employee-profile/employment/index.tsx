@@ -26,3 +26,5 @@ export async function Employment({ userId }: { userId: string }) {
     </Card>
   );
 }
+
+export { EmploymentLoading } from "./employment.loading";

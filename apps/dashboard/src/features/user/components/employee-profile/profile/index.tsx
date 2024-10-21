@@ -15,7 +15,7 @@ export async function Profile({ userId }: ProfileProps) {
   const { data: user, error } = await getUserById(supabase, userId);
 
   if (error || !user) {
-    return;
+    throw new Error("Failed to get user");
   }
 
   return (

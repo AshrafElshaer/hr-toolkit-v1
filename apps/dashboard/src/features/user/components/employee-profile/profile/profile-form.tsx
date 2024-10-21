@@ -3,9 +3,7 @@ import { PhoneInput } from "@/components/phone-input";
 import { updateUserByIdAction } from "@/features/user/actions/users.actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { User } from "@toolkit/supabase/types";
-import {
-  userUpdateSchema,
-} from "@toolkit/supabase/validations";
+import { userUpdateSchema } from "@toolkit/supabase/validations";
 import { Button } from "@toolkit/ui/button";
 import { DateField } from "@toolkit/ui/date-field";
 import {
@@ -25,6 +23,7 @@ import {
   SelectValue,
 } from "@toolkit/ui/select";
 import { Loader } from "lucide-react";
+import moment from "moment";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import type * as RPNInput from "react-phone-number-input";
@@ -186,7 +185,9 @@ export default function ProfileForm({ user }: Props) {
                 <FormLabel>Date of Birth</FormLabel>
                 <FormControl>
                   <DateField
-                    value={field.value ? new Date(field.value) : undefined}
+                    value={
+                      field.value ? moment(field.value).toDate() : undefined
+                    }
                     onChange={(date) => {
                       field.onChange(date?.toISOString());
                     }}

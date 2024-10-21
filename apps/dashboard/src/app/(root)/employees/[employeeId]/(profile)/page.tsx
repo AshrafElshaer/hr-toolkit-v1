@@ -1,13 +1,21 @@
+import { ErrorFallback } from "@/components/error-fallback";
 import {
   Address,
   AddressLoading,
 } from "@/features/user/components/employee-profile/address";
-import { EmergencyContacts } from "@/features/user/components/employee-profile/emergency-contacts";
-import { Employment } from "@/features/user/components/employee-profile/employment";
+import {
+  EmergencyContacts,
+  EmergencyContactsLoading,
+} from "@/features/user/components/employee-profile/emergency-contacts";
+import {
+  Employment,
+  EmploymentLoading,
+} from "@/features/user/components/employee-profile/employment";
 import {
   Profile,
   ProfileLoading,
 } from "@/features/user/components/employee-profile/profile";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 import { Suspense } from "react";
 
 type EmployeePageProps = {
@@ -22,18 +30,28 @@ export default function EmployeePage({ params }: EmployeePageProps) {
 
   return (
     <section className="flex-grow space-y-4">
-      <Suspense fallback={<ProfileLoading />}>
-        <Profile userId={userId} />
-      </Suspense>
-      <Suspense fallback={<AddressLoading />}>
-        <Address userId={userId} />
-      </Suspense>
-      <Suspense fallback={<div>Loading emergency contacts...</div>}>
-        <EmergencyContacts userId={userId} />
-      </Suspense>
-      <Suspense fallback={<div>Loading employment details...</div>}>
-        <Employment userId={userId} />
-      </Suspense>
+      <ErrorBoundary errorComponent={ErrorFallback}>
+        <Suspense fallback={<ProfileLoading />}>
+          <Profile userId={userId} />
+        </Suspense>
+      </ErrorBoundary>
+      <ErrorBoundary errorComponent={ErrorFallback}>
+        <Suspense fallback={<AddressLoading />}>
+          <Address userId={userId} />
+        </Suspense>
+      </ErrorBoundary>
+      <ErrorBoundary errorComponent={ErrorFallback}>
+        <Suspense fallback={<EmergencyContactsLoading />}>
+          <EmergencyContacts userId={userId} />
+        </Suspense>
+      </ErrorBoundary>
+      <ErrorBoundary errorComponent={ErrorFallback}>
+        <Suspense fallback={<EmploymentLoading />}>
+          <Employment userId={userId} />
+        </Suspense>
+      </ErrorBoundary>
     </section>
   );
 }
+
+import React from "react";
