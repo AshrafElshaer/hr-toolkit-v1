@@ -28,9 +28,9 @@ import {
 import { Input } from "@toolkit/ui/input";
 import { Loader, MapPinPlus, Pin, Plus } from "lucide-react";
 
-import { createAddressAction } from "@/actions/address.action";
 import { CountrySelector } from "@/components/selectors/country-selector";
 import { COUNTRIES } from "@/constants/countries";
+import { createAddressAction } from "@/features/user/actions/address.action";
 
 export function NewAddress({ userId }: { userId: string }) {
   const [isOpen, setIsOpen] = useState(false);

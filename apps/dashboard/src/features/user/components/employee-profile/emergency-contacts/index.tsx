@@ -1,7 +1,7 @@
 import { createServerClient } from "@/lib/supabase/server";
 import { getEmergencyContacts } from "@toolkit/supabase/queries";
 import { Card } from "@toolkit/ui/card";
-import Link from "next/link";
+
 import ContactForm from "./contact-form";
 import { PhoneCall } from "lucide-react";
 import { NewEmergencyContact } from "./new-contact";

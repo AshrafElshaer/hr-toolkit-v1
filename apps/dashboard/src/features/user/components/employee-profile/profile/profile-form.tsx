@@ -1,10 +1,9 @@
 "use client";
-import { updateUserByIdAction } from "@/actions/users.actions";
 import { PhoneInput } from "@/components/phone-input";
+import { updateUserByIdAction } from "@/features/user/actions/users.actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { User } from "@toolkit/supabase/types";
 import {
-  departmentMemberUpdateSchema,
   userUpdateSchema,
 } from "@toolkit/supabase/validations";
 import { Button } from "@toolkit/ui/button";

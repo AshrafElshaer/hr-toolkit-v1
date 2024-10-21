@@ -38,9 +38,9 @@ import {
 } from "@toolkit/ui/select";
 import { subYears } from "date-fns";
 
-import { createOrganizationOwnerAction } from "@/actions/users.actions";
 import { CountrySelector } from "@/components/selectors/country-selector";
 import { WorkingDaysSelector } from "@/components/selectors/working-days-selector";
+import { createOrganizationOwnerAction } from "@/features/user/actions/users.actions";
 import { DateField } from "@toolkit/ui/date-field";
 import { ToggleGroup, ToggleGroupItem } from "@toolkit/ui/toggle-group";
 import { CircleDollarSign, Clock, Loader } from "lucide-react";

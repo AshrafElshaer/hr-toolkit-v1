@@ -29,12 +29,12 @@ import type { DropzoneOptions } from "react-dropzone";
 import type * as RPNInput from "react-phone-number-input";
 import { toast } from "sonner";
 
-import { updateUserByIdAction } from "@/actions/users.actions";
 import { PhoneInputSimple } from "@/components/phone-input";
 import { CountrySelector } from "@/components/selectors/country-selector";
 import { WorkingDaysSelector } from "@/components/selectors/working-days-selector";
 import { COUNTRIES } from "@/constants/countries";
 import { DepartmentSelector } from "@/features/departments/components/department-selector";
+import { updateUserByIdAction } from "@/features/user/actions/users.actions";
 import { createClient } from "@/lib/supabase/client";
 import { uploadUserAvatar } from "@/lib/supabase/storage/upload";
 import { formatBytes } from "@/lib/utils";

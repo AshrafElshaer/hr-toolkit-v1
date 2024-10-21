@@ -26,11 +26,11 @@ import {
   FormMessage,
 } from "@toolkit/ui/form";
 import { Input } from "@toolkit/ui/input";
-import { Loader, UserPlus } from "lucide-react";
+import { Loader } from "lucide-react";
 import { TbPhonePlus } from "react-icons/tb";
 
-import { createEmergencyContactAction } from "@/actions/emergency-contacts.actions";
 import { PhoneInput } from "@/components/phone-input";
+import { createEmergencyContactAction } from "@/features/user/actions/emergency-contacts.actions";
 
 export function NewEmergencyContact({ userId }: { userId: string }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -78,10 +78,7 @@ export function NewEmergencyContact({ userId }: { userId: string }) {
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={form.control}

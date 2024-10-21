@@ -1,27 +1,16 @@
-import { getUserById, getUserDepartment } from "@toolkit/supabase/queries";
+import { getUserById } from "@toolkit/supabase/queries";
 
-import { Badge } from "@toolkit/ui/badge";
 import { Card } from "@toolkit/ui/card";
-import {
-  Cake,
-  Clock,
-  KeyRound,
-  LayoutGrid,
-  Mail,
-  Phone,
-  Play,
-} from "lucide-react";
-import moment from "moment";
-import Link from "next/link";
+
+import { createServerClient } from "@/lib/supabase/server";
 import ProfileForm from "./profile-form";
 import ProfilePic from "./profle-pic";
-import { createServerClient } from "@/lib/supabase/server";
 
 type ProfileProps = {
   userId: string;
 };
 
-export default async function Profile({ userId }: ProfileProps) {
+export  async function Profile({ userId }: ProfileProps) {
   const supabase = createServerClient();
   const { data: user, error } = await getUserById(supabase, userId);
 
@@ -42,3 +31,5 @@ export default async function Profile({ userId }: ProfileProps) {
     </Card>
   );
 }
+
+export * from "./profile.loading";

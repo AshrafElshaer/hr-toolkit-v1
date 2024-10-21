@@ -1,4 +1,4 @@
-import { getCurrentUserAction } from "@/actions/users.actions";
+import { getCurrentUserAction } from "@/features/user/actions/users.actions";
 import { createClient } from "@/lib/supabase/client";
 import { getCurrentUser } from "@toolkit/supabase/queries";
 

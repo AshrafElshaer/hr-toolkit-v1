@@ -1,10 +1,10 @@
 "use client";
 
+import { PhoneInput } from "@/components/phone-input";
 import {
   deleteEmergencyContactAction,
   updateEmergencyContactAction,
-} from "@/actions/emergency-contacts.actions";
-import { PhoneInput } from "@/components/phone-input";
+} from "@/features/user/actions/emergency-contacts.actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { EmergencyContact } from "@toolkit/supabase/types";
 import { emergencyContactsUpdateSchema } from "@toolkit/supabase/validations";

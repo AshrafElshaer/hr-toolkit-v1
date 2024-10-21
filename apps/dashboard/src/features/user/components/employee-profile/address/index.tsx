@@ -1,6 +1,6 @@
 import { getAddress } from "@toolkit/supabase/queries";
 import { Card } from "@toolkit/ui/card";
-import AddressForm from "./address-form";
+import {AddressForm} from "./address-form";
 import { Button } from "@toolkit/ui/button";
 import { MapPin, Plus } from "lucide-react";
 import { NewAddress } from "./new-address";
@@ -36,3 +36,5 @@ export async function Address({ userId }: { userId: string }) {
     </Card>
   );
 }
+
+export * from "./address.loading";

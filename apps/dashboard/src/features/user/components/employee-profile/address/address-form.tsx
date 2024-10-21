@@ -1,11 +1,11 @@
 "use client";
+import { CountrySelector } from "@/components/selectors/country-selector";
+import { COUNTRIES } from "@/constants/countries";
 import {
   deleteAddressAction,
   updateAddressAction,
-} from "@/actions/address.action";
-import { updateUserByIdAction } from "@/actions/users.actions";
-import { CountrySelector } from "@/components/selectors/country-selector";
-import { COUNTRIES } from "@/constants/countries";
+} from "@/features/user/actions/address.action";
+import { updateUserByIdAction } from "@/features/user/actions/users.actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Address } from "@toolkit/supabase/types";
 import { addressesUpdateSchema } from "@toolkit/supabase/validations";
@@ -32,7 +32,7 @@ type Props = {
   addressesLength: number;
 };
 
-export default function AddressForm({ address, addressesLength }: Props) {
+export  function AddressForm({ address, addressesLength }: Props) {
   const { execute: updateAddress, isExecuting: isUpdating } = useAction(
     updateAddressAction,
     {

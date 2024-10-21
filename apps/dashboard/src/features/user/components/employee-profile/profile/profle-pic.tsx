@@ -1,7 +1,7 @@
 "use client";
 
-import { updateUserByIdAction } from "@/actions/users.actions";
 import UploadZone from "@/components/upload-zone";
+import { updateUserByIdAction } from "@/features/user/actions/users.actions";
 import { useSupabase } from "@/hooks/use-supabase";
 import { uploadUserAvatar } from "@/lib/supabase/storage/upload";
 import type { User } from "@toolkit/supabase/types";
