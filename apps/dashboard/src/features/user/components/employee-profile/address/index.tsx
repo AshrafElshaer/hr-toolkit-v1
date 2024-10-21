@@ -10,7 +10,7 @@ export async function Address({ userId }: { userId: string }) {
   const supabase = createServerClient();
   const { data, error } = await getAddress(supabase, userId);
   if (error) {
-    return <div>Error getting address</div>;
+    return;
   }
   const addressesLength = data?.length ?? 0;
   return (

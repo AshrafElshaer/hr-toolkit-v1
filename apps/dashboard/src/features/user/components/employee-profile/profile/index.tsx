@@ -10,12 +10,12 @@ type ProfileProps = {
   userId: string;
 };
 
-export  async function Profile({ userId }: ProfileProps) {
+export async function Profile({ userId }: ProfileProps) {
   const supabase = createServerClient();
   const { data: user, error } = await getUserById(supabase, userId);
 
   if (error || !user) {
-    return <div>Error: {error?.message}</div>;
+    return;
   }
 
   return (
