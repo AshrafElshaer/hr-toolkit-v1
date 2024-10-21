@@ -32,4 +32,4 @@ export  async function Profile({ userId }: ProfileProps) {
   );
 }
 
-export * from "./profile.loading";
+export { ProfileLoading } from "./profile.loading";

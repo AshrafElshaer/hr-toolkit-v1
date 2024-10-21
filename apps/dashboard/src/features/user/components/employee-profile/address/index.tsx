@@ -1,10 +1,10 @@
-import { getAddress } from "@toolkit/supabase/queries";
-import { Card } from "@toolkit/ui/card";
-import {AddressForm} from "./address-form";
-import { Button } from "@toolkit/ui/button";
-import { MapPin, Plus } from "lucide-react";
-import { NewAddress } from "./new-address";
 import { createServerClient } from "@/lib/supabase/server";
+import { getAddress } from "@toolkit/supabase/queries";
+import { Button } from "@toolkit/ui/button";
+import { Card } from "@toolkit/ui/card";
+import { MapPin, Plus } from "lucide-react";
+import { AddressForm } from "./address-form";
+import { NewAddress } from "./new-address";
 
 export async function Address({ userId }: { userId: string }) {
   const supabase = createServerClient();
@@ -37,4 +37,4 @@ export async function Address({ userId }: { userId: string }) {
   );
 }
 
-export * from "./address.loading";
+export { AddressLoading } from "./address.loading";
