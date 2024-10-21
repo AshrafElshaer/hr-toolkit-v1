@@ -2,6 +2,7 @@
 import useCurrentTimezone from "@/features/user/hooks/use-current-timezone";
 import useCurrentTime from "@/hooks/use-current-time";
 import { calcWorkedTime } from "@/lib/date";
+import NumberFlow from "@number-flow/react";
 import {
   type TimeSheet,
   type TimeSheetBreak,
@@ -104,15 +105,49 @@ export default function ClockInOutClient({
   );
 
   return (
-    <Card className="  flex flex-col h-fit p-4 gap-4 w-full  ">
+    <Card className="flex flex-col h-fit p-4 gap-4 w-full">
       <div className="flex items-center justify-between">
         <h3 className="text-foreground font-semibold">Clock In/Out</h3>
         {isClockedIn && (
-          <p className="text-sm">
-            {`${hours ? `${hours} h` : ""} ${minutes ? `${minutes} m` : ""} ${seconds} s`}
-          </p>
+          <div className="text-sm flex items-center gap-2">
+            <div className="flex items-center gap-1">
+              <NumberFlow
+                value={hours ?? 0}
+                format={{ useGrouping: false }}
+                aria-hidden
+                animated
+                className="pointer-events-none text-sm"
+                willChange
+              />
+              <span>h</span>
+            </div>
+
+            <div className="flex items-center gap-1">
+              <NumberFlow
+                value={minutes ?? 0}
+                format={{ useGrouping: false }}
+                aria-hidden
+                animated
+                className="pointer-events-none text-sm"
+                willChange
+              />
+              <span>m</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <NumberFlow
+                value={seconds ?? 0}
+                format={{ useGrouping: false }}
+                aria-hidden
+                animated
+                className="pointer-events-none text-sm"
+                willChange
+              />
+              <span>s</span>
+            </div>
+          </div>
         )}
       </div>
+
       <div className="flex items-center justify-between">
         {!isClockedIn ? (
           <Button
@@ -150,7 +185,7 @@ export default function ClockInOutClient({
             <Button
               className="w-full"
               size="sm"
-              variant={"destructive"}
+              variant="destructive"
               onClick={() =>
                 clockOut({
                   timeSheet: currentTimeSheet,
