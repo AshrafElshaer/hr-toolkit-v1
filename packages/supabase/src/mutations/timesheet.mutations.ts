@@ -40,7 +40,8 @@ export async function endBreak(
   return await supabase
     .from("time_sheet_break")
     .update({ break_end: moment().toDate().toISOString() })
-    .eq("time_sheet_id", timeSheetId)
+    .match({ time_sheet_id: timeSheetId })
+    .is("break_end", null)
     .select()
     .single();
 }
