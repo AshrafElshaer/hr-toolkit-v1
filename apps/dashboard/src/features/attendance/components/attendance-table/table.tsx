@@ -2,6 +2,7 @@
 
 import {
   type ColumnDef,
+  type ColumnFilter,
   type ColumnFiltersState,
   type SortingState,
   flexRender,
@@ -23,8 +24,21 @@ import {
   TableRow,
 } from "@toolkit/ui/table";
 
+import { columnFiltersStateSchema } from "@/features/user/components/employees-table/table";
+import { useDataTable } from "@/hooks/use-data-table";
+import type { DataTableFilterField } from "@/types";
+import { type TimeSheet, TimeSheetStatusEnum } from "@toolkit/supabase/types";
+import { Clock } from "lucide-react";
+import {
+  parseAsArrayOf,
+  parseAsInteger,
+  parseAsJson,
+  parseAsString,
+  useQueryState,
+} from "nuqs";
 import { useState } from "react";
 import { TbClockX } from "react-icons/tb";
+import { z } from "zod";
 import { DataTableToolbar } from "./toolbar";
 
 interface DataTableProps<TData, TValue> {
@@ -36,22 +50,58 @@ export function TimeSheetTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const table = useReactTable({
+  const [perPage] = useQueryState("perPage", parseAsInteger.withDefault(10));
+
+  const filterFields: DataTableFilterField<TData>[] = [
+    {
+      id: "status" as keyof TData,
+      label: "Status",
+      options: Object.values(TimeSheetStatusEnum).map((status) => ({
+        label: status[0]?.toUpperCase() + status.slice(1),
+        value: status,
+        icon: Clock,
+        count: 0,
+      })),
+    },
+  ];
+
+  const pageCount = Math.ceil(data.length / perPage);
+
+  const { table } = useDataTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    state: {
-      columnFilters,
-      sorting,
+    pageCount,
+    filterFields,
+    initialState: {
+      sorting: [],
+      columnPinning: { right: ["actions"] },
     },
+    // getRowId: (originalRow, index) => `${originalRow.id ?? index}`,
+    shallow: false,
+    clearOnDefault: true,
+    debounceMs: 0,
   });
+  // const table = useReactTable({
+  //   data,
+  //   columns,
+  //   getCoreRowModel: getCoreRowModel(),
+  //   getFilteredRowModel: getFilteredRowModel(),
+  //   getSortedRowModel: getSortedRowModel(),
+  //   getPaginationRowModel: getPaginationRowModel(),
+  //   onSortingChange: setSorting,
+  //   onColumnFiltersChange: (filters) => {
+  //     // setColumnFilters((filters ?? []) as { id: string; value?: unknown }[]);
+
+  //     const filtersArray =
+  //       typeof filters === "function" ? filters(columnFilters) : filters;
+  //     // setColumnFilters(filtersArray);
+  //     console.log(filtersArray);
+  //   },
+  //   state: {
+  //     columnFilters: columnFilters ,
+  //     sorting,
+  //   },
+  // });
 
   return (
     <>

@@ -107,8 +107,8 @@ export function DataTableToolbar<TData>({
           className: "ml-auto w-full md:w-fit min-w-fit order-1 md:order-3",
         })}
       >
-        <PlusIcon className="size-4 mr-2" />
         Add Employee
+        <PlusIcon className="size-4 mr-2" />
       </Link>
     </section>
   );

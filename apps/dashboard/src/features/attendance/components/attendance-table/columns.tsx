@@ -68,7 +68,7 @@ export const columns: ColumnDef<TimeSheet>[] = [
   },
 
   {
-    id: "total_worked_hours",
+    id: "total_worked_minutes",
     accessorFn: (row) => row.total_worked_minutes,
     header: ({ column }) => (
       <DataTableColumnHeader

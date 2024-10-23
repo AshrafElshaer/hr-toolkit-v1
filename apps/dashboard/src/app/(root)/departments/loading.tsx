@@ -37,8 +37,8 @@ export default function DepartmentsLoading() {
           variant="secondary"
           disabled
         >
-          <PlusIcon className="size-4 mr-2" />
           Add Department
+          <PlusIcon className="size-4 mr-2" />
         </Button>
       </section>
       <TableLoader columns={columns} />

@@ -2,6 +2,7 @@
 
 import {
   type ColumnDef,
+  type ColumnFilter,
   type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
@@ -36,10 +37,10 @@ import { z } from "zod";
 
 const columnFilterSchema = z.object({
   id: z.string(),
-  value: z.array(z.string()),
+  value: z.unknown(),
 });
 
-const columnFiltersStateSchema = z.array(columnFilterSchema);
+export const columnFiltersStateSchema = z.array(columnFilterSchema);
 
 export function EmployeesTable<TData, TValue>({
   columns,
@@ -55,12 +56,11 @@ export function EmployeesTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onColumnFiltersChange: (value) => {
-      setColumnFilters(columnFiltersStateSchema.parse(value));
-    },
     getFilteredRowModel: getFilteredRowModel(),
+    // @ts-ignore
+    onColumnFiltersChange: setColumnFilters,
     state: {
-      columnFilters,
+      columnFilters: columnFilters as ColumnFilter[],
     },
   });
 

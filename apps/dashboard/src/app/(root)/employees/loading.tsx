@@ -55,8 +55,8 @@ export default function EmployeesLoading() {
           className="ml-auto w-full md:w-fit min-w-fit order-1 md:order-3"
           disabled
         >
-          <PlusIcon className="size-4 mr-2" />
           Add Employee
+          <PlusIcon className="size-4 mr-2" />
         </Button>
       </section>
       <TableLoader columns={columns} />

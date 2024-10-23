@@ -6,7 +6,7 @@ import { cn } from "@toolkit/ui/cn";
 import { DatePickerWithRange } from "@toolkit/ui/date-range-picker";
 import { PlusIcon } from "lucide-react";
 import moment from "moment";
-import { useQueryStates } from "nuqs";
+import { parseAsString, useQueryStates } from "nuqs";
 import React from "react";
 import type { DateRange } from "react-day-picker";
 import { useMediaQuery } from "usehooks-ts";
@@ -52,13 +52,23 @@ export function DateRangeQuerySelector({
 }: Props) {
   const isMobile = useMediaQuery("(max-width: 640px)");
 
-  const [{ from, to }, setDate] = useQueryStates(dateRangeSearchParamsParser, {
-    shallow: false,
-  });
+  const [{ from, to }, setDate] = useQueryStates(
+    {
+      from: parseAsString.withDefault(
+        moment().startOf("month").format("YYYY-MM-DD"),
+      ),
+      to: parseAsString.withDefault(
+        moment().endOf("month").format("YYYY-MM-DD"),
+      ),
+    },
+    {
+      shallow: false,
+    },
+  );
 
   const date = {
-    from: from.length > 0 ? moment(from).toDate() : undefined,
-    to: to.length > 0 ? moment(to).toDate() : undefined,
+    from: moment(from).toDate(),
+    to: moment(to).toDate(),
   };
 
   return (
