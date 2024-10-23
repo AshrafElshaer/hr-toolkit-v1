@@ -21,3 +21,16 @@ export async function getCurrentBreaks(
     .select("*")
     .eq("time_sheet_id", time_sheet_id);
 }
+
+export async function getTimeSheetByDateRange(
+  supabase: SupabaseInstance,
+  userId: string,
+  { startDate, endDate }: { startDate: string; endDate: string },
+) {
+  return await supabase
+    .from("time_sheet")
+    .select("*")
+    .eq("user_id", userId)
+    .gte("date", startDate)
+    .lte("date", endDate);
+}

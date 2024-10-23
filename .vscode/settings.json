@@ -28,7 +28,7 @@
   "search.exclude": {
     "**/node_modules": true
   },
-  "cSpell.words": ["supabase", "Tiptap"],
+  "cSpell.words": ["Nuqs", "supabase", "Tiptap"],
 
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],

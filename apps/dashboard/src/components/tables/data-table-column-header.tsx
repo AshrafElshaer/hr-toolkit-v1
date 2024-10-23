@@ -31,21 +31,22 @@ export function DataTableColumnHeader<TData, TValue>({
   }
 
   return (
-    <div className={cn("flex items-center space-x-2", className)}>
-      <Button
-        variant="ghost"
-        onClick={toggleSorting}
-        className="-ml-3 h-8 data-[state=open]:bg-accent text-accent-foreground font-semibold justify-center"
-      >
-        <span>{title}</span>
-        {column.getIsSorted() === "desc" ? (
-          <ChevronDown className="ml-2 h-4 w-4" />
-        ) : column.getIsSorted() === "asc" ? (
-          <ChevronUp className="ml-2 h-4 w-4" />
-        ) : (
-          <ChevronsUpDown className="ml-2 h-4 w-4" />
-        )}
-      </Button>
-    </div>
+    <Button
+      variant="ghost"
+      onClick={toggleSorting}
+      className={cn(
+        "h-8 data-[state=open]:bg-accent text-accent-foreground font-semibold justify-center p-0",
+        className,
+      )}
+    >
+      <span>{title}</span>
+      {column.getIsSorted() === "desc" ? (
+        <ChevronDown className="ml-2 h-4 w-4" />
+      ) : column.getIsSorted() === "asc" ? (
+        <ChevronUp className="ml-2 h-4 w-4" />
+      ) : (
+        <ChevronsUpDown className="ml-2 h-4 w-4" />
+      )}
+    </Button>
   );
 }

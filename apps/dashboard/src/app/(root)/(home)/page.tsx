@@ -10,7 +10,6 @@ import {
   EventsWidget,
 } from "@/features/events/components/events-widget";
 import { DateSelector } from "@/features/events/components/events-widget/date-selector";
-import { eventsSearchParamsCache } from "@/features/events/lib/events-search-params";
 import {
   CurrentProject,
   CurrentProjectLoading,
@@ -28,6 +27,7 @@ import {
   WelcomeMessage,
   WelcomeMessageLoading,
 } from "@/features/user/components/welcome";
+import { dateRangeSearchParamsCache } from "@/lib/search-params/date-range-search";
 import { Card, CardContent } from "@toolkit/ui/card";
 import { CalendarCheck } from "lucide-react";
 export const metadata = {
@@ -38,7 +38,7 @@ type Props = {
   searchParams: Record<string, string | string[] | undefined>;
 };
 export default function Page({ searchParams }: Props) {
-  eventsSearchParamsCache.parse(searchParams);
+  dateRangeSearchParamsCache.parse(searchParams);
   const loadingKey = `${searchParams.from ?? ""}-${searchParams.to ?? ""}`;
   return (
     <Main

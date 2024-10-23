@@ -6,12 +6,12 @@ import { differenceInCalendarDays } from "date-fns";
 import moment from "moment";
 import React from "react";
 import { LuCalendarX } from "react-icons/lu";
-import { eventsSearchParamsCache } from "../../lib/events-search-params";
+import { dateRangeSearchParamsCache } from "@/lib/search-params/date-range-search";
 // import { getEventsByDateRange } from "@toolkit/supabase/events-queries";
 // import EventCard from "./event-card";
 
 export async function EventsList() {
-  const selectedDates = eventsSearchParamsCache.all();
+  const selectedDates = dateRangeSearchParamsCache.all();
   const supabase = createServerClient();
   // const { data } = await getEventsByDateRange(supabase, {
   // 	from: selectedDates.from,

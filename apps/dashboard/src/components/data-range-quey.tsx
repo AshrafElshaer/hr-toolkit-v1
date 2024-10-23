@@ -1,8 +1,8 @@
 "use client";
-import { DateRangeQuerySelector } from "@/components/data-range-quey";
 import { dateRangeSearchParamsParser } from "@/lib/search-params/date-range-search";
 import type { DateRangeOption } from "@/types";
 import { Button } from "@toolkit/ui/button";
+import { cn } from "@toolkit/ui/cn";
 import { DatePickerWithRange } from "@toolkit/ui/date-range-picker";
 import { PlusIcon } from "lucide-react";
 import moment from "moment";
@@ -42,10 +42,15 @@ const dateRangeOptions: DateRangeOption[] = [
     },
   },
 ];
-
-export function DateSelector() {
+type Props = {
+  options?: DateRangeOption[];
+  className?: string;
+};
+export function DateRangeQuerySelector({
+  options = dateRangeOptions,
+  className,
+}: Props) {
   const isMobile = useMediaQuery("(max-width: 640px)");
-  const [isNewEvent, setIsNewEvent] = React.useState(false);
 
   const [{ from, to }, setDate] = useQueryStates(dateRangeSearchParamsParser, {
     shallow: false,
@@ -57,8 +62,28 @@ export function DateSelector() {
   };
 
   return (
-    <div className="flex gap-2 items-center ml-auto ">
-      <DateRangeQuerySelector className="w-fit" options={dateRangeOptions} />
-    </div>
+    <DatePickerWithRange
+      className={cn("w-full ", className)}
+      date={date}
+      align="end"
+      numberOfMonths={isMobile ? 1 : 2}
+      dateRangeOptions={options}
+      onSelect={(value) => {
+        const date = value as DateRange;
+        if (date) {
+          !date.from && setDate({ from: "" });
+          !date.to && setDate({ to: "" });
+
+          date.from &&
+            setDate({
+              from: moment(date.from).format("YYYY-MM-DD"),
+            });
+          date.to &&
+            setDate({
+              to: moment(date.to).format("YYYY-MM-DD"),
+            });
+        }
+      }}
+    />
   );
 }

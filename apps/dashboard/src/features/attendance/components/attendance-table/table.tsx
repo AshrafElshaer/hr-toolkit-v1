@@ -3,14 +3,17 @@
 import {
   type ColumnDef,
   type ColumnFiltersState,
+  type SortingState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import type { GetOrganizationMembersQuery } from "@toolkit/supabase/types";
 
+import { DataTablePagination } from "@/components/tables/data-table-pagination";
+import { cn } from "@toolkit/ui/cn";
 import {
   Table,
   TableBody,
@@ -19,12 +22,9 @@ import {
   TableHeader,
   TableRow,
 } from "@toolkit/ui/table";
-import { UserSearch } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { parseAsJson, useQueryState } from "nuqs";
 
-import { DataTablePagination } from "@/components/tables/data-table-pagination";
-import { cn } from "@toolkit/ui/cn";
+import { useState } from "react";
+import { TbClockX } from "react-icons/tb";
 import { DataTableToolbar } from "./toolbar";
 
 interface DataTableProps<TData, TValue> {
@@ -32,35 +32,24 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-import { z } from "zod";
-
-const columnFilterSchema = z.object({
-  id: z.string(),
-  value: z.array(z.string()),
-});
-
-const columnFiltersStateSchema = z.array(columnFilterSchema);
-
-export function EmployeesTable<TData, TValue>({
+export function TimeSheetTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const router = useRouter();
-  const [columnFilters, setColumnFilters] = useQueryState(
-    "filters",
-    parseAsJson(columnFiltersStateSchema.parse).withDefault([]),
-  );
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onColumnFiltersChange: (value) => {
-      setColumnFilters(columnFiltersStateSchema.parse(value));
-    },
     getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
     state: {
       columnFilters,
+      sorting,
     },
   });
 
@@ -99,12 +88,6 @@ export function EmployeesTable<TData, TValue>({
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
-                    className="cursor-pointer"
-                    onClick={() => {
-                      const employee =
-                        row.original as GetOrganizationMembersQuery;
-                      router.push(`/employees/${employee.user?.id}`);
-                    }}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id} className="py-2">
@@ -121,12 +104,12 @@ export function EmployeesTable<TData, TValue>({
         </Table>
         {table.getRowModel().rows.length === 0 && (
           <div className="flex flex-col justify-center items-center flex-grow p-4 text-sm text-secondary-foreground">
-            <UserSearch className="size-16 mb-2" />
-            <p className="font-semibold">No employees found</p>
+            <TbClockX className="size-16 mb-2" />
+            <p className="font-semibold">No attendance records found</p>
           </div>
         )}
       </div>
-      {/* <DataTablePagination table={table} /> */}
+      <DataTablePagination table={table} />
     </>
   );
 }
