@@ -1,25 +1,20 @@
-import { dateRangeSearchParamsCache } from "@/lib/search-params/date-range-search";
-import { tableFiltersSearchParamsCache } from "@/lib/search-params/table-filters";
+import { attendanceTableFiltersSearchParamsCache } from "@/features/attendance/attendance-table-params";
 import { createServerClient } from "@/lib/supabase/server";
-import { getTimeSheetByDateRange } from "@toolkit/supabase/queries";
+import { getFilteredTimeSheets } from "@toolkit/supabase/queries";
 import { columns } from "./columns";
 import { TimeSheetTable } from "./table";
 
 export async function AttendanceTable({ userId }: { userId: string }) {
   const { status, from, to, page, perPage, sort } =
-    tableFiltersSearchParamsCache.all();
+    attendanceTableFiltersSearchParamsCache.all();
 
   const supabase = createServerClient();
 
-  const { data, error } = await getTimeSheetByDateRange(
+  const { data, error } = await getFilteredTimeSheets({
     supabase,
     userId,
-    {
-      startDate: from,
-      endDate: to,
-    },
-    { status, perPage, page, sort },
-  );
+    filters: { status, perPage, page, sort, startDate: from, endDate: to },
+  });
 
   if (error) {
     return <div>{error.message}</div>;

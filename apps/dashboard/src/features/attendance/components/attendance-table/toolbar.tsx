@@ -72,6 +72,7 @@ export function DataTableToolbar<TData>({
       <DateRangeQuerySelector
         options={dateRangeOptions}
         className="ml-auto w-fit"
+        
       />
     </section>
   );

@@ -6,12 +6,12 @@ import {
   parseAsArrayOf,
   parseAsInteger,
   parseAsString,
-  parseAsStringEnum,
+
 } from "nuqs/server";
 import { z } from "zod";
-import { parseAsSort } from "./parsers";
 
-export const tableFiltersSearchParamsCache = createSearchParamsCache({
+
+export const attendanceTableFiltersSearchParamsCache = createSearchParamsCache({
   page: parseAsInteger.withDefault(1),
   perPage: parseAsInteger.withDefault(10),
   sort: parseAsString.withDefault(""),

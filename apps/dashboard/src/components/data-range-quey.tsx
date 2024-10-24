@@ -45,10 +45,12 @@ const dateRangeOptions: DateRangeOption[] = [
 type Props = {
   options?: DateRangeOption[];
   className?: string;
+  disabled?: boolean; 
 };
 export function DateRangeQuerySelector({
   options = dateRangeOptions,
   className,
+  disabled = false,
 }: Props) {
   const isMobile = useMediaQuery("(max-width: 640px)");
 
@@ -78,6 +80,7 @@ export function DateRangeQuerySelector({
       align="end"
       numberOfMonths={isMobile ? 1 : 2}
       dateRangeOptions={options}
+      disabled={disabled}
       onSelect={(value) => {
         const date = value as DateRange;
         if (date) {

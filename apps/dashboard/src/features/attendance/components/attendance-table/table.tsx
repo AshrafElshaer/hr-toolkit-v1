@@ -36,7 +36,7 @@ import {
   parseAsString,
   useQueryState,
 } from "nuqs";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TbClockX } from "react-icons/tb";
 import { z } from "zod";
 import { DataTableToolbar } from "./toolbar";
@@ -76,32 +76,19 @@ export function TimeSheetTable<TData, TValue>({
       sorting: [],
       columnPinning: { right: ["actions"] },
     },
-    // getRowId: (originalRow, index) => `${originalRow.id ?? index}`,
+    // getRowId: (originalRow, index) => `${originalRow ?? index}`,
     shallow: false,
     clearOnDefault: true,
     debounceMs: 0,
   });
-  // const table = useReactTable({
-  //   data,
-  //   columns,
-  //   getCoreRowModel: getCoreRowModel(),
-  //   getFilteredRowModel: getFilteredRowModel(),
-  //   getSortedRowModel: getSortedRowModel(),
-  //   getPaginationRowModel: getPaginationRowModel(),
-  //   onSortingChange: setSorting,
-  //   onColumnFiltersChange: (filters) => {
-  //     // setColumnFilters((filters ?? []) as { id: string; value?: unknown }[]);
 
-  //     const filtersArray =
-  //       typeof filters === "function" ? filters(columnFilters) : filters;
-  //     // setColumnFilters(filtersArray);
-  //     console.log(filtersArray);
-  //   },
-  //   state: {
-  //     columnFilters: columnFilters ,
-  //     sorting,
-  //   },
-  // });
+  const selectedRows = useMemo(() => {
+    return table.getSelectedRowModel().rows.map((row) => row.original);
+  }, [table.getSelectedRowModel().rows]);
+
+  useEffect(() => {
+    console.log({ selectedRows });
+  }, [selectedRows]);
 
   return (
     <>
@@ -159,7 +146,7 @@ export function TimeSheetTable<TData, TValue>({
           </div>
         )}
       </div>
-      <DataTablePagination table={table} />
+      <DataTablePagination table={table} isSelectable={true} />
     </>
   );
 }

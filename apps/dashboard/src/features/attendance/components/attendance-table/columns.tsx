@@ -1,20 +1,22 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import type {
-  Department,
-  DepartmentMember,
-  GetOrganizationMembersQuery,
-  TimeSheet,
-  User,
-} from "@toolkit/supabase/types";
+import type { Department, TimeSheet, User } from "@toolkit/supabase/types";
 
 import { ChevronRight, MoreHorizontal } from "lucide-react";
 
 import { DataTableColumnHeader } from "@/components/tables/data-table-column-header";
-import { Avatar, AvatarGroup } from "@toolkit/ui/avatar";
-import { Badge } from "@toolkit/ui/badge";
+
 import { Button } from "@toolkit/ui/button";
+import { Checkbox } from "@toolkit/ui/checkbox";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@toolkit/ui/dropdown-menu";
 import moment from "moment";
 import { GoDash } from "react-icons/go";
 
@@ -24,6 +26,28 @@ export interface DepartmentQuery extends Department {
 }
 
 export const columns: ColumnDef<TimeSheet>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     id: "date",
     accessorFn: (row) => row.date,
@@ -99,15 +123,28 @@ export const columns: ColumnDef<TimeSheet>[] = [
     },
   },
 
-  // {
-  //   id: "actions",
-  //   header: () => <div className="w-8" />,
-  //   cell: () => {
-  //     return (
-  //       <div className="grid place-items-center h-full w-full">
-  //         <ChevronRight className="h-4 w-4" />
-  //       </div>
-  //     );
-  //   },
-  // },
+  {
+    id: "actions",
+    header: () => <div className="w-8" />,
+    cell: () => {
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem>Approve</DropdownMenuItem>
+
+            <DropdownMenuItem>Reject</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
 ];

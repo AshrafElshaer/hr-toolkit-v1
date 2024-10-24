@@ -21,17 +21,27 @@ export async function getCurrentBreaks(
     .select("*")
     .eq("time_sheet_id", time_sheet_id);
 }
-
-export async function getTimeSheetByDateRange(
-  supabase: SupabaseInstance,
-  userId: string,
-  { startDate, endDate }: { startDate: string; endDate: string },
-  filters: { status: string[]; perPage: number; page: number; sort: string },
-) {
+type GetTimeSheetByDateRangeFilters = {
+  supabase: SupabaseInstance;
+  userId: string;
+  filters: {
+    status: string[];
+    perPage: number;
+    page: number;
+    sort: string;
+    startDate: string;
+    endDate: string;
+  };
+};
+export async function getFilteredTimeSheets({
+  supabase,
+  userId,
+  filters,
+}: GetTimeSheetByDateRangeFilters) {
   const query = supabase.from("time_sheet").select("*").eq("user_id", userId);
 
-  if (startDate && endDate) {
-    query.gte("date", startDate).lte("date", endDate);
+  if (filters.startDate && filters.endDate) {
+    query.gte("date", filters.startDate).lte("date", filters.endDate);
   }
 
   if (filters.status.length > 0) {
