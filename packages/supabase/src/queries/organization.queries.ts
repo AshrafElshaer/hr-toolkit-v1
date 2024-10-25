@@ -1,5 +1,10 @@
 import { unstable_cache } from "next/cache";
-import type { SupabaseInstance } from "../types";
+import type {
+  EmploymentStatusEnum,
+  EmploymentTypeEnum,
+  SupabaseInstance,
+  UserRolesEnum,
+} from "../types";
 
 import { QueryData } from "@supabase/supabase-js";
 import { cacheKeys } from "./cache-keys";
@@ -26,30 +31,60 @@ export const getOrganizationById = async (
 export const getOrganizationMembers = async (
   supabase: SupabaseInstance,
   organizationId: string,
-) =>
-  unstable_cache(
-    async () => {
-      const { data, error } = await supabase
-        .from("organization_members")
-        .select(`
-          user:user(*),
-          department:user(department_member(department(*)))
-        `)
-        .eq("organization_id", organizationId);
+  filters: {
+    status?: string[];
+    department?: string[];
+    role?: string[];
+    type?: string[];
+    perPage?: number;
+    page?: number;
+  },
+) => {
+  let query = supabase
+    .from("organization_members")
+    .select(`
+    user:user(*),
+    department:user(department_member(department(*)))
+  `)
+    .eq("organization_id", organizationId)
+    .not("user", "is", null)
+    .not("department", "is", null);
 
-      return {
-        data: data?.map((item) => {
-          return {
-            ...item,
-            department: item.department?.department_member[0]?.department,
-          };
-        }),
-        error,
-      };
-    },
-    [cacheKeys.organization.members, organizationId],
-    {
-      revalidate: 180,
-      tags: [`${cacheKeys.organization.members}-${organizationId}`],
-    },
-  )();
+  console.log({ filters });
+  // Apply filters conditionally
+  if (filters.status?.length) {
+    query = query.in("user.employment_status", filters.status);
+  }
+  if (filters.department?.length) {
+    query = query.in(
+      "department.department_member.department.id",
+      filters.department,
+    );
+  }
+  if (filters.role?.length) {
+    query = query.in("user.role", filters.role);
+  }
+  if (filters.type?.length) {
+    query = query.in("user.employment_type", filters.type);
+  }
+  if (filters.perPage && filters.page) {
+    query = query.range(
+      filters.page * filters.perPage,
+      (filters.page + 1) * filters.perPage,
+    );
+  }
+
+  const { data, error } = await query;
+
+  return {
+    data: data
+      ?.filter((item) => item.department?.department_member[0]?.department)
+      .map((item) => {
+        return {
+          ...item,
+          department: item.department?.department_member[0]?.department,
+        };
+      }),
+    error,
+  };
+};

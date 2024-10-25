@@ -1,7 +1,11 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Department, GetOrganizationMembersQuery, User } from "@toolkit/supabase/types";
+import type {
+  Department,
+  GetOrganizationMembersQuery,
+  User,
+} from "@toolkit/supabase/types";
 
 import { ChevronRight, MoreHorizontal } from "lucide-react";
 
@@ -33,9 +37,16 @@ export const columns: ColumnDef<GetOrganizationMembersQuery>[] = [
   },
   {
     id: "department",
-    accessorFn: (row) =>
-      `${row.department?.name} - ${row.department?.description}`,
+    accessorFn: (row) => row.department?.id,
     header: () => <div className="min-w-60">Department</div>,
+    cell: ({ row }) => {
+      const department = row.original.department;
+      return (
+        <div>
+          {department?.name} - {department?.description}
+        </div>
+      );
+    },
   },
   {
     id: "job_title",

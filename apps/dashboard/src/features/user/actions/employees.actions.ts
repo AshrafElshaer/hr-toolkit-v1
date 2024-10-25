@@ -12,7 +12,11 @@ import {
   getOrganizationMembers,
   getUserDepartment,
 } from "@toolkit/supabase/queries";
-import { UserRolesEnum } from "@toolkit/supabase/types";
+import {
+  EmploymentStatusEnum,
+  EmploymentTypeEnum,
+  UserRolesEnum,
+} from "@toolkit/supabase/types";
 import userMutations from "@toolkit/supabase/user-mutations";
 import {
   departmentMemberUpdateSchema,
@@ -89,7 +93,15 @@ export const getEmployeesAction = authActionClient
   .metadata({
     name: "get-employees",
   })
-  .action(async ({ ctx }) => {
+  .schema(
+    z.object({
+      status: z.array(z.string()).optional(),
+      department: z.array(z.string()).optional(),
+      role: z.array(z.string()).optional(),
+      type: z.array(z.string()).optional(),
+    }),
+  )
+  .action(async ({ ctx, parsedInput }) => {
     const { user, supabase } = ctx;
 
     if (user.user_metadata.role === UserRolesEnum.admin) {
@@ -97,6 +109,14 @@ export const getEmployeesAction = authActionClient
         await getOrganizationMembers(
           supabase,
           user.user_metadata.organization_id,
+          {
+            status: parsedInput.status ? parsedInput.status : undefined,
+            department: parsedInput.department
+              ? parsedInput.department
+              : undefined,
+            role: parsedInput.role ? parsedInput.role : undefined,
+            type: parsedInput.type ? parsedInput.type : undefined,
+          },
         );
 
       if (employeesError) {

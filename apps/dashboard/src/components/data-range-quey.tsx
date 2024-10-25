@@ -45,7 +45,7 @@ const dateRangeOptions: DateRangeOption[] = [
 type Props = {
   options?: DateRangeOption[];
   className?: string;
-  disabled?: boolean; 
+  disabled?: boolean;
 };
 export function DateRangeQuerySelector({
   options = dateRangeOptions,
@@ -84,8 +84,10 @@ export function DateRangeQuerySelector({
       onSelect={(value) => {
         const date = value as DateRange;
         if (date) {
-          !date.from && setDate({ from: "" });
-          !date.to && setDate({ to: "" });
+          !date.from &&
+            setDate({ from: moment().startOf("month").format("YYYY-MM-DD") });
+          !date.to &&
+            setDate({ to: moment().endOf("month").format("YYYY-MM-DD") });
 
           date.from &&
             setDate({

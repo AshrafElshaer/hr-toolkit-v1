@@ -86,10 +86,6 @@ export function TimeSheetTable<TData, TValue>({
     return table.getSelectedRowModel().rows.map((row) => row.original);
   }, [table.getSelectedRowModel().rows]);
 
-  useEffect(() => {
-    console.log({ selectedRows });
-  }, [selectedRows]);
-
   return (
     <>
       <DataTableToolbar table={table} />

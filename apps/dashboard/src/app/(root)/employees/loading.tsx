@@ -56,7 +56,7 @@ export default function EmployeesLoading() {
           disabled
         >
           Add Employee
-          <PlusIcon className="size-4 mr-2" />
+          <PlusIcon className="size-4 ml-2" />
         </Button>
       </section>
       <TableLoader columns={columns} />

@@ -34,7 +34,7 @@ export function DataTableToolbar<TData>({
 
   const departmentOptions = departments?.map((department) => ({
     label: `${department.name} - ${department.description}`,
-    value: `${department.name} - ${department.description}`,
+    value: department.id,
   }));
 
   return (
@@ -55,20 +55,21 @@ export function DataTableToolbar<TData>({
             column={table.getColumn("department")}
             title="Department"
             options={departmentOptions ?? []}
-            isMultiSelect={false}
+            isMultiSelect={true}
             triggerIcon={<IoGrid className="size-3 mr-2" />}
-            containerClassName="min-w-[250px]"
+            containerClassName="min-w-[270px]"
           />
         )}
         {table.getColumn("status") && (
           <DataTableFacetedFilter
             column={table.getColumn("status")}
             title="Status"
-            options={statuses}
-            isMultiSelect={false}
+            options={statuses ?? []}
+            isMultiSelect={true}
             triggerIcon={
               <MdSignalWifiStatusbarConnectedNoInternet2 className="size-4 mr-2" />
             }
+            containerClassName="min-w-[250px]"
           />
         )}
 
@@ -77,7 +78,7 @@ export function DataTableToolbar<TData>({
             column={table.getColumn("role")}
             title="Role"
             options={roles}
-            isMultiSelect={false}
+            isMultiSelect={true}
             triggerIcon={<IoKeySharp className="size-3 mr-2" />}
           />
         )}
@@ -86,7 +87,7 @@ export function DataTableToolbar<TData>({
             column={table.getColumn("type")}
             title="Type"
             options={employmentTypes}
-            isMultiSelect={false}
+            isMultiSelect={true}
           />
         )}
         {isFiltered && (
@@ -108,7 +109,7 @@ export function DataTableToolbar<TData>({
         })}
       >
         Add Employee
-        <PlusIcon className="size-4 mr-2" />
+        <PlusIcon className="size-4 ml-2" />
       </Link>
     </section>
   );

@@ -20,9 +20,14 @@ import {
   TableHeader,
   TableRow,
 } from "@toolkit/ui/table";
-import { UserSearch } from "lucide-react";
+import { Clock, UserSearch } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { parseAsJson, useQueryState } from "nuqs";
+import {
+  parseAsInteger,
+  parseAsJson,
+  useQueryState,
+  useQueryStates,
+} from "nuqs";
 
 import { DataTablePagination } from "@/components/tables/data-table-pagination";
 import { cn } from "@toolkit/ui/cn";
@@ -33,7 +38,12 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
+import { getDepartmentsAction } from "@/features/departments/departments.actions";
+import { useDataTable } from "@/hooks/use-data-table";
+import type { DataTableFilterField } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
+import { employmentTypes, roles, statuses } from "./filters";
 
 const columnFilterSchema = z.object({
   id: z.string(),
@@ -47,21 +57,59 @@ export function EmployeesTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
-  const [columnFilters, setColumnFilters] = useQueryState(
-    "filters",
-    parseAsJson(columnFiltersStateSchema.parse).withDefault([]),
-  );
-  const table = useReactTable({
+  const { data: departments } = useQuery({
+    queryKey: ["departments"],
+    queryFn: async () => {
+      const result = await getDepartmentsAction();
+      return result?.data;
+    },
+  });
+  const [perPage] = useQueryState("perPage", parseAsInteger.withDefault(10));
+
+  const pageCount = Math.ceil(data.length / perPage);
+  const departmentOptions = departments?.map((department) => ({
+    label: `${department.name} - ${department.description}`,
+    value: department.id,
+  }));
+
+console.log({data})
+
+  const filterFields: DataTableFilterField<TData>[] = [
+    {
+      id: "department" as keyof TData,
+      label: "Department",
+      options: departmentOptions,
+    },
+    {
+      id: "status" as keyof TData,
+      label: "Status",
+      options: statuses,
+    },
+    {
+      id: "role" as keyof TData,
+      label: "Role",
+      options: roles,
+    },
+    {
+      id: "type" as keyof TData,
+      label: "Type",
+      options: employmentTypes,
+    },
+  ];
+
+  const { table } = useDataTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    // @ts-ignore
-    onColumnFiltersChange: setColumnFilters,
-    state: {
-      columnFilters: columnFilters as ColumnFilter[],
+    pageCount,
+    filterFields,
+    initialState: {
+      sorting: [],
+      columnPinning: { right: ["actions"] },
     },
+    // getRowId: (originalRow, index) => `${originalRow ?? index}`,
+    shallow: false,
+    clearOnDefault: true,
+    debounceMs: 0,
   });
 
   return (
@@ -126,7 +174,7 @@ export function EmployeesTable<TData, TValue>({
           </div>
         )}
       </div>
-      {/* <DataTablePagination table={table} /> */}
+      <DataTablePagination table={table} />
     </>
   );
 }

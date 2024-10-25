@@ -4,17 +4,28 @@ import type { Metadata } from "next";
 import { getEmployeesAction } from "@/features/user/actions/employees.actions";
 import { columns } from "@/features/user/components/employees-table/columns";
 import { EmployeesTable } from "@/features/user/components/employees-table/table";
+import { employeesTableFiltersSearchParamsCache } from "@/features/user/lib/attendance-table-params";
 import type { GetOrganizationMembersQuery } from "@toolkit/supabase/types";
 
 export const metadata: Metadata = {
   title: "Employees",
   description: "Manage your employees",
 };
+type EmployeesProps = {
+  searchParams: Record<string, string | string[] | undefined>;
+};
+export default async function Employees({ searchParams }: EmployeesProps) {
+  const params = employeesTableFiltersSearchParamsCache.parse(searchParams);
 
-export default async function Employees() {
-  const employeesAction = await getEmployeesAction();
+  const employeesAction = await getEmployeesAction({
+    status: params.status,
+    department: params.department,
+    role: params.role,
+    type: params.type,
+  });
 
   const employees = employeesAction?.data ?? [];
+  console.log({ params });
   return (
     <Main className="flex flex-col gap-4" isMaxHeight>
       <EmployeesTable

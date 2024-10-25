@@ -114,6 +114,7 @@ export function DataTableFacetedFilter<TData, TValue>({
             <CommandGroup className="p-0">
               {options.map((option) => {
                 const isSelected = selectedValues.has(option.value);
+
                 return (
                   <CommandItem
                     key={option.value}
