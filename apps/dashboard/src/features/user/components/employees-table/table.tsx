@@ -38,7 +38,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-import { getDepartmentsAction } from "@/features/departments/departments.actions";
+import { getDepartmentsAction } from "@/features/departments/lib/departments.actions";
 import { useDataTable } from "@/hooks/use-data-table";
 import type { DataTableFilterField } from "@/types";
 import { useQuery } from "@tanstack/react-query";
@@ -60,7 +60,7 @@ export function EmployeesTable<TData, TValue>({
   const { data: departments } = useQuery({
     queryKey: ["departments"],
     queryFn: async () => {
-      const result = await getDepartmentsAction();
+      const result = await getDepartmentsAction({});
       return result?.data;
     },
   });
@@ -72,7 +72,6 @@ export function EmployeesTable<TData, TValue>({
     value: department.id,
   }));
 
-  console.log({ data });
 
   const filterFields: DataTableFilterField<TData>[] = [
     {

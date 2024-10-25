@@ -70,13 +70,7 @@ export const columns: ColumnDef<DepartmentQuery>[] = [
   {
     id: "members",
     accessorFn: (row) => row.members.length,
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Members"
-        className="justify-center"
-      />
-    ),
+    header: () => <div className="min-w-20 text-center">Members</div>,
     cell: ({ row }) => {
       const department = row.original;
       const members = department.members;

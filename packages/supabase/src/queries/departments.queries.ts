@@ -5,24 +5,34 @@ import { cacheKeys } from "./cache-keys";
 export const getDepartments = async (
   supabase: SupabaseInstance,
   organizationId: string,
+  filter: {
+    name?: string;
+    sort?: string;
+    perPage?: number;
+    page?: number;
+  },
 ) => {
-  return unstable_cache(
-    async () => {
-      return await supabase
-        .from("department")
-        .select(`
-          *,
-          manager:manager_id(*),
-          members:department_member!department_id(user_id)
-        `)
-        .eq("organization_id", organizationId);
-    },
-    [cacheKeys.organization.departments, organizationId],
-    {
-      revalidate: 180,
-      tags: [`${cacheKeys.organization.departments}-${organizationId}`],
-    },
-  )();
+  const query = supabase
+    .from("department")
+    .select(`
+      *,
+      manager:manager_id(*),
+      members:department_member!department_id(user_id)
+    `)
+    .eq("organization_id", organizationId);
+
+  if (filter.name) {
+    query.filter("name", "ilike", `%${filter.name}%`);
+  }
+
+  if (filter.perPage && filter.page) {
+    query.range(
+      (filter.page - 1) * filter.perPage,
+      filter.page * filter.perPage,
+    );
+  }
+
+  return await query;
 };
 
 export const getUserDepartment = async (

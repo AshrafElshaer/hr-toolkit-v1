@@ -64,7 +64,7 @@ import { Skeleton } from "@toolkit/ui/skeleton";
 import { Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
-import { createDepartmentAction } from "../departments.actions";
+import { createDepartmentAction } from "../lib/departments.actions";
 
 const formSchema = departmentInsertSchema.omit({
   organization_id: true,

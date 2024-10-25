@@ -13,6 +13,9 @@ import {
 } from "@tanstack/react-table";
 
 import { DataTablePagination } from "@/components/tables/data-table-pagination";
+import { useDataTable } from "@/hooks/use-data-table";
+import type { DataTableFilterField } from "@/types";
+import type { Department } from "@toolkit/supabase/types";
 import { cn } from "@toolkit/ui/cn";
 import {
   Table,
@@ -22,6 +25,8 @@ import {
   TableHeader,
   TableRow,
 } from "@toolkit/ui/table";
+import { useRouter } from "next/navigation";
+import { parseAsInteger, useQueryState } from "nuqs";
 import { useState } from "react";
 import { DataTableToolbar } from "./toolbar";
 
@@ -34,21 +39,32 @@ export function DepartmentsTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const table = useReactTable({
+  const router = useRouter();
+
+  const [perPage] = useQueryState("perPage", parseAsInteger.withDefault(10));
+
+  const filterFields: DataTableFilterField<TData>[] = [
+    {
+      id: "name" as keyof TData,
+      label: "Name",
+    },
+  ];
+
+  const pageCount = Math.ceil(data.length / perPage);
+
+  const { table } = useDataTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    state: {
-      columnFilters,
-      sorting,
+    pageCount,
+    filterFields,
+    initialState: {
+      sorting: [],
+      columnPinning: { right: ["actions"] },
     },
+    // getRowId: (originalRow, index) => `${originalRow ?? index}`,
+    shallow: false,
+    clearOnDefault: true,
+    debounceMs: 0,
   });
 
   return (
@@ -87,12 +103,11 @@ export function DepartmentsTable<TData, TValue>({
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                     className="cursor-pointer"
-                    // onClick={() => {
-                    //   const employee =
-                    //     row.original as GetOrganizationMembersQuery;
-                    //   console.log(employee);
-                    //   router.push(`/employees/${employee.user?.id}`);
-                    // }}
+                    onClick={() => {
+                      const department = row.original as Department;
+
+                      router.push(`/departments/${department.id}`);
+                    }}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id} className="py-2">

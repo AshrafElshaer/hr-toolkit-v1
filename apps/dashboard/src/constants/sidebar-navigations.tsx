@@ -73,7 +73,7 @@ export const roleBasedNavigation = (role: string) => {
     case "admin":
       return sidebarNavigation;
     case "manager":
-      return sidebarNavigation.filter((route) => route.path !== "/departments");
+      return sidebarNavigation.filter((route) => route.path !== "/employees");
     case "team_lead":
     case "staff":
       return sidebarNavigation.filter(

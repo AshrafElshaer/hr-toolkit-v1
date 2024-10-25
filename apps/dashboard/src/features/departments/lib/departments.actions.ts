@@ -1,4 +1,5 @@
 "use server";
+import { authActionClient } from "@/lib/safe-action";
 import { cacheKeys } from "@toolkit/supabase/cache-keys";
 import departmentMemberMutations from "@toolkit/supabase/department-member-mutations";
 import departmentMutations from "@toolkit/supabase/department-mutations";
@@ -12,16 +13,24 @@ import { UserRolesEnum } from "@toolkit/supabase/types";
 import { departmentInsertSchema } from "@toolkit/supabase/validations";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
-import { authActionClient } from "@/lib/safe-action";
 
 export const getDepartmentsAction = authActionClient
   .metadata({
     name: "get-departments",
   })
-  .action(async ({ ctx: { user, supabase } }) => {
+  .schema(
+    z.object({
+      name: z.string().optional(),
+      sort: z.string().optional(),
+      perPage: z.number().optional(),
+      page: z.number().optional(),
+    }),
+  )
+  .action(async ({ ctx: { user, supabase }, parsedInput }) => {
     const { data, error } = await getDepartments(
       supabase,
       user.user_metadata.organization_id,
+      parsedInput,
     );
     if (error) {
       throw new Error(error.message);

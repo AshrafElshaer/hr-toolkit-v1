@@ -7,7 +7,7 @@ import { Button, buttonVariants } from "@toolkit/ui/button";
 import { Input } from "@toolkit/ui/input";
 
 import { DataTableFacetedFilter } from "@/components/tables/data-table-faceted-filter";
-import { getDepartmentsAction } from "@/features/departments/departments.actions";
+import { getDepartmentsAction } from "@/features/departments/lib/departments.actions";
 import { useQuery } from "@tanstack/react-query";
 import { PlusIcon, Search } from "lucide-react";
 import Link from "next/link";
