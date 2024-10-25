@@ -20,7 +20,7 @@ export function DepartmentSelector({ value, onChange }: Props) {
   const { data: departments, isLoading } = useQuery({
     queryKey: ["departments"],
     queryFn: async () => {
-      const result = await getDepartmentsAction();
+      const result = await getDepartmentsAction({});
       return result?.data;
     },
   });

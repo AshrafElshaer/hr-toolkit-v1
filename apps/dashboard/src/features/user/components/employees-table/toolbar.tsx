@@ -26,7 +26,7 @@ export function DataTableToolbar<TData>({
   const { data: departments } = useQuery({
     queryKey: ["departments"],
     queryFn: async () => {
-      const result = await getDepartmentsAction();
+      const result = await getDepartmentsAction({});
       return result?.data;
     },
   });
