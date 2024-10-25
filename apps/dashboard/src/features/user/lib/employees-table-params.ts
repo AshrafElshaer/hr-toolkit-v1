@@ -18,4 +18,5 @@ export const employeesTableFiltersSearchParamsCache = createSearchParamsCache({
   role: parseAsArrayOf(parseAsString).withDefault([]),
   type: parseAsArrayOf(parseAsString).withDefault([]),
   department: parseAsArrayOf(parseAsString).withDefault([]),
+  name: parseAsString.withDefault(""),
 });

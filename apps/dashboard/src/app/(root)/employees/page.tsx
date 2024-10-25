@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { getEmployeesAction } from "@/features/user/actions/employees.actions";
 import { columns } from "@/features/user/components/employees-table/columns";
 import { EmployeesTable } from "@/features/user/components/employees-table/table";
-import { employeesTableFiltersSearchParamsCache } from "@/features/user/lib/attendance-table-params";
+import { employeesTableFiltersSearchParamsCache } from "@/features/user/lib/employees-table-params";
 import type { GetOrganizationMembersQuery } from "@toolkit/supabase/types";
 
 export const metadata: Metadata = {
@@ -22,10 +22,11 @@ export default async function Employees({ searchParams }: EmployeesProps) {
     department: params.department,
     role: params.role,
     type: params.type,
+    name: params.name,
   });
 
   const employees = employeesAction?.data ?? [];
-  console.log({ params });
+
   return (
     <Main className="flex flex-col gap-4" isMaxHeight>
       <EmployeesTable

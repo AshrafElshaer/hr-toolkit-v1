@@ -72,9 +72,13 @@ export function EmployeesTable<TData, TValue>({
     value: department.id,
   }));
 
-console.log({data})
+  console.log({ data });
 
   const filterFields: DataTableFilterField<TData>[] = [
+    {
+      id: "name" as keyof TData,
+      label: "Name",
+    },
     {
       id: "department" as keyof TData,
       label: "Department",

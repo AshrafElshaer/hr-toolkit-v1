@@ -99,6 +99,7 @@ export const getEmployeesAction = authActionClient
       department: z.array(z.string()).optional(),
       role: z.array(z.string()).optional(),
       type: z.array(z.string()).optional(),
+      name: z.string().optional(),
     }),
   )
   .action(async ({ ctx, parsedInput }) => {
@@ -116,6 +117,7 @@ export const getEmployeesAction = authActionClient
               : undefined,
             role: parsedInput.role ? parsedInput.role : undefined,
             type: parsedInput.type ? parsedInput.type : undefined,
+            name: parsedInput.name ? parsedInput.name : undefined,
           },
         );
 

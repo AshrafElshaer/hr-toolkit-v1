@@ -38,6 +38,7 @@ export const getOrganizationMembers = async (
     type?: string[];
     perPage?: number;
     page?: number;
+    name?: string;
   },
 ) => {
   let query = supabase
@@ -50,8 +51,6 @@ export const getOrganizationMembers = async (
     .not("user", "is", null)
     .not("department", "is", null);
 
-  console.log({ filters });
-  // Apply filters conditionally
   if (filters.status?.length) {
     query = query.in("user.employment_status", filters.status);
   }
@@ -71,6 +70,14 @@ export const getOrganizationMembers = async (
     query = query.range(
       filters.page * filters.perPage,
       (filters.page + 1) * filters.perPage,
+    );
+  }
+  if (filters.name) {
+    query = query.or(
+      `first_name.ilike.%${filters.name}%,last_name.ilike.%${filters.name}%`,
+      {
+        referencedTable: "user",
+      },
     );
   }
 
