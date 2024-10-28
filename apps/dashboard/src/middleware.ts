@@ -1,4 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
+import { getUserDepartment } from "@toolkit/supabase/queries";
 import { type NextRequest, NextResponse } from "next/server";
 import { env } from "./env.mjs";
 
@@ -37,10 +38,25 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session && !req.nextUrl.pathname.startsWith("/auth")) {
+  if (
+    !session ||
+    (session === null && !req.nextUrl.pathname.startsWith("/auth"))
+  ) {
     return NextResponse.redirect(
       new URL(`/auth?redirected=${req.nextUrl.pathname}`, req.url),
     );
+  }
+
+  if (
+    req.nextUrl.pathname === "/departments" &&
+    session.user.user_metadata.role !== "admin"
+  ) {
+    const { data } = await getUserDepartment(supabase, session.user.id);
+    if (data?.department) {
+      return NextResponse.redirect(
+        new URL(`/departments/${data.department.id}`, req.url),
+      );
+    }
   }
 
   return res;

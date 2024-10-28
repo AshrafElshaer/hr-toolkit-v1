@@ -1,15 +1,24 @@
 import { createServerClient } from "@/lib/supabase/server";
 import { getCurrentUser, getUserDepartment } from "@toolkit/supabase/queries";
 import { redirect } from "next/navigation";
+
+type DepartmentsLayoutProps = {
+  children: React.ReactNode;
+  params: {
+    departmentId: string;
+  };
+};
+
 export default async function DepartmentsLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+
+}: DepartmentsLayoutProps) {
   const supabase = createServerClient();
   const { data: user } = await getCurrentUser(supabase);
 
   const userRole = user?.role;
+
+
 
   if (!user) {
     return redirect("/auth");

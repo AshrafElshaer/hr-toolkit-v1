@@ -25,12 +25,12 @@ type GetTimeSheetByDateRangeFilters = {
   supabase: SupabaseInstance;
   userId: string;
   filters: {
-    status: string[];
-    perPage: number;
-    page: number;
-    sort: string;
-    startDate: string;
-    endDate: string;
+    status?: string[];
+    perPage?: number;
+    page?: number;
+    sort?: string;
+    startDate?: string;
+    endDate?: string;
   };
 };
 export async function getFilteredTimeSheets({
@@ -44,14 +44,16 @@ export async function getFilteredTimeSheets({
     query.gte("date", filters.startDate).lte("date", filters.endDate);
   }
 
-  if (filters.status.length > 0) {
+  if (filters.status && filters.status.length > 0) {
     query.in("status", filters.status);
   }
 
-  query.range(
-    filters.perPage * (filters.page - 1),
-    filters.perPage * filters.page,
-  );
+  if (filters.perPage && filters.page) {
+    query.range(
+      filters.perPage * (filters.page - 1),
+      filters.perPage * filters.page,
+    );
+  }
   if (filters.sort) {
     const [column, direction] = filters.sort.split(".");
     if (column && direction) {

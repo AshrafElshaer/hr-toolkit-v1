@@ -17,7 +17,7 @@ import {
   clockOutAction,
   endBreakAction,
   takeBreakAction,
-} from "../../attendance.actions";
+} from "../../lib/attendance.actions";
 
 import { useAction } from "next-safe-action/hooks";
 import React from "react";

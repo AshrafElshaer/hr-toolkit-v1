@@ -1,4 +1,4 @@
-import { attendanceTableFiltersSearchParamsCache } from "@/features/attendance/attendance-table-params";
+import { attendanceTableFiltersSearchParamsCache } from "@/features/attendance/lib/attendance-table-params";
 import { createServerClient } from "@/lib/supabase/server";
 import { getFilteredTimeSheets } from "@toolkit/supabase/queries";
 import { columns } from "./columns";
