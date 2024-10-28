@@ -3,31 +3,31 @@ import { ToggleGroup, ToggleGroupItem } from "@toolkit/ui/toggle-group";
 const DAYS_OF_WEEK = [
   {
     label: "Monday",
-    value: "1",
+    value: "0",
   },
   {
     label: "Tuesday",
-    value: "2",
+    value: "1",
   },
   {
     label: "Wednesday",
-    value: "3",
+    value: "2",
   },
   {
     label: "Thursday",
-    value: "4",
+    value: "3",
   },
   {
     label: "Friday",
-    value: "5",
+    value: "4",
   },
   {
     label: "Saturday",
-    value: "6",
+    value: "5",
   },
   {
     label: "Sunday",
-    value: "7",
+    value: "6",
   },
 ];
 
