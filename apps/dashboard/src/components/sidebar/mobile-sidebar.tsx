@@ -62,7 +62,7 @@ export default function MobileSidebar({ currentUser }: { currentUser: User }) {
                       setIsOpen(false);
                     }}
                   >
-                    {isActivePath ? route?.active : route?.icon}
+                    {route.icon}
                     {route.title}
                     {isActivePath ? (
                       <div className="absolute right-0 top-1 bottom-1 w-[3px] rounded-l bg-primary" />
