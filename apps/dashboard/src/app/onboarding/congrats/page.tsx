@@ -16,7 +16,7 @@ export default function CongratsPage() {
   useEffect(() => {
     setTimeout(() => {
       router.push("/");
-    }, 7000);
+    }, 5000);
   }, [router]);
 
   return (

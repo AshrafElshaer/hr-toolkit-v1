@@ -75,7 +75,9 @@
     "./postcss": "./postcss.config.js",
     "./toggle-group": "./src/components/ui/toggle-group.tsx",
     "./toggle": "./src/components/ui/toggle.tsx",
-    "./date-field": "./src/components/ui/date-field.tsx"
+    "./date-field": "./src/components/ui/date-field.tsx",
+    "./number-with-chevron": "./src/components/ui/number-inputs/number-with-chevron.tsx",
+    "./number-with-buttons": "./src/components/ui/number-inputs/number-with-buttons.tsx"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

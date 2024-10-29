@@ -16,42 +16,87 @@ export const jsonSchema: z.ZodSchema<Json> = z.lazy(() =>
 );
 
 export const addressesRowSchema = z.object({
-  address_1: z.string().min(3),
+  address_1: z.string().min(3, {
+    message: "Address 1 is required",
+  }),
   address_2: z.string().nullable(),
-  city: z.string().min(1),
-  country: z.string().min(1),
+  city: z.string().min(1, {
+    message: "City is required",
+  }),
+  country: z.string().min(1, {
+    message: "Country is required",
+  }),
   created_at: z.string(),
   id: z.string(),
-  state: z.string().min(1),
+  state: z.string().min(1, {
+    message: "State is required",
+  }),
   updated_at: z.string().nullable(),
   user_id: z.string().uuid(),
-  zip_code: z.string().min(3),
+  zip_code: z.string().min(3, {
+    message: "Zip code must be at least 3 characters",
+  }),
 });
 
 export const addressesInsertSchema = z.object({
-  address_1: z.string().min(3),
+  address_1: z.string().min(3, {
+    message: "Address 1 must be at least 3 characters",
+  }),
   address_2: z.string().optional().nullable(),
-  city: z.string().min(1),
-  country: z.string().min(1),
+  city: z.string().min(1, {
+    message: "City is required",
+  }),
+  country: z.string().min(1, {
+    message: "Country is required",
+  }),
   created_at: z.string().optional().nullable(),
   id: z.string().optional(),
-  state: z.string().min(1),
+  state: z.string().min(1, {
+    message: "State is required",
+  }),
   updated_at: z.string().optional().nullable(),
   user_id: z.string().uuid(),
-  zip_code: z.string().min(3),
+  zip_code: z.string().min(3, {
+    message: "Zip code must be at least 3 characters",
+  }),
 });
 
 export const addressesUpdateSchema = z.object({
-  address_1: z.string().min(3).optional(),
+  address_1: z
+    .string()
+    .min(3, {
+      message: "Address 1 must be at least 3 characters",
+    })
+    .optional(),
   address_2: z.string().optional().nullable(),
-  city: z.string().min(1).optional(),
-  country: z.string().min(1).optional(),
+  city: z
+    .string()
+    .min(1, {
+      message: "City is required",
+    })
+    .optional(),
+  country: z
+    .string()
+    .min(1, {
+      message: "Country is required",
+    })
+    .optional(),
   created_at: z.string().optional().nullable(),
   id: z.string().optional(),
-  state: z.string().min(1).optional(),
+  state: z
+    .string()
+    .min(1, {
+      message: "State is required",
+    })
+    .optional(),
   updated_at: z.string().optional().nullable(),
   user_id: z.string().uuid().optional(),
-  zip_code: z.string().min(3).optional(),
+  zip_code: z
+    .string()
+    .min(3, {
+      message: "Zip code must be at least 3 characters",
+    })
+    .optional(),
 });
 
 export const addressesRelationshipsSchema = z.tuple([
@@ -66,20 +111,28 @@ export const addressesRelationshipsSchema = z.tuple([
 
 export const departmentRowSchema = z.object({
   created_at: z.string(),
-  description: z.string().min(1),
+  description: z.string().min(1, {
+    message: "Description is required",
+  }),
   id: z.string().uuid(),
   manager_id: z.string().nullable(),
-  name: z.string().min(1),
+  name: z.string().min(1, {
+    message: "Name is required",
+  }),
   organization_id: z.string().uuid(),
   updated_at: z.string().nullable(),
 });
 
 export const departmentInsertSchema = z.object({
   created_at: z.string().optional().nullable(),
-  description: z.string().min(1),
+  description: z.string().min(1, {
+    message: "Description is required",
+  }),
   id: z.string().uuid().optional(),
   manager_id: z.string().optional().nullable(),
-  name: z.string().min(1),
+  name: z.string().min(1, {
+    message: "Name is required",
+  }),
   organization_id: z.string().uuid(),
   updated_at: z.string().optional().nullable(),
 });
@@ -147,9 +200,13 @@ export const departmentMemberRelationshipsSchema = z.tuple([
 
 export const emergencyContactsRowSchema = z.object({
   contact_email: z.string().email(),
-  contact_name: z.string().min(2),
+  contact_name: z.string().min(2, {
+    message: "Contact name must be at least 2 characters",
+  }),
   contact_number: z.string().refine(isValidPhoneNumber),
-  contact_relation: z.string().min(1),
+  contact_relation: z.string().min(1, {
+    message: "Contact relation is required",
+  }),
   created_at: z.string(),
   id: z.string().uuid(),
   updated_at: z.string(),
@@ -158,9 +215,13 @@ export const emergencyContactsRowSchema = z.object({
 
 export const emergencyContactsInsertSchema = z.object({
   contact_email: z.string().email(),
-  contact_name: z.string().min(2),
+  contact_name: z.string().min(2, {
+    message: "Contact name must be at least 2 characters",
+  }),
   contact_number: z.string().refine(isValidPhoneNumber),
-  contact_relation: z.string().min(1),
+  contact_relation: z.string().min(1, {
+    message: "Contact relation is required",
+  }),
   created_at: z.string().optional().nullable(),
   id: z.string().uuid().optional(),
   updated_at: z.string().optional().nullable(),
@@ -169,9 +230,19 @@ export const emergencyContactsInsertSchema = z.object({
 
 export const emergencyContactsUpdateSchema = z.object({
   contact_email: z.string().email().optional(),
-  contact_name: z.string().min(2).optional(),
+  contact_name: z
+    .string()
+    .min(2, {
+      message: "Contact name must be at least 2 characters",
+    })
+    .optional(),
   contact_number: z.string().refine(isValidPhoneNumber).optional(),
-  contact_relation: z.string().min(1).optional(),
+  contact_relation: z
+    .string()
+    .min(1, {
+      message: "Contact relation is required",
+    })
+    .optional(),
   created_at: z.string().optional().nullable(),
   id: z.string().uuid().optional(),
   updated_at: z.string().optional().nullable(),
@@ -192,7 +263,9 @@ export const notesRowSchema = z.object({
   content: jsonSchema,
   createdAt: z.string(),
   id: z.string().uuid(),
-  title: z.string().min(1),
+  title: z.string().min(1, {
+    message: "Title is required",
+  }),
   updatedAt: z.string(),
   user_id: z.string().uuid(),
 });
@@ -201,7 +274,9 @@ export const notesInsertSchema = z.object({
   content: jsonSchema,
   createdAt: z.string().optional().nullable(),
   id: z.string().uuid().optional(),
-  title: z.string().min(1),
+  title: z.string().min(1, {
+    message: "Title is required",
+  }),
   updatedAt: z.string().optional().nullable(),
   user_id: z.string().uuid(),
 });
@@ -210,7 +285,12 @@ export const notesUpdateSchema = z.object({
   content: jsonSchema.optional(),
   createdAt: z.string().optional().nullable(),
   id: z.string().uuid().optional(),
-  title: z.string().min(1).optional(),
+  title: z
+    .string()
+    .min(1, {
+      message: "Title is required",
+    })
+    .optional(),
   updatedAt: z.string().optional().nullable(),
   user_id: z.string().uuid().optional(),
 });
@@ -226,47 +306,87 @@ export const notesRelationshipsSchema = z.tuple([
 ]);
 
 export const organizationRowSchema = z.object({
-  address_1: z.string().min(3),
+  address_1: z.string().min(3, {
+    message: "Address 1 must be at least 3 characters",
+  }),
   address_2: z.string().nullable(),
-  city: z.string().min(1),
+  city: z.string().min(1, {
+    message: "City is required",
+  }),
   contact_email: z.string().email(),
-  contact_name: z.string().min(2),
+  contact_name: z.string().min(2, {
+    message: "Contact name must be at least 2 characters",
+  }),
   contact_number: z.string().refine(isValidPhoneNumber),
-  country: z.string().min(1),
+  country: z.string().min(1, {
+    message: "Country is required",
+  }),
   created_at: z.string(),
   id: z.string().uuid(),
   logo_url: z.string().nullable(),
-  name: z.string().min(1),
-  payroll_pattern: z.string().min(1),
+  name: z.string().min(1, {
+    message: "Name is required",
+  }),
+  payroll_pattern: z.string().min(1, {
+    message: "Payroll pattern is required",
+  }),
   payroll_start_day: z.number(),
-  state: z.string().min(1),
-  time_zone: z.string().min(1),
-  type: z.string().min(1),
+  state: z.string().min(1, {
+    message: "State is required",
+  }),
+  time_zone: z.string().min(1, {
+    message: "Time zone is required",
+  }),
+  type: z.string().min(1, {
+    message: "Type is required",
+  }),
   updated_at: z.string(),
   website: z.string().nullable(),
-  zip_code: z.string().min(3),
+  zip_code: z.string().min(3, {
+    message: "Zip code must be at least 3 characters",
+  }),
 });
 
 export const organizationInsertSchema = z.object({
-  address_1: z.string().min(3),
+  address_1: z.string().min(3, {
+    message: "Address 1 must be at least 3 characters",
+  }),
   address_2: z.string().optional().nullable(),
-  city: z.string().min(1),
+  city: z.string().min(1, {
+    message: "City is required",
+  }),
   contact_email: z.string().email(),
-  contact_name: z.string().min(2),
+  contact_name: z.string().min(2, {
+    message: "Contact name must be at least 2 characters",
+  }),
   contact_number: z.string().refine(isValidPhoneNumber),
-  country: z.string().min(1),
+  country: z.string().min(1, {
+    message: "Country is required",
+  }),
   created_at: z.string().optional().nullable(),
   id: z.string().uuid().optional(),
   logo_url: z.string().optional().nullable(),
-  name: z.string().min(1),
-  payroll_pattern: z.string().min(1),
+  name: z.string().min(1, {
+    message: "Name is required",
+  }),
+  payroll_pattern: z.string().min(1, {
+    message: "Payroll pattern is required",
+  }),
   payroll_start_day: z.number(),
-  state: z.string().min(1),
-  time_zone: z.string().min(1),
-  type: z.string().min(1),
+  state: z.string().min(1, {
+    message: "State is required",
+  }),
+  time_zone: z.string().min(1, {
+    message: "Time zone is required",
+  }),
+  type: z.string().min(1, {
+    message: "Type is required",
+  }),
   updated_at: z.string().optional().nullable(),
   website: z.string().optional().nullable(),
-  zip_code: z.string().min(3),
+  zip_code: z.string().min(3, {
+    message: "Zip code must be at least 3 characters",
+  }),
 });
 
 export const organizationUpdateSchema = z.object({
@@ -362,26 +482,37 @@ export const organizationOwnersRelationshipsSchema = z.tuple([
 ]);
 
 export const timeSheetRowSchema = z.object({
-  clock_in: z.string().min(1),
+  clock_in: z.string().min(1, {
+    message: "Clock in time is required",
+  }),
   clock_out: z.string().nullable(),
   created_at: z.string(),
   date: z.string(),
   id: z.string().uuid(),
   notes: z.string().nullable(),
-  status: z.string().min(1),
+  status: z.string().min(1, {
+    message: "Status is required",
+  }),
   total_worked_minutes: z.number().nullable(),
   updated_at: z.string(),
   user_id: z.string().uuid(),
 });
 
 export const timeSheetInsertSchema = z.object({
-  clock_in: z.string().min(1),
+  clock_in: z.string().min(1, {
+    message: "Clock in time is required",
+  }),
   clock_out: z.string().optional().nullable(),
   created_at: z.string().optional().nullable(),
   date: z.string(),
   id: z.string().uuid().optional(),
   notes: z.string().optional().nullable(),
-  status: z.string().min(1).optional(),
+  status: z
+    .string()
+    .min(1, {
+      message: "Status is required",
+    })
+    .optional(),
   total_worked_minutes: z.number().optional().nullable(),
   updated_at: z.string().optional().nullable(),
   user_id: z.string().uuid(),
@@ -412,14 +543,18 @@ export const timeSheetRelationshipsSchema = z.tuple([
 
 export const timeSheetBreakRowSchema = z.object({
   break_end: z.string().nullable(),
-  break_start: z.string().min(1),
+  break_start: z.string().min(1, {
+    message: "Break start time is required",
+  }),
   id: z.string().uuid(),
   time_sheet_id: z.string().uuid(),
 });
 
 export const timeSheetBreakInsertSchema = z.object({
   break_end: z.string().optional().nullable(),
-  break_start: z.string().min(1),
+  break_start: z.string().min(1, {
+    message: "Break start time is required",
+  }),
   id: z.string().uuid().optional(),
   time_sheet_id: z.string().uuid(),
 });
@@ -470,20 +605,36 @@ export const userInsertSchema = z.object({
   created_at: z.string().optional().nullable(),
   date_of_birth: z.string().optional().nullable(),
   email: z.string().email(),
-  employment_status: z.string().min(1),
-  employment_type: z.string().min(1),
-  first_name: z.string().min(3),
-  gender: z.string().min(1),
+  employment_status: z.string().min(1, {
+    message: "Employment status is required",
+  }),
+  employment_type: z.string().min(1, {
+    message: "Employment type is required",
+  }),
+  first_name: z.string().min(3, {
+    message: "First name must be at least 3 characters",
+  }),
+  gender: z.string().min(1, {
+    message: "Gender is required",
+  }),
   hire_date: z.string(),
   id: z.string().uuid(),
-  job_title: z.string().min(2),
-  last_name: z.string().min(2),
+  job_title: z.string().min(2, {
+    message: "Job title must be at least 2 characters",
+  }),
+  last_name: z.string().min(2, {
+    message: "Last name must be at least 2 characters",
+  }),
   leave_date: z.string().optional().nullable(),
   phone_number: z.string().refine(isValidPhoneNumber),
-  role: z.string().min(1),
+  role: z.string().min(1, {
+    message: "Role is required",
+  }),
   salary_per_hour: z.number().optional().nullable(),
   updated_at: z.string().optional().nullable(),
-  work_hours_per_week: z.number().min(1),
+  work_hours_per_week: z.number().min(1, {
+    message: "Work hours per week must be at least 1",
+  }),
   working_days_per_week: z.array(z.string()),
 });
 

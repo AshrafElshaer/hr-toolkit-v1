@@ -42,8 +42,10 @@ import { CountrySelector } from "@/components/selectors/country-selector";
 import { WorkingDaysSelector } from "@/components/selectors/working-days-selector";
 import { createOrganizationOwnerAction } from "@/features/user/actions/users.actions";
 import { DateField } from "@toolkit/ui/date-field";
-import { ToggleGroup, ToggleGroupItem } from "@toolkit/ui/toggle-group";
-import { CircleDollarSign, Clock, Loader } from "lucide-react";
+import { NumberWithButtons } from "@toolkit/ui/number-with-buttons";
+import { NumberWithChevron } from "@toolkit/ui/number-with-chevron";
+
+import { Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 
@@ -232,7 +234,7 @@ function OwnerForm() {
                 <DateField
                   value={field.value ? new Date(field.value) : undefined}
                   onChange={(date) => {
-                    field.onChange(date?.toISOString());
+                    field.onChange(date?.toString());
                   }}
                 />
                 <FormMessage />
@@ -268,16 +270,9 @@ function OwnerForm() {
               <FormItem className="w-full">
                 <FormLabel>Work Hours / Week</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="40"
-                    {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                    value={
-                      Number.isNaN(field.value)
-                        ? ""
-                        : field?.value?.toString() ?? ""
-                    }
-                    startIcon={Clock}
+                  <NumberWithButtons
+                    value={field.value ?? 0}
+                    onChange={field.onChange}
                   />
                 </FormControl>
                 <FormMessage />
@@ -291,16 +286,14 @@ function OwnerForm() {
               <FormItem className="w-full">
                 <FormLabel>Salary / Hour</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="100"
-                    {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                    value={
-                      field.value && Number.isNaN(field.value)
-                        ? ""
-                        : field?.value?.toString() ?? ""
-                    }
-                    startIcon={CircleDollarSign}
+                  <NumberWithChevron
+                    value={field.value ?? 0}
+                    onChange={(value) => field.onChange(value)}
+                    formatOptions={{
+                      style: "currency",
+                      currency: "USD",
+                      currencySign: "accounting",
+                    }}
                   />
                 </FormControl>
                 <FormMessage />

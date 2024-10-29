@@ -25,6 +25,8 @@ import {
   FormMessage,
 } from "@toolkit/ui/form";
 import { Input } from "@toolkit/ui/input";
+import { NumberWithButtons } from "@toolkit/ui/number-with-buttons";
+import { NumberWithChevron } from "@toolkit/ui/number-with-chevron";
 import {
   Select,
   SelectContent,
@@ -32,7 +34,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@toolkit/ui/select";
-
 import { CircleDollarSign, Clock, Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
@@ -289,16 +290,9 @@ export default function EmploymentForm({ user, departmentMember }: Props) {
               <FormItem className="w-full">
                 <FormLabel>Work Hours / Week</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="40"
-                    {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                    value={
-                      Number.isNaN(field.value)
-                        ? ""
-                        : field?.value?.toString() ?? ""
-                    }
-                    startIcon={Clock}
+                  <NumberWithButtons
+                    value={field.value ?? 0}
+                    onChange={field.onChange}
                   />
                 </FormControl>
                 <FormMessage />
@@ -312,16 +306,13 @@ export default function EmploymentForm({ user, departmentMember }: Props) {
               <FormItem className="w-full">
                 <FormLabel>Salary / Hour</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="100"
-                    {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                    value={
-                      field.value && Number.isNaN(field.value)
-                        ? ""
-                        : field?.value?.toString() ?? ""
-                    }
-                    startIcon={CircleDollarSign}
+                  <NumberWithChevron
+                    value={field.value ?? undefined}
+                    onChange={field.onChange}
+                    formatOptions={{
+                      style: "currency",
+                      currency: "USD",
+                    }}
                   />
                 </FormControl>
                 <FormMessage />

@@ -1,10 +1,11 @@
-import { getCurrentUserAction } from "@/features/user/actions/users.actions";
 import { createClient } from "@/lib/supabase/client";
 import { getCurrentUser } from "@toolkit/supabase/queries";
 
 import { useQuery } from "@tanstack/react-query";
 
+
 export function useCurrentUser() {
+
   const supabase = createClient();
   const { data } = useQuery({
     queryKey: ["user"],
@@ -16,5 +17,6 @@ export function useCurrentUser() {
       return data;
     },
   });
+ 
   return data;
 }

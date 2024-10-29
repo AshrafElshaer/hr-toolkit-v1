@@ -39,7 +39,12 @@ export const createEmployeeAction = authActionClient
   })
   .schema(
     z.object({
-      employee: employeeInsertSchema.omit({ id: true, avatar_url: true }),
+      employee: employeeInsertSchema.omit({
+        id: true,
+        avatar_url: true,
+        user_id: true,
+        organization_id: true,
+      }),
     }),
   )
   .action(async ({ ctx, parsedInput }) => {
@@ -64,7 +69,13 @@ export const createEmployeeAction = authActionClient
 
     const { data, error } = await OrganizationMutations.createEmployee(
       supabase,
-      { ...employee, id: auth.user.id, avatar_url: "" },
+      {
+        ...employee,
+        id: auth.user.id,
+        avatar_url: "",
+        user_id: "",
+        organization_id: "",
+      },
       ctx.user.user_metadata.organization_id,
     );
 

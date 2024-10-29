@@ -151,31 +151,58 @@ export async function createEmployee(
     user_id: data.id as string,
   };
 
-  const [
-    { data: newUser, error: newUserError },
-    { data: newAddress, error: newAddressError },
-    { data: newEmergencyContact, error: newEmergencyContactError },
-    { data: newDepartmentMember, error: newDepartmentMemberError },
-    { data: newOrganizationMember, error: newOrganizationMemberError },
-  ] = await Promise.all([
-    supabase.from("user").insert(user).select().single(),
-    supabase.from("addresses").insert(address).select().single(),
-    supabase
+  const { data: newUser, error: newUserError } = await supabase
+    .from("user")
+    .insert(user)
+    .select()
+    .single();
+
+  if (newUserError) {
+    return { data: null, error: newUserError };
+  }
+
+  const { data: newAddress, error: newAddressError } = await supabase
+    .from("addresses")
+    .insert(address)
+    .select()
+    .single();
+
+  if (newAddressError) {
+    return { data: null, error: newAddressError };
+  }
+
+  const { data: newEmergencyContact, error: newEmergencyContactError } =
+    await supabase
       .from("emergency_contacts")
       .insert(emergencyContact)
       .select()
-      .single(),
-    supabase
+      .single();
+
+  if (newEmergencyContactError) {
+    return { data: null, error: newEmergencyContactError };
+  }
+
+  const { data: newDepartmentMember, error: newDepartmentMemberError } =
+    await supabase
       .from("department_member")
       .insert(departmentMember)
       .select()
-      .single(),
-    supabase
+      .single();
+
+  if (newDepartmentMemberError) {
+    return { data: null, error: newDepartmentMemberError };
+  }
+
+  const { data: newOrganizationMember, error: newOrganizationMemberError } =
+    await supabase
       .from("organization_members")
       .insert(organizationMember)
       .select()
-      .single(),
-  ]);
+      .single();
+
+  if (newOrganizationMemberError) {
+    return { data: null, error: newOrganizationMemberError };
+  }
 
   return {
     data: newUser,

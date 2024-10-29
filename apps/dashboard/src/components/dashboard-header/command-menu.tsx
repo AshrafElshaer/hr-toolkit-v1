@@ -31,6 +31,7 @@ import { FiCommand } from "react-icons/fi";
 
 import { NoteSheet } from "@/features/user/components/notes/note-sheet";
 
+import { useCurrentUser } from "@/features/user/hooks/use-current-user";
 // import EventForm from "@/app/(root)/(home)/_components/calendar/event-form";
 import { useSession } from "@/features/user/hooks/use-session";
 import { RiStickyNoteAddLine } from "react-icons/ri";
@@ -42,10 +43,10 @@ export function CommandMenu() {
 
   const router = useRouter();
 
-  const session = useSession();
+  const user = useCurrentUser();
   const allowedNavigation = React.useMemo(() => {
-    return roleBasedNavigation(session?.user?.user_metadata?.role ?? "");
-  }, [session?.user?.user_metadata?.role]);
+    return roleBasedNavigation(user?.role ?? "");
+  }, [user?.role]);
 
   useHotkeys("meta+k", () => setOpen((open) => !open), {
     enableOnFormTags: true,
