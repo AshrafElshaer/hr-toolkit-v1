@@ -188,7 +188,11 @@ export default function ClockInOutClient({
               variant="destructive"
               onClick={() =>
                 clockOut({
-                  timeSheet: currentTimeSheet,
+                  timeSheet: {
+                    ...currentTimeSheet,
+                    created_at: currentTimeSheet.created_at || new Date().toISOString(),
+                    updated_at: new Date().toISOString()
+                  },
                   breaks: currentBreaks || [],
                 })
               }

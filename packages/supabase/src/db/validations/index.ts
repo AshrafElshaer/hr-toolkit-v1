@@ -20,7 +20,7 @@ export const addressesRowSchema = z.object({
   address_2: z.string().nullable(),
   city: z.string().min(1),
   country: z.string().min(1),
-  created_at: z.string().nullable(),
+  created_at: z.string(),
   id: z.string(),
   state: z.string().min(1),
   updated_at: z.string().nullable(),

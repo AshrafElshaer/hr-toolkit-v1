@@ -1,19 +1,19 @@
 import "@toolkit/ui/globals.css";
 
+import Navbar from "@/components/navbar";
 import { Provider as AnalyticsProvider } from "@toolkit/analytics/client";
 import { cn } from "@toolkit/ui/cn";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
-import type { Metadata } from "next";
+
 import localFont from "next/font/local";
-import Navbar from "@/components/navbar";
 
 const DepartureMono = localFont({
   src: "../fonts/DepartureMono-Regular.woff2",
   variable: "--font-departure-mono",
 });
 
-export const metadata: Metadata = {
+export const metadata = {
   metadataBase: new URL("https://v1.run"),
   title: "Create v1",
   description:
@@ -35,9 +35,6 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
-
-
-
       </body>
     </html>
   );
