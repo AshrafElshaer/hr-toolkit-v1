@@ -22,7 +22,7 @@ export default async function EmployeeAttendancePage({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <WorkedHoursWidget userId={params.employeeId} from={from} to={to} />
         <div>
-          time off 
+          time off
         </div>
        
       </div>
