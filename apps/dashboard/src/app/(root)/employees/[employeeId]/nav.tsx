@@ -32,11 +32,11 @@ function EmployeeNavigation({ employeeId }: EmployeeNavigationProps) {
       href: "/employees/[employeeId]/time-off",
       icon: TbCalendarPause,
     },
-    {
-      name: "Payroll",
-      href: "/employees/[employeeId]/payroll",
-      icon: HiOutlineBanknotes,
-    },
+    // {
+    //   name: "Payroll",
+    //   href: "/employees/[employeeId]/payroll",
+    //   icon: HiOutlineBanknotes,
+    // },
     {
       name: "Documents",
       href: "/employees/[employeeId]/documents",

@@ -10,7 +10,8 @@ export function countWorkingDaysInRange(
   const currentDate = moment(startDate);
 
   while (currentDate.isSameOrBefore(endDate)) {
-    const dayOfWeek = currentDate.day().toString();
+    const dayOfWeek = (currentDate.day()).toString();
+
 
     if (workingDaySet.has(dayOfWeek)) {
       count++;

@@ -38,12 +38,12 @@ export const sidebarNavigation = [
     icon: <Icon icon="ion:calendar-outline" className="text-[18px]" />,
     active: <Icon icon="ion:calendar" className="text-[18px]" />,
   },
-  {
-    title: "Payroll",
-    path: "/payroll",
-    icon: <HiOutlineBanknotes size={18} />,
-    active: <HiMiniBanknotes size={18} />,
-  },
+  // {
+  //   title: "Payroll",
+  //   path: "/payroll",
+  //   icon: <HiOutlineBanknotes size={18} />,
+  //   active: <HiMiniBanknotes size={18} />,
+  // },
   {
     title: "Projects",
     path: "/projects",
