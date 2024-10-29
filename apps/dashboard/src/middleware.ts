@@ -38,24 +38,24 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session || !session?.user.id && !req.nextUrl.pathname.startsWith("/auth")) {
+  if (!session  && !req.nextUrl.pathname.startsWith("/auth")) {
     return NextResponse.redirect(
       new URL(`/auth?redirected=${req.nextUrl.pathname}`, req.url),
     );
   }
 
-  if (
-    req.nextUrl.pathname === "/departments" &&
-    session?.user.user_metadata.role !== "admin"
-  ) {
+  // if (
+  //   req.nextUrl.pathname === "/departments" &&
+  //   session?.user.user_metadata.role !== "admin"
+  // ) {
    
-    const { data } = await getUserDepartment(supabase, session.user.id);
-    if (data?.department) {
-      return NextResponse.redirect(
-        new URL(`/departments/${data.department.id}`, req.url),
-      );
-    }
-  }
+  //   const { data } = await getUserDepartment(supabase, session.user.id);
+  //   if (data?.department) {
+  //     return NextResponse.redirect(
+  //       new URL(`/departments/${data.department.id}`, req.url),
+  //     );
+  //   }
+  // }
 
   return res;
 }
