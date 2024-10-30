@@ -21,7 +21,7 @@ export async function getCurrentBreaks(
     .select("*")
     .eq("time_sheet_id", time_sheet_id);
 }
-type GetTimeSheetByDateRangeFilters = {
+export type GetFilteredTimeSheetsProps = {
   supabase: SupabaseInstance;
   userId: string;
   filters: {
@@ -37,7 +37,7 @@ export async function getFilteredTimeSheets({
   supabase,
   userId,
   filters,
-}: GetTimeSheetByDateRangeFilters) {
+}: GetFilteredTimeSheetsProps) {
   const query = supabase.from("time_sheet").select("*").eq("user_id", userId);
 
   if (filters.startDate && filters.endDate) {

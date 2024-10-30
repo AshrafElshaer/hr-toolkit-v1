@@ -10,20 +10,19 @@ import {
   RadialBar,
   RadialBarChart,
 } from "recharts";
+import { attendanceTableFiltersSearchParamsCache } from "../../lib/attendance-table-params";
 import { countWorkingDaysInRange } from "../../lib/working-days";
 import { HoursChart } from "./hours-chart";
 
 type WorkedHoursWidgetProps = {
   userId: string;
-  from: string;
-  to: string;
+
 };
 
 export default async function WorkedHoursWidget({
   userId,
-  from,
-  to,
 }: WorkedHoursWidgetProps) {
+  const { from, to, ...rest } = attendanceTableFiltersSearchParamsCache.all();
   const supabase = createServerClient();
 
   const { data: user } = await getUserById(supabase, userId);
@@ -34,6 +33,7 @@ export default async function WorkedHoursWidget({
     filters: {
       startDate: from,
       endDate: to,
+      ...rest,
     },
   });
 
