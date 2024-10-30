@@ -15,27 +15,27 @@ export const sidebarNavigation = [
   {
     title: "Dashboard",
     path: "/",
-    icon: <Home01Icon size={18} />,
+    icon: <Home01Icon size={18} strokeWidth={2} />,
   },
   {
     title: "Employees",
     path: "/employees",
-    icon: <UserMultiple02Icon size={18} />,
+    icon: <UserMultiple02Icon size={18} strokeWidth={2} />,
   },
   {
     title: "Departments",
     path: "/departments",
-    icon: <DashboardSquare02Icon size={18} />,
+    icon: <DashboardSquare02Icon size={18} strokeWidth={2} />,
   },
   {
     title: "Attendance",
     path: "/attendance",
-    icon: <Timer01Icon size={18} />,
+    icon: <Timer01Icon size={18} strokeWidth={2} />,
   },
   {
     title: "Time Off",
     path: "/time-off",
-    icon: <TbClockPause size={18} />,
+    icon: <TbClockPause size={18} strokeWidth={2} />,
   },
   // {
   //   title: "Payroll",
@@ -45,17 +45,17 @@ export const sidebarNavigation = [
   {
     title: "Projects",
     path: "/projects",
-    icon: <Box size={18} />,
+    icon: <Box size={18} strokeWidth={2} />,
   },
   {
     title: "Teams",
     path: "/teams",
-    icon: <Layers size={18} />,
+    icon: <Layers size={18} strokeWidth={2} />,
   },
   {
     title: "Chats",
     path: "/chats",
-    icon: <MessageMultiple01Icon size={18} />,
+    icon: <MessageMultiple01Icon size={18} strokeWidth={2} />,
   },
 ];
 
