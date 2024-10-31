@@ -1,9 +1,14 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Department, TimeSheet, User } from "@toolkit/supabase/types";
+import {
+  type Department,
+  type TimeSheet,
+  TimeSheetStatusEnum,
+  type User,
+} from "@toolkit/supabase/types";
 
-import { ChevronRight, MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 
 import { DataTableColumnHeader } from "@/components/tables/data-table-column-header";
 
@@ -17,8 +22,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@toolkit/ui/dropdown-menu";
+import { Cancel01Icon, PencilEdit01Icon, Tick01Icon } from "hugeicons-react";
 import moment from "moment";
+import { useAction } from "next-safe-action/hooks";
 import { GoDash } from "react-icons/go";
+import { toast } from "sonner";
+import { approveTimeSheetAction } from "../../lib/attendance.actions";
 
 export interface DepartmentQuery extends Department {
   manager: User | null;
@@ -126,7 +135,26 @@ export const columns: ColumnDef<TimeSheet>[] = [
   {
     id: "actions",
     header: () => <div className="w-8" />,
-    cell: () => {
+    cell: ({ row }) => {
+      const timeSheet = row.original;
+      const { executeAsync: approveTimeSheet, isExecuting: isApproving } =
+        useAction(approveTimeSheetAction);
+
+      async function handleApproveTimeSheet() {
+        const isSafeToApprove =
+          timeSheet.status !== TimeSheetStatusEnum.clocked_in;
+        if (!isSafeToApprove) {
+          toast.error("Cannot approve clocked in records!");
+          return;
+        }
+
+        toast.promise(approveTimeSheet([timeSheet.id]), {
+          loading: "Approving record",
+          success: "Record approved successfully",
+          error: ({ error }) =>
+            error?.serverError ?? "Failed to approve record",
+        });
+      }
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -136,12 +164,20 @@ export const columns: ColumnDef<TimeSheet>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Approve</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleApproveTimeSheet}>
+              <Tick01Icon className="size-4 mr-2" strokeWidth={2} />
+              Approve
+            </DropdownMenuItem>
 
-            <DropdownMenuItem>Reject</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Cancel01Icon className="size-4 mr-2" strokeWidth={2} />
+              Reject
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem>
+              <PencilEdit01Icon className="size-4 mr-2" strokeWidth={2} />
+              Edit
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

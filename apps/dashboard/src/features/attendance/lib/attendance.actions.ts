@@ -130,3 +130,29 @@ export const clockOutAction = authActionClient
     revalidatePath("/");
     return data;
   });
+
+export const approveTimeSheetAction = authActionClient
+  .metadata({
+    name: "approve-time-sheet",
+    track: {
+      event: "approve-time-sheet",
+      channel: "time-sheet",
+    },
+  })
+  .schema(z.array(z.string().uuid()))
+  .action(async ({ parsedInput, ctx }) => {
+    const promises = parsedInput.map((id) =>
+      timeSheetMutations.update(ctx.supabase, id, {
+        status: TimeSheetStatusEnum.approved,
+      }),
+    );
+    const results = await Promise.all(promises);
+
+    const errors = results.filter((result) => result.error);
+    if (errors.length > 0) {
+      throw new Error(
+        errors[0].error?.message ?? "Failed to approve time sheet",
+      );
+    }
+    revalidatePath(`/employee/${results[0].data?.user_id}/attendance`);
+  });

@@ -3,19 +3,20 @@
 import type { Table } from "@tanstack/react-table";
 
 import { Button } from "@toolkit/ui/button";
-import { Input } from "@toolkit/ui/input";
 
-import { Check, Files, Film, PlusIcon, Search, X } from "lucide-react";
 import { MdSignalWifiStatusbarConnectedNoInternet2 } from "react-icons/md";
 
 import { DateRangeQuerySelector } from "@/components/data-range-quey";
 import { DataTableFacetedFilter } from "@/components/tables/data-table-faceted-filter";
 import type { DateRangeOption } from "@/types";
+import { type TimeSheet, TimeSheetStatusEnum } from "@toolkit/supabase/types";
+import { Cancel01Icon, Tick01Icon } from "hugeicons-react";
 import moment from "moment";
+import { useAction } from "next-safe-action/hooks";
 import { useMemo } from "react";
-import { IoGrid } from "react-icons/io5";
+import { toast } from "sonner";
+import { approveTimeSheetAction } from "../../lib/attendance.actions";
 import { statuses } from "./filters";
-
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
 }
@@ -57,6 +58,31 @@ export function DataTableToolbar<TData>({
   const selectedRows = useMemo(() => {
     return table.getSelectedRowModel().rows.map((row) => row.original);
   }, [table.getSelectedRowModel().rows]);
+
+  const { executeAsync: approveTimeSheet, isExecuting: isApproving } =
+    useAction(approveTimeSheetAction);
+
+  async function handleApproveTimeSheet() {
+    const isSafeToApprove = selectedRows.every(
+      (row) => (row as TimeSheet).status !== TimeSheetStatusEnum.clocked_in,
+    );
+    if (!isSafeToApprove) {
+      toast.error("Cannot approve clocked in records!");
+      return;
+    }
+
+    toast.promise(
+      approveTimeSheet(
+        selectedRows.map((row) => row as TimeSheet).map((row) => row.id),
+      ),
+      {
+        loading: `Approving ${selectedRows.length} record${selectedRows.length > 1 ? "s" : ""}`,
+        success: "Records approved successfully",
+        error: ({ error }) => error?.serverError ?? "Failed to approve record",
+      },
+    );
+  }
+
   return (
     <section className="flex flex-col-reverse sm:flex-row gap-4 items-center justify-start  w-full">
       <div className="flex items-center justify-between space-x-2 w-full   overflow-x-scroll scrollbar-hide">
@@ -75,26 +101,30 @@ export function DataTableToolbar<TData>({
         {selectedRows.length > 0 && (
           <div className="inline-flex -space-x-px rounded-lg shadow-sm shadow-black/[0.04] rtl:space-x-reverse">
             <Button
-              className="rounded-none shadow-none first:rounded-s-lg last:rounded-e-lg focus-visible:z-10"
+              className="rounded-none shadow-none first:rounded-s-lg last:rounded-e-lg focus-visible:z-10 px-2"
               variant="success"
               size="sm"
+              onClick={handleApproveTimeSheet}
+              disabled={isApproving}
             >
-              Approve
+              <Tick01Icon className="size-5" strokeWidth={2} />
             </Button>
 
             <Button
               className="rounded-none text-base shadow-none first:rounded-s-lg last:rounded-e-lg focus-visible:z-10 pointer-events-none bg-secondary border-x-0"
               variant="outline"
               size="sm"
+              disabled={isApproving}
             >
               {selectedRows.length}
             </Button>
             <Button
-              className="rounded-none shadow-none first:rounded-s-lg last:rounded-e-lg focus-visible:z-10"
+              className="rounded-none shadow-none first:rounded-s-lg last:rounded-e-lg focus-visible:z-10 px-2"
               variant="destructive"
               size="sm"
+              disabled={isApproving}
             >
-              Reject
+              <Cancel01Icon className="size-4" strokeWidth={2} />
             </Button>
           </div>
         )}
