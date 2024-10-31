@@ -1,5 +1,5 @@
 import { AttendanceTable } from "@/features/attendance/components/attendance-table";
-import WorkedHoursWidget from "@/features/attendance/components/widgets/worked-hours";
+import { HoursSummary } from "@/features/attendance/components/widgets/hours-summary";
 import { attendanceTableFiltersSearchParamsCache } from "@/features/attendance/lib/attendance-table-params";
 
 type Props = {
@@ -17,10 +17,8 @@ export default async function EmployeeAttendancePage({
 
   return (
     <section className="flex-grow flex flex-col gap-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <WorkedHoursWidget userId={params.employeeId} />
-        <div>time off</div>
-      </div>
+      <HoursSummary userId={params.employeeId} />
+
       <AttendanceTable userId={params.employeeId} />
     </section>
   );

@@ -8,12 +8,13 @@ import Link from "next/link";
 import { Separator } from "@toolkit/ui/separator";
 import { Calendar, Pencil, Zap } from "lucide-react";
 import React from "react";
+import { MdElectricBolt } from "react-icons/md";
 
 export  function CurrentProject() {
   return (
     <Card className="w-full p-0 min-h-[300px] max-h-[350px] md:max-h-fit">
       <div className="flex gap-2 items-center p-2">
-        <Zap className="size-4" />
+        <MdElectricBolt className="size-4" />
         <span className="font-semibold">Current Project</span>
         <Link
           href="/projects/1"

@@ -8,6 +8,7 @@ import React from "react";
 import { FaRegNoteSticky } from "react-icons/fa6";
 import { NewNote } from "./new-note";
 import { NoteDisplay } from "./note-display";
+import { NoteAddIcon } from "hugeicons-react";
 
 export async function Notes() {
   const notesAction = await getUserNotesAction();
@@ -58,7 +59,7 @@ export async function Notes() {
 function NotesEmptyState() {
   return (
     <div className="relative p-2 text-center h-64 flex flex-col justify-center items-center text-muted-foreground tex-sm ">
-      <NotebookPen size={75} />
+      <NoteAddIcon size={75} />
       <p className="mt-4">No notes found!</p>
       <p>Add a new note to get started.</p>
       <svg
