@@ -64,9 +64,9 @@ export function UpdateTimeSheet({ timeSheet, children }: UpdateTimeSheetProps) {
 
   function onSubmit(data: z.infer<typeof timeSheetUpdateSchema>) {
     toast.promise(updateTimeSheet({ timeSheet: data }), {
-      loading: "Updating time sheet...",
-      success: "Time sheet updated successfully",
-      error: ({ error }) => error?.serverError ?? "Failed to update time sheet",
+      loading: "Updating record...",
+      success: "Record updated successfully",
+      error: ({ error }) => error?.serverError ?? "Failed to update record",
     });
   }
 
