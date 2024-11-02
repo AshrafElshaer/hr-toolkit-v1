@@ -1,3 +1,4 @@
+import moment from "moment";
 import { type SupabaseInstance, TimeSheetStatusEnum } from "../types";
 
 export async function getCurrentTimeSheet(
@@ -41,7 +42,9 @@ export async function getFilteredTimeSheets({
   const query = supabase.from("time_sheet").select("*").eq("user_id", userId);
 
   if (filters.startDate && filters.endDate) {
-    query.gte("date", filters.startDate).lte("date", filters.endDate);
+    query
+      .gte("clock_in", moment(filters.startDate).startOf("day").toISOString())
+      .lte("clock_out", moment(filters.endDate).endOf("day").toISOString());
   }
 
   if (filters.status && filters.status.length > 0) {
