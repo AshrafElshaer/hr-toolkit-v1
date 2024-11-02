@@ -8,11 +8,13 @@ import { TimeSheetStatusEnum } from "@toolkit/supabase/types";
 import {
   timeSheetBreakRowSchema,
   timeSheetRowSchema,
+  timeSheetUpdateSchema,
 } from "@toolkit/supabase/validations";
 import moment from "moment";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import { getCurrentBreaks } from "@toolkit/supabase/queries";
 export const clockInAction = authActionClient
   .metadata({
     name: "clock-in",
@@ -184,4 +186,42 @@ export const rejectTimeSheetAction = authActionClient
       );
     }
     revalidatePath(`/employee/${results[0].data?.user_id}/attendance`);
+  });
+
+export const updateTimeSheetAction = authActionClient
+  .metadata({
+    name: "update-time-sheet",
+    track: {
+      event: "update-time-sheet",
+      channel: "time-sheet",
+    },
+  })
+  .schema(z.object({ timeSheet: timeSheetUpdateSchema }))
+  .action(async ({ parsedInput, ctx }) => {
+    const { timeSheet } = parsedInput;
+    if (!timeSheet.id) {
+      throw new Error("Time sheet id is required");
+    }
+    const { data: breaks } = await getCurrentBreaks(ctx.supabase, timeSheet.id);
+
+    const workedTime = calcWorkedTime(
+      moment(timeSheet.clock_in).toDate(),
+      breaks ?? [],
+      moment(timeSheet.clock_out).toDate(),
+    );
+
+    const { data, error } = await timeSheetMutations.update(
+      ctx.supabase,
+      timeSheet.id,
+      {
+        ...timeSheet,
+        total_worked_minutes: workedTime.hours * 60 + workedTime.minutes,
+      },
+    );
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    revalidatePath(`/employee/${timeSheet.user_id}/attendance`);
+    return data;
   });

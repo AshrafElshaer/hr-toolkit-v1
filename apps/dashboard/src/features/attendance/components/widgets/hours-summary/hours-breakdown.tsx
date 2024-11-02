@@ -44,7 +44,7 @@ export function HoursBreakdown({
         <NumberFlow
           willChange
           continuous
-          value={totalScheduledHours - totalWorkedHours}
+          value={Math.max(totalScheduledHours - totalWorkedHours, 0)}
           format={format}
         />{" "}
         Hrs

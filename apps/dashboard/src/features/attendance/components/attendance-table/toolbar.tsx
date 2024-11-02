@@ -16,8 +16,8 @@ import { useAction } from "next-safe-action/hooks";
 import { useMemo } from "react";
 import { toast } from "sonner";
 import { approveTimeSheetAction } from "../../lib/attendance.actions";
-import { AttendanceNote } from "./attendance-note";
 import { statuses } from "./filters";
+import { AttendanceNote } from "./rejection-note";
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
 }

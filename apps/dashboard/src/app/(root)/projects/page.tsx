@@ -23,6 +23,7 @@ export default function ProjectsPage() {
         <Badge variant="destructive">Failed</Badge>
         <Badge variant="warning">warning</Badge>
         <Badge variant="success">success</Badge>
+        <Badge variant="info">Info</Badge>
       </div>
     </Main>
   );

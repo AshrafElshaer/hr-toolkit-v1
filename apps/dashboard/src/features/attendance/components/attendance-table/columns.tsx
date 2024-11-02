@@ -12,6 +12,7 @@ import { MoreHorizontal } from "lucide-react";
 
 import { DataTableColumnHeader } from "@/components/tables/data-table-column-header";
 
+import { Badge } from "@toolkit/ui/badge";
 import { Button } from "@toolkit/ui/button";
 import { Checkbox } from "@toolkit/ui/checkbox";
 import {
@@ -28,7 +29,8 @@ import { useAction } from "next-safe-action/hooks";
 import { GoDash } from "react-icons/go";
 import { toast } from "sonner";
 import { approveTimeSheetAction } from "../../lib/attendance.actions";
-import { AttendanceNote } from "./attendance-note";
+import { AttendanceNote } from "./rejection-note";
+import { UpdateTimeSheet } from "./update-timesheet";
 
 export interface DepartmentQuery extends Department {
   manager: User | null;
@@ -125,9 +127,24 @@ export const columns: ColumnDef<TimeSheet>[] = [
     accessorFn: (row) => row.status,
     header: () => <div className="min-w-32">Status</div>,
     cell: ({ row }) => {
+      const status = row.original.status;
+
+      const badgeVariant =
+        status === TimeSheetStatusEnum.approved
+          ? "success"
+          : status === TimeSheetStatusEnum.clocked_in ||
+              status === TimeSheetStatusEnum.clocked_out
+            ? "info"
+            : status === TimeSheetStatusEnum.rejected
+              ? "destructive"
+              : status === TimeSheetStatusEnum.pending
+                ? "warning"
+                : "secondary";
       return (
         <div className="capitalize">
-          {row.original.status.replace(/_/g, " ")}
+          <Badge size="sm" variant={badgeVariant}>
+            {status.replace(/_/g, " ")}
+          </Badge>
         </div>
       );
     },
@@ -156,6 +173,8 @@ export const columns: ColumnDef<TimeSheet>[] = [
             error?.serverError ?? "Failed to approve record",
         });
       }
+
+      const isSafeToEdit = timeSheet.status !== TimeSheetStatusEnum.clocked_in;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -165,22 +184,27 @@ export const columns: ColumnDef<TimeSheet>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={handleApproveTimeSheet}>
+            <DropdownMenuItem
+              onClick={handleApproveTimeSheet}
+              disabled={!isSafeToEdit}
+            >
               <Tick01Icon className="size-4 mr-2" strokeWidth={2} />
               Approve
             </DropdownMenuItem>
 
             <AttendanceNote notesId={[timeSheet.id]}>
-              <DropdownMenuItem asDialogTrigger>
+              <DropdownMenuItem asDialogTrigger disabled={!isSafeToEdit}>
                 <Cancel01Icon className="size-4 mr-2" strokeWidth={2} />
                 Reject
               </DropdownMenuItem>
             </AttendanceNote>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <PencilEdit01Icon className="size-4 mr-2" strokeWidth={2} />
-              Edit
-            </DropdownMenuItem>
+            <UpdateTimeSheet timeSheet={timeSheet}>
+              <DropdownMenuItem asDialogTrigger disabled={!isSafeToEdit}>
+                <PencilEdit01Icon className="size-4 mr-2" strokeWidth={2} />
+                Edit
+              </DropdownMenuItem>
+            </UpdateTimeSheet>
           </DropdownMenuContent>
         </DropdownMenu>
       );
