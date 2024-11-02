@@ -156,3 +156,32 @@ export const approveTimeSheetAction = authActionClient
     }
     revalidatePath(`/employee/${results[0].data?.user_id}/attendance`);
   });
+
+export const rejectTimeSheetAction = authActionClient
+  .metadata({
+    name: "reject-time-sheet",
+    track: {
+      event: "reject-time-sheet",
+      channel: "time-sheet",
+    },
+  })
+  .schema(z.object({ ids: z.array(z.string().uuid()), note: z.string() }))
+  .action(async ({ parsedInput, ctx }) => {
+    const { ids, note } = parsedInput;
+
+    const promises = ids.map((id) =>
+      timeSheetMutations.update(ctx.supabase, id, {
+        status: TimeSheetStatusEnum.rejected,
+        notes: note,
+      }),
+    );
+    const results = await Promise.all(promises);
+
+    const errors = results.filter((result) => result.error);
+    if (errors.length > 0) {
+      throw new Error(
+        errors[0].error?.message ?? "Failed to reject time sheet",
+      );
+    }
+    revalidatePath(`/employee/${results[0].data?.user_id}/attendance`);
+  });

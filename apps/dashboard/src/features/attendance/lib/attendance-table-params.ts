@@ -6,15 +6,13 @@ import {
   parseAsArrayOf,
   parseAsInteger,
   parseAsString,
-
 } from "nuqs/server";
 import { z } from "zod";
-
 
 export const attendanceTableFiltersSearchParamsCache = createSearchParamsCache({
   page: parseAsInteger.withDefault(1),
   perPage: parseAsInteger.withDefault(10),
-  sort: parseAsString.withDefault(""),
+  sort: parseAsString.withDefault("date.desc"),
 
   status: parseAsArrayOf(
     z.enum(Object.keys(TimeSheetStatusEnum) as [string, ...string[]]),

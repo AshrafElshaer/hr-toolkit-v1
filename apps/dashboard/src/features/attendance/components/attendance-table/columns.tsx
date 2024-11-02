@@ -28,6 +28,7 @@ import { useAction } from "next-safe-action/hooks";
 import { GoDash } from "react-icons/go";
 import { toast } from "sonner";
 import { approveTimeSheetAction } from "../../lib/attendance.actions";
+import { AttendanceNote } from "./attendance-note";
 
 export interface DepartmentQuery extends Department {
   manager: User | null;
@@ -169,10 +170,12 @@ export const columns: ColumnDef<TimeSheet>[] = [
               Approve
             </DropdownMenuItem>
 
-            <DropdownMenuItem>
-              <Cancel01Icon className="size-4 mr-2" strokeWidth={2} />
-              Reject
-            </DropdownMenuItem>
+            <AttendanceNote notesId={[timeSheet.id]}>
+              <DropdownMenuItem asDialogTrigger>
+                <Cancel01Icon className="size-4 mr-2" strokeWidth={2} />
+                Reject
+              </DropdownMenuItem>
+            </AttendanceNote>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <PencilEdit01Icon className="size-4 mr-2" strokeWidth={2} />

@@ -16,6 +16,7 @@ import { useAction } from "next-safe-action/hooks";
 import { useMemo } from "react";
 import { toast } from "sonner";
 import { approveTimeSheetAction } from "../../lib/attendance.actions";
+import { AttendanceNote } from "./attendance-note";
 import { statuses } from "./filters";
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -62,6 +63,10 @@ export function DataTableToolbar<TData>({
   const { executeAsync: approveTimeSheet, isExecuting: isApproving } =
     useAction(approveTimeSheetAction);
 
+  const rowsIds = useMemo(() => {
+    return selectedRows.map((row) => (row as TimeSheet).id);
+  }, [selectedRows]);
+
   async function handleApproveTimeSheet() {
     const isSafeToApprove = selectedRows.every(
       (row) => (row as TimeSheet).status !== TimeSheetStatusEnum.clocked_in,
@@ -71,16 +76,11 @@ export function DataTableToolbar<TData>({
       return;
     }
 
-    toast.promise(
-      approveTimeSheet(
-        selectedRows.map((row) => row as TimeSheet).map((row) => row.id),
-      ),
-      {
-        loading: `Approving ${selectedRows.length} record${selectedRows.length > 1 ? "s" : ""}`,
-        success: "Records approved successfully",
-        error: ({ error }) => error?.serverError ?? "Failed to approve record",
-      },
-    );
+    toast.promise(approveTimeSheet(rowsIds), {
+      loading: `Approving ${selectedRows.length} record${selectedRows.length > 1 ? "s" : ""}`,
+      success: "Records approved successfully",
+      error: ({ error }) => error?.serverError ?? "Failed to approve record",
+    });
   }
 
   return (
@@ -118,14 +118,16 @@ export function DataTableToolbar<TData>({
             >
               {selectedRows.length}
             </Button>
-            <Button
-              className="rounded-none shadow-none first:rounded-s-lg last:rounded-e-lg focus-visible:z-10 px-2"
-              variant="destructive"
-              size="sm"
-              disabled={isApproving}
-            >
-              <Cancel01Icon className="size-4" strokeWidth={2} />
-            </Button>
+            <AttendanceNote notesId={rowsIds}>
+              <Button
+                className="rounded-none shadow-none first:rounded-s-lg last:rounded-e-lg focus-visible:z-10 px-2"
+                variant="destructive"
+                size="sm"
+                disabled={isApproving}
+              >
+                <Cancel01Icon className="size-4" strokeWidth={2} />
+              </Button>
+            </AttendanceNote>
           </div>
         )}
       </div>
