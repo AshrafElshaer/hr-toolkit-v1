@@ -1,6 +1,8 @@
 import { AttendanceTable } from "@/features/attendance/components/attendance-table";
 import { HoursSummary } from "@/features/attendance/components/widgets/hours-summary";
+import { HoursBreakdownLoading } from "@/features/attendance/components/widgets/hours-summary/hours-breakdown.loading";
 import { attendanceTableFiltersSearchParamsCache } from "@/features/attendance/lib/attendance-table-params";
+import { Suspense } from "react";
 
 type Props = {
   params: {
@@ -17,7 +19,9 @@ export default async function EmployeeAttendancePage({
 
   return (
     <section className="flex-grow flex flex-col gap-4">
-      <HoursSummary userId={params.employeeId} />
+      <Suspense fallback={<HoursBreakdownLoading />}>
+        <HoursSummary userId={params.employeeId} />
+      </Suspense>
 
       <AttendanceTable userId={params.employeeId} />
     </section>

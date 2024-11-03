@@ -70,9 +70,9 @@ export default function TaskDisplay({ task }: Props) {
           </HoverCard>
         </div>
 
-        <p className="text-muted-foreground">{task.description}</p>
+        <p className="text-secondary-foreground">{task.description}</p>
       </div>
-      <div className="flex items-center gap-2 text-muted-foreground ">
+      <div className="flex items-center gap-2 text-secondary-foreground ">
         <p
           className={cn(
             "text-xs ml-auto",

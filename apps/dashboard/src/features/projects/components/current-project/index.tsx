@@ -43,7 +43,7 @@ export  function CurrentProject() {
                 In Progress
               </Badge>
             </p>
-            <p className="text-muted-foreground text-sm ">
+            <p className="text-secondary-foreground text-sm ">
               Lorem ipsum, dolor sit amet consectetur adipisicing elit.
             </p>
           </div>
@@ -60,7 +60,7 @@ export  function CurrentProject() {
           </div>
           <div className="flex  gap-2 justify-between">
             <p className="font-semibold">Time line</p>
-            <p className="text-muted-foreground">Jan 12, 2024 - Dec 12, 2024</p>
+            <p className="text-secondary-foreground">Jan 12, 2024 - Dec 12, 2024</p>
           </div>
 
           <div className="flex justify-between items-center gap-2">

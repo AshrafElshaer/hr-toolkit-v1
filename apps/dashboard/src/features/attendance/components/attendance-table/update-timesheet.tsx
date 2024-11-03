@@ -84,7 +84,7 @@ export function UpdateTimeSheet({ timeSheet, children }: UpdateTimeSheetProps) {
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="flex flex-col sm:flex-row gap-4">
               <FormField
                 control={form.control}
