@@ -5,28 +5,22 @@ import { Separator } from "@toolkit/ui/separator";
 
 import { attendanceTableFiltersSearchParamsCache } from "@/features/attendance/lib/attendance-table-params";
 import { countWorkingDaysInRange } from "@/features/attendance/lib/working-days";
+import type { TimeSheet, User } from "@toolkit/supabase/types";
 import { HoursBreakdown } from "./hours-breakdown";
 
 type WorkedHoursWidgetProps = {
-  userId: string;
+  user: User;
+  timeSheets: TimeSheet[];
+  from: string;
+  to: string;
 };
 
-export async function HoursSummary({ userId }: WorkedHoursWidgetProps) {
-  const { from, to, ...rest } = attendanceTableFiltersSearchParamsCache.all();
-  const supabase = createServerClient();
-
-  const { data: user } = await getUserById(supabase, userId);
-
-  const { data: timeSheets } = await getFilteredTimeSheets({
-    supabase,
-    userId,
-    filters: {
-      startDate: from,
-      endDate: to,
-      ...rest,
-    },
-  });
-
+export async function HoursSummary({
+  user,
+  timeSheets,
+  from,
+  to,
+}: WorkedHoursWidgetProps) {
   const workingDays = countWorkingDaysInRange(
     from,
     to,

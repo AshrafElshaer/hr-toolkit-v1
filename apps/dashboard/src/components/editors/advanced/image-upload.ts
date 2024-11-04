@@ -60,7 +60,9 @@ export const uploadFn = createImageUpload({
       return false;
     }
     if (file.size / 1024 / 1024 > 20) {
-      toast.error("File size too big (max 20MB).");
+      toast.error("File not accepted", {
+        description: "File size too big (max 20MB).",
+      });
       return false;
     }
     return true;

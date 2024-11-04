@@ -20,7 +20,7 @@ const Toast = ({ ...props }: ToasterProps) => {
       className="toaster group"
       icons={{
         info: <MdOutlineError size={16} />,
-        success: <Check size={16} />,
+        success: <Check size={16} strokeWidth={2} />,
         warning: <FaExclamationTriangle size={14} />,
         error: <FaExclamationTriangle size={14} />,
         loading: <Loader size={16} className="animate-spin" />,
@@ -30,17 +30,18 @@ const Toast = ({ ...props }: ToasterProps) => {
         closeButton: true,
         classNames: {
           toast: twJoin(
-            "bg-background ring-1 ring-border dark:ring-inset sm:min-w-[22rem] rounded-md text-foreground overflow-hidden text-[0.925rem] backdrop-blur-xl px-4 py-3 font-normal ",
+            "bg-background ring-1 ring-border dark:ring-inset sm:min-w-[22rem] rounded-md text-foreground overflow-hidden text-[0.925rem] backdrop-blur-xl px-4 py-3  ",
             "[&:has([data-icon])_[data-content]]:ml-5",
             '[&:has([data-button])_[data-close-button="true"]]:hidden',
-            "[&:not([data-description])_[data-title]]:font-normal",
-            "[&:has([data-description])_[data-title]]:!font-medium ",
+            // "[&:not([data-description])_[data-title]]:font-normal",
+            // "[&:has([data-description])_[data-title]]:!font-medium ",
             "[&>[data-button]]:absolute [&>[data-button=true]]:bottom-4",
             "[&>[data-action=true]]:right-4",
             "[&>[data-cancel=true]]:left-4",
             "[&>[data-close-button=true]]:hover:bg-transparent",
           ),
-          description: "text-xs",
+          description: "text-sm",
+          title: "font-semibold",
 
           icon: "absolute top-[1rem] ",
           content:
@@ -52,6 +53,7 @@ const Toast = ({ ...props }: ToasterProps) => {
           info: "bg-blue/80 !ring-blue text-white ring-inset shadow-md shadow-blue [&>[data-close-button=true]>svg]:text-white [&>[data-close-button=true]:hover]:bg-transparent",
           warning:
             "bg-warning/75 text-warning-foreground ring-warning ring-inset shadow-md shadow-warning/50 [&>[data-close-button=true]>svg]:text-warning-foreground [&>[data-close-button=true]:hover]:bg-transparent",
+          loader: "bg-blue-500",
           success:
             "bg-success ring-success text-success-foreground ring-inset shadow-md shadow-success/50 [&>[data-close-button=true]>svg]:text-success-foreground [&>[data-close-button=true]:hover]:bg-transparent",
           cancelButton: buttonVariants({

@@ -27,36 +27,10 @@ import { Cancel01Icon, PencilEdit01Icon, Tick01Icon } from "hugeicons-react";
 import moment from "moment";
 import { useAction } from "next-safe-action/hooks";
 import { GoDash } from "react-icons/go";
-import { toast } from "sonner";
-import { approveTimeSheetAction } from "../../lib/attendance.actions";
-import { AttendanceNote } from "./rejection-note";
-import { UpdateTimeSheet } from "./update-timesheet";
-
 
 
 export const columns: ColumnDef<TimeSheet>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+
   {
     id: "date",
     accessorFn: (row) => row.date,
@@ -147,64 +121,4 @@ export const columns: ColumnDef<TimeSheet>[] = [
     },
   },
 
-  {
-    id: "actions",
-    header: () => <div className="w-8" />,
-    cell: ({ row }) => {
-      const timeSheet = row.original;
-      const { executeAsync: approveTimeSheet, isExecuting: isApproving } =
-        useAction(approveTimeSheetAction);
-
-      async function handleApproveTimeSheet() {
-        const isSafeToApprove =
-          timeSheet.status !== TimeSheetStatusEnum.clocked_in;
-        if (!isSafeToApprove) {
-          toast.error("Cannot approve clocked in records!");
-          return;
-        }
-
-        toast.promise(approveTimeSheet([timeSheet.id]), {
-          loading: "Approving record",
-          success: "Record approved successfully",
-          error: ({ error }) =>
-            error?.serverError ?? "Failed to approve record",
-        });
-      }
-
-      const isSafeToEdit = timeSheet.status !== TimeSheetStatusEnum.clocked_in;
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={handleApproveTimeSheet}
-              disabled={!isSafeToEdit}
-            >
-              <Tick01Icon className="size-4 mr-2" strokeWidth={2} />
-              Approve
-            </DropdownMenuItem>
-
-            <AttendanceNote notesId={[timeSheet.id]}>
-              <DropdownMenuItem asDialogTrigger disabled={!isSafeToEdit}>
-                <Cancel01Icon className="size-4 mr-2" strokeWidth={2} />
-                Reject
-              </DropdownMenuItem>
-            </AttendanceNote>
-            <DropdownMenuSeparator />
-            <UpdateTimeSheet timeSheet={timeSheet}>
-              <DropdownMenuItem asDialogTrigger disabled={!isSafeToEdit}>
-                <PencilEdit01Icon className="size-4 mr-2" strokeWidth={2} />
-                Edit
-              </DropdownMenuItem>
-            </UpdateTimeSheet>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
 ];

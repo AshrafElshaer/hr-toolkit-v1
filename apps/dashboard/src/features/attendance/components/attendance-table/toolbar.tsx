@@ -20,6 +20,7 @@ import { statuses } from "./filters";
 import { AttendanceNote } from "./rejection-note";
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
+  isAdmin?: boolean;
 }
 
 const dateRangeOptions: DateRangeOption[] = [
@@ -55,6 +56,7 @@ const dateRangeOptions: DateRangeOption[] = [
 
 export function DataTableToolbar<TData>({
   table,
+  isAdmin = false,
 }: DataTableToolbarProps<TData>) {
   const selectedRows = useMemo(() => {
     return table.getSelectedRowModel().rows.map((row) => row.original);
@@ -98,7 +100,7 @@ export function DataTableToolbar<TData>({
             containerClassName="min-w-[250px]"
           />
         )}
-        {selectedRows.length > 0 && (
+        {selectedRows.length > 0 && isAdmin && (
           <div className="inline-flex -space-x-px rounded-lg shadow-sm shadow-black/[0.04] rtl:space-x-reverse">
             <Button
               className="rounded-none shadow-none first:rounded-s-lg last:rounded-e-lg focus-visible:z-10 px-2"

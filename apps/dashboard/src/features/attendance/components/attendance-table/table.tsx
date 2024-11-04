@@ -44,11 +44,13 @@ import { DataTableToolbar } from "./toolbar";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  isAdmin?: boolean;
 }
 
 export function TimeSheetTable<TData, TValue>({
   columns,
   data,
+  isAdmin = false,
 }: DataTableProps<TData, TValue>) {
   const [perPage] = useQueryState("perPage", parseAsInteger.withDefault(10));
 
@@ -82,13 +84,9 @@ export function TimeSheetTable<TData, TValue>({
     debounceMs: 0,
   });
 
-  const selectedRows = useMemo(() => {
-    return table.getSelectedRowModel().rows.map((row) => row.original);
-  }, [table.getSelectedRowModel().rows]);
-
   return (
     <>
-      <DataTableToolbar table={table} />
+      <DataTableToolbar table={table} isAdmin={isAdmin} />
       <div className="rounded-md border flex-grow overflow-x-scroll flex flex-col min-h-40">
         <Table isEmpty={table.getRowModel().rows.length === 0}>
           <TableHeader>
@@ -142,7 +140,7 @@ export function TimeSheetTable<TData, TValue>({
           </div>
         )}
       </div>
-      <DataTablePagination table={table} isSelectable={true} />
+      <DataTablePagination table={table} isSelectable={isAdmin} />
     </>
   );
 }

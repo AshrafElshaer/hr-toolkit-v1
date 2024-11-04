@@ -51,7 +51,9 @@ export default function ProfilePic({ user }: ProfilePicProps) {
   };
 
   const onDropRejected = (files: FileRejection[]) => {
-    toast.error("Please upload a valid image file");
+    toast.error("Invalid file type", {
+      description: "Please upload a valid image file",
+    });
   };
 
   return (
