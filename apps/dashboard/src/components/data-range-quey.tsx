@@ -53,20 +53,9 @@ export function DateRangeQuerySelector({
   disabled = false,
 }: Props) {
   const isMobile = useMediaQuery("(max-width: 640px)");
-
-  const [{ from, to }, setDate] = useQueryStates(
-    {
-      from: parseAsString.withDefault(
-        moment().startOf("month").format("YYYY-MM-DD"),
-      ),
-      to: parseAsString.withDefault(
-        moment().endOf("month").format("YYYY-MM-DD"),
-      ),
-    },
-    {
-      shallow: false,
-    },
-  );
+  const [{ from, to }, setDate] = useQueryStates(dateRangeSearchParamsParser, {
+    shallow: false,
+  });
 
   const date = {
     from: moment(from).toDate(),

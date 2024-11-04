@@ -44,17 +44,7 @@ const dateRangeOptions: DateRangeOption[] = [
 ];
 
 export function DateSelector() {
-  const isMobile = useMediaQuery("(max-width: 640px)");
   const [isNewEvent, setIsNewEvent] = React.useState(false);
-
-  const [{ from, to }, setDate] = useQueryStates(dateRangeSearchParamsParser, {
-    shallow: false,
-  });
-
-  const date = {
-    from: from.length > 0 ? moment(from).toDate() : undefined,
-    to: to.length > 0 ? moment(to).toDate() : undefined,
-  };
 
   return (
     <div className="flex gap-2 items-center ml-auto ">
