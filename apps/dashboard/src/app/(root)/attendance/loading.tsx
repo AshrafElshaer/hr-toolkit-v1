@@ -2,6 +2,7 @@ import { DateRangeQuerySelector } from "@/components/data-range-quey";
 import { FilterButtonsLoader } from "@/components/loaders/filter-buttons-loader";
 import { PaginationLoader } from "@/components/loaders/pagination-loader";
 import { TableLoader } from "@/components/loaders/table-loader";
+import Main from "@/components/main";
 import { HoursBreakdownLoading } from "@/features/attendance/components/widgets/hours-summary/hours-breakdown.loading";
 import { Checkbox } from "@toolkit/ui/checkbox";
 
@@ -27,7 +28,7 @@ const columns = [
 
 export default function AttendanceLoading() {
   return (
-    <section className="flex-grow flex flex-col gap-4">
+    <Main className="flex-grow flex flex-col gap-4" isMaxHeight>
       <HoursBreakdownLoading />
       <section className="flex flex-col md:flex-row-reverse gap-4 items-center justify-start w-full">
         <FilterButtonsLoader
@@ -46,6 +47,6 @@ export default function AttendanceLoading() {
       </section>
       <TableLoader columns={columns} />
       <PaginationLoader />
-    </section>
+    </Main>
   );
 }
