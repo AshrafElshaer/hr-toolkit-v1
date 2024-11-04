@@ -118,7 +118,7 @@ export function EmployeesTable<TData, TValue>({
   return (
     <>
       <DataTableToolbar table={table} />
-      <div className="rounded-md border flex-grow overflow-x-scroll flex flex-col min-h-40">
+      <div className="rounded-md border flex-grow overflow-x-scroll flex flex-col min-h-40 w-full">
         <Table isEmpty={table.getRowModel().rows.length === 0}>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
